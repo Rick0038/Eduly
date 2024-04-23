@@ -18,5 +18,9 @@ Please follow these 2 tutorials to add GPG key to your account.
 
 1. [Create GPG KEY](https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key)
 2. [Add GPG key to your profile](https://docs.github.com/en/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account)
-3. List your GPG keys using this command and copy the KEY-ID ``` gpg --list-secret-keys ```
-4.  Go to the current project root and run the following command. This will set the signature key for the current context ```git config user.signingkey YOUR-KEY-ID```
+3. Set your email as the signing email.\
+ ***NOTE*** use the same email which entered at the time of key generation\
+ ```git config --global user.email "MY_NAME@example.com"```
+
+4. List your GPG keys using this command and copy the KEY-ID ``` gpg --list-secret-keys ```
+5. Go to the current project root and run the following command. This will set the signature key for the current context ```git config user.signingkey YOUR-KEY-ID```
