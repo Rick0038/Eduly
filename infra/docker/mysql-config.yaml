@@ -1,20 +1,20 @@
 version: '3.2'
 services:
   db:
-    image: mariadb
+    image: mysql
     command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
     restart: always
-    container_name: maria_db
+    container_name: mysql_db
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/sql_root_password
       MYSQL_DATABASE_FILE: /run/secrets/sql_database
       MYSQL_USER_FILE: /run/secrets/sql_svc_user
       MYSQL_PASSWORD_FILE: /run/secrets/sql_svc_password
     volumes:
-      - maria-common:/var/lib/mysql
-#      - /mnt/volume/app/maria-common-dev:/var/lib/mysql # Debugging
+      - mysql-common:/var/lib/mysql
+#      - /mnt/volume/app/mysql-common-dev:/var/lib/mysql # Debugging
 # NOTE WITH THIS APPROCH AN ADDITIONAL EXTERNAL VOLUME NEEDS TO BE CREATED
-# USE COMMAND : docker volume create --name maria-common --opt type=none --opt device=/mnt/docker/mysql --opt o=bind
+# USE COMMAND : docker volume create --name mysql-common --opt type=none --opt device=/mnt/docker/mysql --opt o=bind
     secrets:
       - sql_root_password
       - sql_database
@@ -36,5 +36,5 @@ secrets:
 # Please note we need to create password files at this path with permissions as 0400
 
 volumes:
-  maria-common:
+  mysql-common:
     external: true
