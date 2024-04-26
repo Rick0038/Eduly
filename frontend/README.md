@@ -1,6 +1,23 @@
 # Front-End for Tutoring App
 
+UI Theme: Mantine
+
 Requirements: Node v18.18.0
+
+## Recommended VSCode extensions:
+
+ESLint, Simple React Snippets
+
+## Recommended VSCode settings:
+
+```json
+{
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
+}
+```
 
 ## Notes
 
@@ -12,5 +29,5 @@ Requirements: Node v18.18.0
 
 `npm run preview` for previewing the build
 
-Set the environment varialbe `APP_API_URL` to the base URL of the API service in when deploying on the cloud.
+Set the environment varialbe `APP_API_URL` to the base URL of the API service in when deploying to the cloud.
 
