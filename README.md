@@ -5,4 +5,5 @@ Team project for HS-Fulda GDSD course. For Educational purposes only
 |--------------|--------------------|-----------------|
 | Keshav Upadhyaya    | keshav-dineswara.upadhyaya@informatik.hs-fulda.de  | KeshavUpadhyaya      |
 | Aashay Ajay Markale | aashay-ajay.markale@informatik.hs-fulda.de         | babaji811      |
+| Advaith Hari Raj Lakshmi | advaith.hari-raj-lakshmi@informatik.hs-fulda.de | advaithhl    |
 
