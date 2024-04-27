@@ -1,7 +1,5 @@
 # Front-End for Tutoring App
 
-UI Theme: Mantine
-
 Requirements: Node v18.18.0
 
 ## Recommended VSCode extensions:
@@ -19,15 +17,21 @@ ESLint, Simple React Snippets
 }
 ```
 
-## Notes
+## Local Development
 
+### Start Mock API Server
+Install Mockoon (https://mockoon.com/download/#download-section) and select `File > Open Local Environment` and open the file `mock-server-data/mock-server.json`. Then click `Start server`.
+
+### Start UI
 `npm install` to install dependencies.
 
-`npm run dev` to start local server.
+`npm run dev` to start local UI server.
 
-`npm run build` for generating the build assets.
+## Production Build
 
-`npm run preview` for previewing the build
+`npm install`
+
+`npm run build` for generating the build assets (will be generated into the `dist` folder).
 
 Set the environment varialbe `APP_API_URL` to the base URL of the API service in when deploying to the cloud.
 
