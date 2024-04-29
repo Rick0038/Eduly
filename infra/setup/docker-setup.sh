@@ -28,6 +28,5 @@ sudo systemctl restart docker.service
 
 sudo systemctl disable containerd.service
 
-bash
-
 echo "Done"
+echo "Please reboot for changes to take effect"
