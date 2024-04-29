@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools{
-        maven '3.9.5'
+        maven '3.9.6'
 //      this is only needed of docker plugin is used  
 //      'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
     }
