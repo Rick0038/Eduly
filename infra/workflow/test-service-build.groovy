@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Clean') {
             steps {
-                sh 'Cleaning area'
+                sh 'echo Cleaning area'
                 cleanWs()
             }
         }
