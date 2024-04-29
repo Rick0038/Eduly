@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Checkout') {
             steps {
-                git branch: 'sagnik-dev', credentialsId: '85cdd362-476e-4ab9-bd31-cc0ffc36bae8', changelog: false, poll: false, url: 'https://github.com/Rick0038/GDSD-SS2024-Project.git'
+                git branch: 'sagnik-dev', credentialsId: '85cdd362-476e-4ab9-bd31-cc0ffc36bae8', changelog: false, poll: false, url: 'git@github.com:Rick0038/GDSD-SS2024-Project.git'
                 sh 'echo code pulled'
                 sh 'ls'
             }
