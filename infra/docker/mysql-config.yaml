@@ -1,0 +1,40 @@
+version: '3.2'
+services:
+  db:
+    image: mysql
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    restart: always
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/sql_root_password
+      MYSQL_DATABASE_FILE: /run/secrets/sql_database
+      MYSQL_USER_FILE: /run/secrets/sql_svc_user
+      MYSQL_PASSWORD_FILE: /run/secrets/sql_svc_password
+    volumes:
+      - mysql-common:/var/lib/mysql
+#      - /mnt/volume/app/mysql-common-dev:/var/lib/mysql # Debugging
+# NOTE WITH THIS APPROCH AN ADDITIONAL EXTERNAL VOLUME NEEDS TO BE CREATED
+# USE COMMAND : docker volume create --name mysql-common --opt type=none --opt device=/mnt/docker/mysql --opt o=bind
+    secrets:
+      - sql_root_password
+      - sql_database
+      - sql_svc_user
+      - sql_svc_password
+    ports:
+       - "32001:3306"
+#       - "52001:3306" # Debugging
+
+secrets:
+   sql_root_password:
+     file: /usr/secrets/db/MYSQL_ROOT_PASSWORD
+   sql_database:
+     file: /usr/secrets/db/MYSQL_DATABASE
+   sql_svc_user:
+     file: /usr/secrets/db/MYSQL_SVC_USER
+   sql_svc_password:
+     file: /usr/secrets/db/MYSQL_SVC_PASSWORD
+# Please note we need to create password files at this path with permissions as 0400
+
+volumes:
+  mysql-common:
+    external: true
