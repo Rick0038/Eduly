@@ -47,6 +47,7 @@ Meet our developers who made this project a success.
 | Sagnik Bhattacharya | sagnik.bhattacharya@informatik.hs-fulda.de | rick0038    |
 | Aashay Ajay Markale | aashay-ajay.markale@informatik.hs-fulda.de         | babaji811      |
 | Advaith Hari Raj Lakshmi | advaith.hari-raj-lakshmi@informatik.hs-fulda.de | advaithhl    |
+| Ayush Pravin SHetty| ayush-pravin.shetty@informatik.hs-fulda.de | ayush1999-dot |
 
 
 ### MADE WITH 💛 AND CODE
