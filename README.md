@@ -15,6 +15,7 @@ Meet our developers who made this project a success.
 | Aashay Ajay Markale | aashay-ajay.markale@informatik.hs-fulda.de         | babaji811      |
 | Advaith Hari Raj Lakshmi | advaith.hari-raj-lakshmi@informatik.hs-fulda.de | advaithhl    |
 | Ayush Pravin SHetty| ayush-pravin.shetty@informatik.hs-fulda.de | ayush1999-dot |
+| Ammar Ansari | muhammad-ammar.ansari@informatik.hs-fulda.de | iAmmar7 |
 
 
 # Techstack ⚡
