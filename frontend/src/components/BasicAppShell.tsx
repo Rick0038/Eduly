@@ -1,5 +1,6 @@
 import { AppShell, Burger, Group, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import Demo from './Demo';
 
 export function BasicAppShell() {
   const [opened, { toggle }] = useDisclosure();
@@ -24,7 +25,9 @@ export function BasicAppShell() {
             <Skeleton key={index} h={28} mt="sm" animate={false} />
           ))}
       </AppShell.Navbar>
-      <AppShell.Main>Main</AppShell.Main>
+      <AppShell.Main>
+        <Demo />
+      </AppShell.Main>
     </AppShell>
   );
 }
