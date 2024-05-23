@@ -1,17 +1,16 @@
 import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
-import { useEffect } from 'react';
 import { BasicAppShell } from './components/BasicAppShell';
+import { APP_API_URL } from './constant';
+import { theme } from './theme';
 
 
 function App() {
 
-  useEffect(() => {
-    console.log(import.meta.env)
-  })
+  console.log(APP_API_URL)
 
-  return (<MantineProvider> <BasicAppShell /> </MantineProvider>)
+  return (<MantineProvider theme={theme}> <BasicAppShell /> </MantineProvider>)
 
 }
 
