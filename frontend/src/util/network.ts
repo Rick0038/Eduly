@@ -10,12 +10,10 @@ const client = axios.create({
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const request = async (options: AxiosRequestConfig<any>) => {
-
-  const token = '' // todo: get from cookie or local storage!!!!
+  const token = ''; // todo: get from cookie or local storage!!!!
   client.defaults.headers.common.Authorization = `Bearer ${token}`;
 
-  return client(options)
-
+  return client(options);
 };
 
 export default request;
