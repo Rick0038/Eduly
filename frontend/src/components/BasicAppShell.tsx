@@ -9,20 +9,20 @@ export function BasicAppShell() {
     <AppShell
       header={{ height: 60 }}
       navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-      padding="md"
+      padding='md'
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+        <Group h='100%' px='md'>
+          <Burger opened={opened} onClick={toggle} hiddenFrom='sm' size='sm' />
           <h3>Test</h3>
         </Group>
       </AppShell.Header>
-      <AppShell.Navbar p="md">
+      <AppShell.Navbar p='md'>
         Navbar
         {Array(15)
           .fill(0)
           .map((_, index) => (
-            <Skeleton key={index} h={28} mt="sm" animate={false} />
+            <Skeleton key={index} h={28} mt='sm' animate={false} />
           ))}
       </AppShell.Navbar>
       <AppShell.Main>
