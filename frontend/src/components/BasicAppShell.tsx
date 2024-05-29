@@ -1,7 +1,7 @@
 import { AppShell, Burger, Group, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconPlant2 } from '@tabler/icons-react';
-import Demo from './Demo';
+import RouteSwitcher from './RouteSwitcher';
 
 export function BasicAppShell() {
   const [opened, { toggle }] = useDisclosure();
@@ -37,7 +37,7 @@ export function BasicAppShell() {
           ))}
       </AppShell.Navbar>
       <AppShell.Main>
-        <Demo />
+        <RouteSwitcher />
       </AppShell.Main>
     </AppShell>
   );

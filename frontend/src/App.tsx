@@ -2,6 +2,7 @@ import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter } from 'react-router-dom';
 import { BasicAppShell } from './components/BasicAppShell';
 import { theme } from './theme';
 
@@ -11,7 +12,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
-        <BasicAppShell />
+        <BrowserRouter>
+          <BasicAppShell />
+        </BrowserRouter>
       </MantineProvider>
     </QueryClientProvider>
   );
