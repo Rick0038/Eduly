@@ -4,7 +4,7 @@ Requirements: Node v18.18.0
 
 ## Recommended VSCode extensions:
 
-ESLint, Simple React Snippets, Prettier
+ESLint, Simple React Snippets, Prettier, PostCSS Intellisense and Highlighting
 
 ## Recommended VSCode settings:
 
