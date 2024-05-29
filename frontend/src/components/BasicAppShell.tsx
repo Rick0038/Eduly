@@ -1,5 +1,6 @@
 import { AppShell, Burger, Group, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { IconPlant2 } from '@tabler/icons-react';
 import Demo from './Demo';
 
 export function BasicAppShell() {
@@ -14,7 +15,17 @@ export function BasicAppShell() {
       <AppShell.Header>
         <Group h='100%' px='md'>
           <Burger opened={opened} onClick={toggle} hiddenFrom='sm' size='sm' />
-          <h3>Test</h3>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '5px',
+            }}
+          >
+            <IconPlant2 color='#52228d' /> <h3>eduly</h3>
+          </div>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p='md'>

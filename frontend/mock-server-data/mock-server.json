@@ -298,7 +298,7 @@
         {
           "uuid": "1e215b9f-044d-4ecd-b83a-fe2b58ddcc7e",
           "body": "{\n  \"msg\": \"hello world\"\n}",
-          "latency": 0,
+          "latency": 1000,
           "statusCode": 200,
           "label": "",
           "headers": [],
@@ -388,6 +388,18 @@
     {
       "key": "Content-Type",
       "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
     }
   ],
   "proxyReqHeaders": [
