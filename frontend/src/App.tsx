@@ -2,7 +2,7 @@ import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { BasicAppShell } from './components/BasicAppShell';
 import { theme } from './theme';
 
@@ -12,9 +12,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
-        <BrowserRouter>
+        {/* HashRouter is required for routing to work in production!!! */}
+        <HashRouter>
           <BasicAppShell />
-        </BrowserRouter>
+        </HashRouter>
       </MantineProvider>
     </QueryClientProvider>
   );
