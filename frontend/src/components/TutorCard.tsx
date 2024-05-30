@@ -22,7 +22,7 @@ import { Tutor } from '../model';
 
 const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
   return (
-    <Paper style={{ padding: '20px' }} withBorder shadow='sm'>
+    <Paper style={{ padding: '20px' }} w={'90%'} withBorder shadow='sm'>
       <Grid h={'100%'}>
         <Grid.Col span={'auto'}>
           <Center>
