@@ -55,12 +55,45 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "09db5e2a-8503-4689-8311-3815ac8efe8c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tutors/api/v1/search",
+      "responses": [
+        {
+          "uuid": "3a784ea1-67cc-454b-8ab4-7719300d019c",
+          "body": "{\n  \"tutors\": [\n    {\n      \"id\": \"12345\",\n      \"name\": \"John Doe\",\n      \"pricing\": 40,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 100,\n      \"topic\": \"Math\",\n      \"language\": \"English\",\n      \"experience\": 5,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 10,\n      \"profileImgLink\": \"https://avatars.preply.com/i/logos/i/logos/avatar_ngykk0ma7y.jpg\"\n    },\n    {\n      \"id\": \"67890\",\n      \"name\": \"Jane Smith\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 27,\n      \"topic\": \"Physics\",\n      \"language\": \"English\",\n      \"experience\": 3,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 20,\n      \"profileImgLink\": \"img.png\"\n    }\n  ]\n}\n",
+          "latency": 1500,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
     {
       "type": "route",
       "uuid": "9d8d3a85-df57-468b-b347-eb476a122b59"
+    },
+    {
+      "type": "route",
+      "uuid": "09db5e2a-8503-4689-8311-3815ac8efe8c"
     }
   ],
   "proxyMode": false,
