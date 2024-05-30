@@ -1,7 +1,7 @@
-import { Button, Group } from '@mantine/core';
-import { IconArrowRight, IconDownload, IconPhoto } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
+import { Tutor } from '../model';
 import edulyApiClient from '../util/network';
+import TutorCard from './TutorCard';
 
 export default function Demo() {
   const getHelloWorld = async () => {
@@ -9,28 +9,28 @@ export default function Demo() {
     return response.data;
   };
 
-  const { data, isSuccess, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['helloWorld'],
     queryFn: getHelloWorld,
   });
 
-  return (
-    <Group justify='center'>
-      {isLoading && <p>Loading ...</p>}
-      {isSuccess && <pre>{data.msg}</pre>}
-      <Button leftSection={<IconPhoto size={14} />} variant='default'>
-        Gallery
-      </Button>
+  console.log(data);
 
-      <Button rightSection={<IconDownload size={14} />}>Download</Button>
+  const tutor: Tutor = {
+    id: '12345',
+    name: 'John Doe',
+    pricing: 40,
+    rating: 4.7,
+    numberOfRatings: 100,
+    topic: 'Math',
+    language: 'English',
+    experience: 5,
+    intro:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. ',
+    numLessonsTaught: 10,
+    profileImgLink:
+      'https://avatars.preply.com/i/logos/i/logos/avatar_ngykk0ma7y.jpg',
+  };
 
-      <Button
-        variant='light'
-        leftSection={<IconPhoto size={14} />}
-        rightSection={<IconArrowRight size={14} />}
-      >
-        Visit gallery
-      </Button>
-    </Group>
-  );
+  return <TutorCard tutor={tutor} />;
 }
