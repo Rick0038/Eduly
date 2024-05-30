@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Button,
   Center,
   Grid,
@@ -14,7 +15,6 @@ import {
   IconCalendarEvent,
   IconLanguage,
   IconMessage,
-  IconSchool,
   IconUser,
 } from '@tabler/icons-react';
 import { FC } from 'react';
@@ -30,20 +30,23 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
           </Center>
         </Grid.Col>
         <Grid.Col span={6}>
-          <Title order={3}>{tutor.name}</Title>
-          <div>
-            <IconSchool /> {tutor.topic}
-          </div>
-          <div>
-            <IconUser /> {tutor.numLessonsTaught} Lessons taught
-          </div>
-          <div>
-            <IconLanguage /> Language: {tutor.language}
-          </div>
-
-          <div style={{ marginTop: '10px' }}>
-            <Text>{tutor.intro}</Text>
-          </div>
+          <Stack>
+            <div>
+              <Title order={3}>{tutor.name}</Title>
+              <div>
+                <Badge>{tutor.topic}</Badge>
+              </div>
+              <div>
+                <IconUser /> {tutor.numLessonsTaught} lessons taught
+              </div>
+              <div>
+                <IconLanguage /> Language: {tutor.language}
+              </div>
+            </div>
+            <div style={{ marginTop: '10px' }}>
+              <Text>{tutor.intro}</Text>
+            </div>
+          </Stack>
         </Grid.Col>
         <Grid.Col
           span={'auto'}
