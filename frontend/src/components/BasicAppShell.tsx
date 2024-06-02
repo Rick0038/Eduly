@@ -1,6 +1,7 @@
-import { AppShell, Burger, Group, Skeleton } from '@mantine/core';
+import { AppShell, Burger, Group, Skeleton, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import Demo from './Demo';
+import { IconPlant2 } from '@tabler/icons-react';
+import RouteSwitcher from './RouteSwitcher';
 
 export function BasicAppShell() {
   const [opened, { toggle }] = useDisclosure();
@@ -10,11 +11,22 @@ export function BasicAppShell() {
       header={{ height: 60 }}
       navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding='md'
+      footer={{ height: 60 }}
     >
       <AppShell.Header>
         <Group h='100%' px='md'>
           <Burger opened={opened} onClick={toggle} hiddenFrom='sm' size='sm' />
-          <h3>Test</h3>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '5px',
+            }}
+          >
+            <IconPlant2 color='#52228d' /> <h3>eduly</h3>
+          </div>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p='md'>
@@ -26,8 +38,15 @@ export function BasicAppShell() {
           ))}
       </AppShell.Navbar>
       <AppShell.Main>
-        <Demo />
+        <RouteSwitcher />
       </AppShell.Main>
+
+      <AppShell.Footer p={'md'}>
+        <Text ta='center'>
+          Fulda University Software Engineering Project Summer 2024. For
+          demonstration purposes only.
+        </Text>
+      </AppShell.Footer>
     </AppShell>
   );
 }

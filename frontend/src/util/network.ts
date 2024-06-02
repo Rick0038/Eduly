@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { APP_API_URL } from '../constant';
 
 const client = axios.create({
@@ -8,12 +8,14 @@ const client = axios.create({
   },
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const request = async (options: AxiosRequestConfig<any>) => {
-  const token = ''; // todo: get from cookie or local storage!!!!
-  client.defaults.headers.common.Authorization = `Bearer ${token}`;
+client.interceptors.request.use(config => {
+  const token = localStorage.getItem('eduly_id_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
+});
 
-  return client(options);
-};
-
-export default request;
+export default client;
