@@ -27,7 +27,9 @@ export default function Demo() {
 
   return (
     <Stack>
-      {tutorsData?.tutors.map((tutor) => <TutorCard tutor={tutor} />)}
+      {tutorsData?.tutors.map((tutor) => (
+        <TutorCard key={tutor.id} tutor={tutor} />
+      ))}
     </Stack>
   );
 }

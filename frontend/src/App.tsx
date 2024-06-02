@@ -2,8 +2,8 @@ import { MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { HashRouter } from 'react-router-dom';
-import { BasicAppShell } from './components/BasicAppShell';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes/router';
 import { theme } from './theme';
 
 function App() {
@@ -12,10 +12,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
-        {/* HashRouter is required for routing to work in production!!! */}
-        <HashRouter>
-          <BasicAppShell />
-        </HashRouter>
+        <RouterProvider router={router} />
       </MantineProvider>
     </QueryClientProvider>
   );
