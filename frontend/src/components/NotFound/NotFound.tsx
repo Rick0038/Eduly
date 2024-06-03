@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Illustration } from './Illustration';
 import classes from './NotFound.module.css';
 
-const NotFound = () => {
+export const NotFound = () => {
   return (
     <Container className={classes.root}>
       <div className={classes.inner}>
@@ -29,5 +29,3 @@ const NotFound = () => {
     </Container>
   );
 };
-
-export default NotFound;

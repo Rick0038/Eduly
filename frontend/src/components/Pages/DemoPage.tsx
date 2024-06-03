@@ -1,9 +1,9 @@
 import { Center, Loader, Stack, Text } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
-import { getTutors } from '../service/searchApi';
-import TutorCard from './TutorCard';
+import { getTutors } from '../../service/searchApi';
+import TutorCard from '../TutorCard';
 
-export default function Demo() {
+export function DemoPage() {
   const {
     data: tutorsData,
     isLoading,
