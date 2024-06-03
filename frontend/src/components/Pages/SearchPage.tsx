@@ -21,22 +21,10 @@ export function SearchPage() {
     queryFn: getTutors,
   });
 
-  if (isLoading) {
-    return (
-      <Center style={{ height: 'calc(100vh - 120px)' }}>
-        <Loader type='bars'></Loader>
-      </Center>
-    );
-  }
-
-  if (isError) {
-    return <Text ta='center'>An error occurred while fetching tutors.</Text>;
-  }
-
   return (
     <Container size='xl' px='md'>
       <Flex>
-        <Stack className='w-96'>
+        <Stack className='max-w-[200px] w-96'>
           <Text size='md' fw={500}>
             Filters
           </Text>
@@ -45,6 +33,14 @@ export function SearchPage() {
         <Divider orientation='vertical' className='mx-4' />
 
         <Stack className='flex-grow'>
+          {isLoading && (
+            <Center style={{ height: 'calc(100vh - 120px)' }}>
+              <Loader type='bars'></Loader>
+            </Center>
+          )}
+          {isError && (
+            <Text ta='center'>An error occurred while fetching tutors.</Text>
+          )}
           {tutorsData?.tutors.map((tutor) => (
             <TutorCard key={tutor.id} tutor={tutor} />
           ))}
