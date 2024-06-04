@@ -1,21 +1,28 @@
-import { Navigate } from 'react-router';
 import { createHashRouter } from 'react-router-dom';
-import { BasicAppShell } from '../components/BasicAppShell';
-import Demo from '../components/Demo';
-import NotFound from '../components/NotFound/NotFound';
+import {
+  HomeLayout,
+  HomePage,
+  DemoPage,
+  SearchPage,
+  NotFound,
+} from '../components';
 
 /* Using HashRouter for routing to work in production!!! */
 export const router = createHashRouter([
   {
-    element: <BasicAppShell />,
+    element: <HomeLayout />,
     children: [
       {
         path: '/',
-        element: <Navigate replace to='/home' />,
+        element: <HomePage />,
       },
       {
         path: '/home',
-        element: <Demo />,
+        element: <DemoPage />,
+      },
+      {
+        path: '/search',
+        element: <SearchPage />,
       },
       {
         path: '*',
