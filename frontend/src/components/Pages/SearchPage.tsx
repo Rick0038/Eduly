@@ -25,7 +25,7 @@ export function SearchPage() {
   return (
     <Container size='xl' px='md'>
       <Flex>
-        <Stack visibleFrom='sm' className='max-w-[200px] w-96'>
+        <Stack visibleFrom='sm' className='max-w-[200px] w-96 min-h-screen'>
           <Filters />
         </Stack>
 
