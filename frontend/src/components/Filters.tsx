@@ -1,4 +1,5 @@
 import {
+  Flex,
   Group,
   MultiSelect,
   Select,
@@ -13,6 +14,13 @@ import {
   useFilters,
   weekDays,
 } from '../hooks';
+import {
+  IconCalendar,
+  IconCurrencyEuro,
+  IconLanguage,
+  IconLocation,
+  IconStar,
+} from '@tabler/icons-react';
 
 export function Filters() {
   const { filters, handleChange } = useFilters();
@@ -23,7 +31,12 @@ export function Filters() {
 
       <Group>
         <TextInput
-          label='Location'
+          label={
+            <Flex justify='center' align='center'>
+              <Text className='text-sm'>Location</Text>
+              <IconLocation size={14} />
+            </Flex>
+          }
           name='location'
           placeholder='Enter location'
           className='w-full'
@@ -35,7 +48,10 @@ export function Filters() {
       </Group>
 
       <Group className='w-full mb-4 mr-1'>
-        <Text className='text-sm'>Min Ratings</Text>
+        <Flex justify='center' align='center'>
+          <Text className='text-sm'>Min Ratings</Text>
+          <IconStar size={14} />
+        </Flex>
         <Slider
           name='minRatings'
           min={1}
@@ -49,7 +65,10 @@ export function Filters() {
       </Group>
 
       <Group className='w-full mb-4 mr-1'>
-        <Text className='text-sm'>Max Price</Text>
+        <Flex justify='center' align='center'>
+          <Text className='text-sm'>Max Price</Text>
+          <IconCurrencyEuro size={14} />
+        </Flex>
         <Slider
           name='maxPrice'
           marks={priceMarks}
@@ -64,7 +83,12 @@ export function Filters() {
       <Group className='mb-1'>
         <MultiSelect
           name='availabilityDays'
-          label='Availability Days'
+          label={
+            <Flex justify='center' align='center'>
+              <Text className='text-sm'>Availibity Days</Text>
+              <IconCalendar size={14} />
+            </Flex>
+          }
           placeholder='Select days'
           className='w-full'
           data={weekDays}
@@ -76,7 +100,10 @@ export function Filters() {
       <Group className='mb-1'>
         <Select
           name='language'
-          label='Language'
+          label=<Flex justify='center' align='center'>
+            <Text className='text-sm'>Langauge</Text>
+            <IconLanguage size={14} />
+          </Flex>
           placeholder='Select language'
           className='w-full'
           data={languages}
