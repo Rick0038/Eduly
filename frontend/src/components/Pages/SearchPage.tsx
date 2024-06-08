@@ -10,6 +10,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { getTutors } from '../../service/searchApi';
 import TutorCard from '../TutorCard';
+import { Filters } from '../Filters';
 
 export function SearchPage() {
   const {
@@ -24,13 +25,11 @@ export function SearchPage() {
   return (
     <Container size='xl' px='md'>
       <Flex>
-        <Stack className='max-w-[200px] w-96'>
-          <Text size='md' fw={500}>
-            Filters
-          </Text>
+        <Stack visibleFrom='sm' className='max-w-[200px] w-96'>
+          <Filters />
         </Stack>
 
-        <Divider orientation='vertical' className='mx-4' />
+        <Divider orientation='vertical' visibleFrom='sm' className='mx-4' />
 
         <Stack className='flex-grow'>
           {isLoading && (
