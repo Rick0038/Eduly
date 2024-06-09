@@ -5,9 +5,9 @@ import { Footer } from '../Footer';
 
 export function HomeLayout() {
   return (
-    <AppShell header={{ height: { base: 48, sm: 60 } }} padding='md'>
+    <AppShell header={{ height: { base: 48, sm: 60 } }} padding='md' pb={'xs'}>
       <Header />
-      <AppShell.Main>
+      <AppShell.Main className='pb-0'>
         <Outlet />
       </AppShell.Main>
       <Footer />

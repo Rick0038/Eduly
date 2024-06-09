@@ -3,9 +3,7 @@ import { IconSearch } from '@tabler/icons-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-const largeData = Array(100)
-  .fill(0)
-  .map((_, index) => `Subject ${index + 1}`);
+const largeData = ['Physics', 'Chemistry', 'Maths', 'Computer Science'];
 
 export function SearchTutor() {
   const [value, setValue] = useState('');
@@ -14,9 +12,9 @@ export function SearchTutor() {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const subject = searchParams.get('subject');
-    if (location.pathname === '/search' && subject) {
-      setValue(subject);
+    const topic = searchParams.get('topic');
+    if (location.pathname === '/search' && topic) {
+      setValue(topic);
     } else {
       setValue('');
     }
@@ -27,7 +25,7 @@ export function SearchTutor() {
       if (!value) {
         return;
       }
-      navigate(`/search?subject=${value}`);
+      navigate(`/search?topic=${value}`);
     },
     [navigate]
   );
@@ -38,7 +36,7 @@ export function SearchTutor() {
 
   return (
     <Autocomplete
-      placeholder='Search tutors by subject'
+      placeholder='Search tutors by topic'
       leftSection={
         <IconSearch className='w-3 h-3 sm:w-4 sm:h-4' stroke={1.5} />
       }

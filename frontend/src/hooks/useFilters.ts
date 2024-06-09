@@ -3,9 +3,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { debounce } from '../util/debounce';
 
 interface FiltersState {
+  topic: string;
   location: string;
-  minRatings: number;
-  maxPrice: number;
+  ratingsMin: number;
+  pricingMax: number;
   availabilityDays: string[];
   language: string;
 }
@@ -38,9 +39,10 @@ export const languages = ['English', 'Spanish', 'French', 'German', 'Chinese'];
 const getInitialFilters = (locationSearch: string): FiltersState => {
   const params = new URLSearchParams(locationSearch);
   return {
+    topic: params.get('topic') || '',
     location: params.get('location') || '',
-    minRatings: parseInt(params.get('minRatings') || '3', 10),
-    maxPrice: parseInt(params.get('maxPrice') || '12', 10),
+    ratingsMin: parseInt(params.get('ratingsMin') || '0', 10),
+    pricingMax: parseInt(params.get('pricingMax') || '0', 10),
     availabilityDays: params.get('availabilityDays')
       ? params.get('availabilityDays')!.split(',')
       : [],
@@ -58,24 +60,15 @@ export const useFilters = () => {
     getInitialFilters(location.search)
   );
 
-  const handleChange = useCallback(
-    (field: keyof FiltersState) =>
-      (value: FiltersState[keyof FiltersState] | null) => {
-        setFilters((prevFilters) => ({
-          ...prevFilters,
-          [field]: value,
-        }));
-      },
-    []
-  );
-
   const updateQueryParams = useCallback(
     (filters: FiltersState) => {
       const params = new URLSearchParams();
+      if (filters.topic) params.set('topic', filters.topic);
       if (filters.location) params.set('location', filters.location);
-      if (filters.minRatings)
-        params.set('minRatings', filters.minRatings.toString());
-      if (filters.maxPrice) params.set('maxPrice', filters.maxPrice.toString());
+      if (filters.ratingsMin)
+        params.set('ratingsMin', filters.ratingsMin.toString());
+      if (filters.pricingMax)
+        params.set('pricingMax', filters.pricingMax.toString());
       if (filters.availabilityDays.length > 0)
         params.set('availabilityDays', filters.availabilityDays.join(','));
       if (filters.language) params.set('language', filters.language);
@@ -94,6 +87,17 @@ export const useFilters = () => {
   useEffect(() => {
     debouncedUpdateQueryParams(filters);
   }, [filters, debouncedUpdateQueryParams]);
+
+  const handleChange = useCallback(
+    (field: keyof FiltersState) =>
+      (value: FiltersState[keyof FiltersState] | null) => {
+        setFilters((prevFilters) => ({
+          ...prevFilters,
+          [field]: value,
+        }));
+      },
+    []
+  );
 
   return {
     filters,

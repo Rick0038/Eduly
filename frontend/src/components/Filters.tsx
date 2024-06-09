@@ -53,14 +53,14 @@ export function Filters() {
           <IconStar size={14} />
         </Flex>
         <Slider
-          name='minRatings'
+          name='ratingsMin'
           min={1}
           max={5}
           step={1}
           className='w-full'
           marks={ratingMarks}
-          value={filters.minRatings}
-          onChange={handleChange('minRatings')}
+          value={filters.ratingsMin}
+          onChange={handleChange('ratingsMin')}
         />
       </Group>
 
@@ -70,13 +70,13 @@ export function Filters() {
           <IconCurrencyEuro size={14} />
         </Flex>
         <Slider
-          name='maxPrice'
+          name='pricingMax'
           marks={priceMarks}
           min={12}
           max={100}
           className='w-full'
-          value={filters.maxPrice}
-          onChange={handleChange('maxPrice')}
+          value={filters.pricingMax}
+          onChange={handleChange('pricingMax')}
         />
       </Group>
 
