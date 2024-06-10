@@ -39,11 +39,11 @@ jobs:
         EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t tutor-Service.tar:latest .
+      run: docker build -t tutor-Service:latest .
       working-directory: ./backend/Tutor-Service
 
     - name: Save Docker image to file
-      run: docker save -o tutor-Service.tar tutor-Service.tar:latest
+      run: docker save -o tutor-Service.tar tutor-Service:latest
 
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
