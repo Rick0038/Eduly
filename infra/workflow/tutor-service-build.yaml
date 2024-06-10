@@ -1,6 +1,7 @@
 name: Build and deploy pipeline for tutor service
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - sagnik-dev  # pipeline target branch
