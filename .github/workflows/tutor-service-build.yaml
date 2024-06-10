@@ -39,12 +39,11 @@ jobs:
         EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
 
     - name: Build Docker image
-#      run:  ls
-      run:  docker build -t tutor-service:latest .
+      run: docker build -t tutor-service:latest .
       working-directory: ./backend/Tutor-Service
 
     - name: Save Docker image to file
-      run: docker save -o tutor-Service.tar tutor-Service:latest
+      run: docker save -o tutor-service.tar tutor-service:latest
 
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
@@ -52,16 +51,16 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Copy Docker image to server
-      run: scp -o StrictHostKeyChecking=no tutor-Service.tar svc-ci@20.224.153.213:/home/svc-ci/deploy
+      run: scp -o StrictHostKeyChecking=no tutor-service.tar svc-ci@127.0.0.1:/home/svc-ci/deploy
 
     - name: Copy Docker Compose file to server
-      run: scp -o StrictHostKeyChecking=no tutorService/docker-compose.yml svc-ci@20.224.153.213:/home/svc-ci/deploy
+      run: scp -o StrictHostKeyChecking=no tutorService/docker-compose.yml svc-ci@127.0.0.1:/home/svc-ci/deploy
 
     - name: Deploy Docker image on remote server
       run: |
-        ssh -o StrictHostKeyChecking=no svc-ci@20.224.153.213 << 'EOF'
+        ssh -o StrictHostKeyChecking=no svc-ci@127.0.0.1 << 'EOF'
         cd /home/svc-ci/deploy
-        docker load -i tutor-Service.tar
+        docker load -i tutor-service.tar
         EDULY_DB_URL=${{ secrets.EDULY_DB_URL }} \
         EDULY_DB_USERNAME=${{ secrets.EDULY_DB_USERNAME }} \
         EDULY_DB_PASSWORD=${{ secrets.EDULY_DB_PASSWORD }} \
@@ -71,5 +70,3 @@ jobs:
         EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
         EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
         EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
-
-# svc-edu-tutor username
