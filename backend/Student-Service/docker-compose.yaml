@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   tutor-service:
-    image: tutor-service:latest
+    image: student-service:latest
     restart: always
     ports:
       - "5001:8080"  # Map host port 5001 to container port 8080
