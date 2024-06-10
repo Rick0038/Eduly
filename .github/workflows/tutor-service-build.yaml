@@ -58,14 +58,14 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Copy Docker image to server
-      run: scp -o StrictHostKeyChecking=no tutor-service.tar svc-ci@127.0.0.1:/home/svc-ci/deploy
+      run: scp -o StrictHostKeyChecking=no tutor-service.tar svc-ci@20.224.153.213:/home/svc-ci/deploy
 
     - name: Copy Docker Compose file to server
-      run: scp -o StrictHostKeyChecking=no tutorService/docker-compose.yml svc-ci@127.0.0.1:/home/svc-ci/deploy
+      run: scp -o StrictHostKeyChecking=no tutorService/docker-compose.yml svc-ci@20.224.153.213:/home/svc-ci/deploy
 
     - name: Deploy Docker image on remote server
       run: |
-        ssh -o StrictHostKeyChecking=no svc-ci@127.0.0.1 << 'EOF'
+        ssh -o StrictHostKeyChecking=no svc-ci@20.224.153.213 << 'EOF'
         cd /home/svc-ci/deploy
         docker load -i tutor-service.tar
         EDULY_DB_URL=${{ secrets.EDULY_DB_URL }} \
