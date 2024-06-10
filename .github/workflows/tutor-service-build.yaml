@@ -40,7 +40,7 @@ jobs:
 
     - name: Build Docker image
       run:  ls
-      run:  docker build -t tutor-service:latest .
+#      run:  docker build -t tutor-service:latest .
       working-directory: ./backend/Tutor-Service
 
     - name: Save Docker image to file
