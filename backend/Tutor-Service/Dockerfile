@@ -4,7 +4,6 @@ FROM openjdk:17-jdk-slim
 # Set the working directory inside the container
 WORKDIR /app
 
-RUN ["ls"]
 
 # Copy the compiled JAR file into the container
 COPY Tutor-Service-0.0.1-SNAPSHOT.jar /app/tutor-service.jar
