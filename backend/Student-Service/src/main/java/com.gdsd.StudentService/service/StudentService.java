@@ -8,7 +8,7 @@ public interface StudentService {
     // THIS IS THE SERVICE WHICH IMPLEMENTS THE ACTUAL TASK THAT WE CALLED FROM CONTROLLED 2
     // THIS IS A PSEUDO CLASS
 
-    public String createStudent (StudentRequestDto studentRequestDto);
+    String createStudent (StudentRequestDto studentRequestDto);
 
 
 }
