@@ -21,14 +21,14 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
                                                      Integer experienceMin) {
 
         StringBuilder queryBuilder = new StringBuilder(
-                "SELECT tut.tutorId AS id, " +
+                "SELECT tut.tutorId AS tutorId, " +
                         "tut.firstName AS firstName, " +
                         "tut.lastName AS lastName, " +
-                        "top.price AS pricing, " +
+                        "tut.price AS pricing, " +
                         "tut.rating AS rating, " +
                         "top.topicName AS topic, " +
                         "tut.language AS language, " +
-                        "top.experience AS experience, " +
+                        "tut.experience AS experience, " +
                         "tut.intro AS intro, " +
                         "tut.profilePicture AS profileImgLink " +
                         "FROM tutor_user_det tut " +
@@ -80,7 +80,8 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
 
         for (Object[] result : results) {
             TutorSearchResponseDto dto = new TutorSearchResponseDto();
-            dto.setTutorId(((Number) result[0]).intValue());
+
+            dto.setId(((Number) result[0]).intValue());
             dto.setFirstName((String) result[1]);
             dto.setLastName((String) result[2]);
             dto.setPricing(((Number) result[3]).doubleValue());

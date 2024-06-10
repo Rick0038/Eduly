@@ -18,8 +18,11 @@ public class TutorRequestDto {
     private Double rating;
     private Boolean isBanned;
     private Boolean isLocked;
-
     private String intro;
+
+    private Double price;
+
+    private Double experience;
 
     public TutorRequestDto() {
     }
@@ -118,5 +121,21 @@ public class TutorRequestDto {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Double getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Double experience) {
+        this.experience = experience;
     }
 }

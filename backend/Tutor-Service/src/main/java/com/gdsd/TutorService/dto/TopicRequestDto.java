@@ -6,9 +6,6 @@ import jakarta.persistence.*;
 public class TopicRequestDto {
     private Integer tutorId;
     private String topicName;
-    private Double price;
-
-    private Double experience;
 
     public TopicRequestDto() {
     }
@@ -29,19 +26,5 @@ public class TopicRequestDto {
         this.topicName = topicName;
     }
 
-    public Double getPrice() {
-        return price;
-    }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Double getExperience() {
-        return experience;
-    }
-
-    public void setExperience(Double experience) {
-        this.experience = experience;
-    }
 }

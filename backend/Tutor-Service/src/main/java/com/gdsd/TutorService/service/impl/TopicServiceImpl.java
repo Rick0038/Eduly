@@ -30,6 +30,7 @@ public class TopicServiceImpl implements TopicService {
         Tutor tutor = tutorRepository.findById(topic.getTutorId()).
                 orElseThrow(() -> new ResourceNotFoundException("Tutor", "tutorId", topic.getTutorId()));
 
+        topic.setTopicId(null);
         topicRepository.save(topic);
         return "Successfully created Topic with id: " + topic.getTopicId();
     }
@@ -52,15 +53,5 @@ public class TopicServiceImpl implements TopicService {
         return "Successfully deleted Topic with id: " + topic.getTopicId();
     }
 
-    @Override
-    public String updatePriceById(Double newPrice, Integer topicId) {
-        Topic topic = topicRepository.findById(topicId).
-                orElseThrow(() -> new ResourceNotFoundException("Topic", "topicId", topicId));
 
-        topic.setPrice(newPrice);
-        topicRepository.save(topic);
-
-        return "Successfully changed price to " + newPrice
-                + " for Topic with id: " + topic.getTopicId();
-    }
 }
