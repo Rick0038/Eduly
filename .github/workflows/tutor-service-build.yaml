@@ -43,7 +43,10 @@ jobs:
       #   ls
       #   pwd 
       #   ls ..
-      run: docker build -t tutor-service:latest -f ../Dockerfile .
+      run: |
+        pwd
+        ls
+        docker build -t tutor-service:latest -f ../Dockerfile .
       working-directory: ./backend/Tutor-Service/target
 
     - name: Save Docker image to file
