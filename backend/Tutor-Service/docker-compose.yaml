@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    image: tutor-service:latest
+    ports:
+      - "5001:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=${EDULY_DB_URL}
+      - SPRING_DATASOURCE_USERNAME=${EDULY_DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${EDULY_DB_PASSWORD}
