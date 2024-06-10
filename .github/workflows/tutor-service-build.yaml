@@ -40,7 +40,7 @@ jobs:
 
     - name: Build Docker image
 #      run:  ls
-      run:  docker build -t tutor-service:latest .
+      run:  docker build -t tutor-service:latest https://raw.githubusercontent.com/Rick0038/Eduly/dev/backend/Tutor-Service/docker-compose.yaml?token=GHSAT0AAAAAACS6IASJ35AWB52QS2ZW6GZYZTG7MCQ
       working-directory: ./backend/Tutor-Service
 
     - name: Save Docker image to file
