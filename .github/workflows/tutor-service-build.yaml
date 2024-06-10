@@ -39,6 +39,7 @@ jobs:
         EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
 
     - name: Build Docker image
+      run:  ls
       run:  docker build -t tutor-service:latest .
       working-directory: ./backend/Tutor-Service
 
