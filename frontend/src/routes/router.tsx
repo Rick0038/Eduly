@@ -1,4 +1,4 @@
-import { createHashRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import {
   HomeLayout,
   HomePage,
@@ -7,8 +7,7 @@ import {
   NotFound,
 } from '../components';
 
-/* Using HashRouter for routing to work in production!!! */
-export const router = createHashRouter([
+export const router = createBrowserRouter([
   {
     element: <HomeLayout />,
     children: [
