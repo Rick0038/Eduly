@@ -4,7 +4,8 @@ export interface Tutors {
 
 export interface Tutor {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   pricing: number;
   rating: number;
   numberOfRatings: number;

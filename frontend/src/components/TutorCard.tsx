@@ -32,15 +32,15 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
         <Grid.Col span={6}>
           <Stack>
             <div>
-              <Title order={3}>{tutor.name}</Title>
+              <Title order={3}>{`${tutor.firstName} ${tutor.lastName}`}</Title>
               <div>
                 <Badge>{tutor.topic}</Badge>
               </div>
-              <div>
-                <IconUser /> {tutor.numLessonsTaught} lessons taught
+              <div className='flex items-center' >
+                <IconUser /> <Text>{tutor.numLessonsTaught} lessons taught</Text>
               </div>
-              <div>
-                <IconLanguage /> Language: {tutor.language}
+              <div className='flex items-center'>
+                <IconLanguage />  <Text>Language: {tutor.language}</Text>
               </div>
             </div>
             <div style={{ marginTop: '10px' }}>
