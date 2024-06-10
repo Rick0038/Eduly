@@ -31,7 +31,7 @@ jobs:
         cache: 'maven'
 
     - name: Build with Maven
-      run: mvn clean install
+      run:  mvn clean install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dmaven.source.skip=true -DoutputDirectory=target
       working-directory: ./backend/Tutor-Service
       env:
         EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
@@ -39,8 +39,8 @@ jobs:
         EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t tutor-service:latest .
-      working-directory: ./backend/Tutor-Service
+      run: docker build -t tutor-service:latest -f ./Dockerfile .
+      working-directory: ./backend/Tutor-Service/target
 
     - name: Save Docker image to file
       run: docker save -o tutor-service.tar tutor-service:latest
