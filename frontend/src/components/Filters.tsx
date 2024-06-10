@@ -80,7 +80,7 @@ export function Filters() {
         />
       </Group>
 
-      <Group className='mb-1'>
+      <Group className='mb-1 w-full'>
         <MultiSelect
           name='availabilityDays'
           label={
