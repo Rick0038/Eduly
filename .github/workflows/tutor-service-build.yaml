@@ -39,7 +39,7 @@ jobs:
         EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t tutor-Service:latest .
+      run:  docker build -t tutor-service:latest .
       working-directory: ./backend/Tutor-Service
 
     - name: Save Docker image to file
@@ -66,5 +66,9 @@ jobs:
         EDULY_DB_PASSWORD=${{ secrets.EDULY_DB_PASSWORD }} \
         docker-compose up -d
         EOF
+      env:
+        EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
+        EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
+        EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
 
 # svc-edu-tutor username
