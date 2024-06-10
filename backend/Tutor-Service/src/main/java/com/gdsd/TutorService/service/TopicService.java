@@ -9,5 +9,4 @@ public interface TopicService {
 
     public TopicResponseDto getTopicById(Integer topicId);
     public String removeTopicById(Integer topicId);
-    public String updatePriceById(Double newPrice, Integer topicId);
 }

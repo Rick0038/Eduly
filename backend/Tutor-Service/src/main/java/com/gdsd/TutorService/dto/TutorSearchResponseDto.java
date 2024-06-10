@@ -1,7 +1,7 @@
 package com.gdsd.TutorService.dto;
 
 public class TutorSearchResponseDto {
-    private Integer tutorId;
+    private Integer id;
     private String firstName;
     private String lastName;
     private Double pricing;
@@ -15,12 +15,12 @@ public class TutorSearchResponseDto {
     public TutorSearchResponseDto() {
     }
 
-    public Integer getTutorId() {
-        return tutorId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setTutorId(Integer tutorId) {
-        this.tutorId = tutorId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFirstName() {

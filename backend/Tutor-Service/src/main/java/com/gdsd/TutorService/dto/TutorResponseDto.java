@@ -12,6 +12,10 @@ public class TutorResponseDto {
     private Boolean isBanned;
     private Boolean isLocked;
 
+    private Double price;
+
+    private Double experience;
+
     public TutorResponseDto() {
     }
 
@@ -93,5 +97,21 @@ public class TutorResponseDto {
 
     public void setLocked(Boolean locked) {
         isLocked = locked;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Double getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Double experience) {
+        this.experience = experience;
     }
 }

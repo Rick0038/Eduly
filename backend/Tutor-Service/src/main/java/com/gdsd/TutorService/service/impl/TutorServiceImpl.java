@@ -24,6 +24,7 @@ public class TutorServiceImpl implements TutorService {
     @Override
     public String createTutor(TutorRequestDto tutorRequestDto) {
         Tutor tutor = modelMapper.map(tutorRequestDto, Tutor.class);
+        tutor.setTutorId(null);
         tutorRepository.save(tutor);
 
         return "New Tutor with id: " + tutor.getTutorId() + " and email: "

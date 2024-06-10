@@ -17,9 +17,6 @@ public class Topic {
     @Column(name = "topicName")
     private String topicName;
 
-    private Double price;
-
-    private Double experience;
 
     public Topic() {
     }
@@ -40,13 +37,6 @@ public class Topic {
         this.topicName = topicName;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 
     public Integer getTutorId() {
         return tutorId;
@@ -56,20 +46,12 @@ public class Topic {
         this.tutorId = tutorId;
     }
 
-    public Double getExperience() {
-        return experience;
-    }
-
-    public void setExperience(Double experience) {
-        this.experience = experience;
-    }
 
     @Override
     public String toString() {
         return "Topic{" +
                 "topicId=" + topicId +
                 ", topicName='" + topicName + '\'' +
-                ", price=" + price +
                 '}';
     }
 }

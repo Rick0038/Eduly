@@ -38,6 +38,10 @@ public class Tutor {
 
     private String intro;
 
+    private Double price;
+
+    private Double experience;
+
 //Todo- cascading in db tables. if tutor deleted then associated topics, quali should also be deleted
 
     public Tutor() {
@@ -146,6 +150,22 @@ public class Tutor {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Double getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Double experience) {
+        this.experience = experience;
     }
 
     @Override

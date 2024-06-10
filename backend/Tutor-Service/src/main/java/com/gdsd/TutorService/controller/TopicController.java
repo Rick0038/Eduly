@@ -33,10 +33,5 @@ public class TopicController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/price/{price}/id/{topicId}")
-    public ResponseEntity<String> updatePriceById(@PathVariable Double price,
-                                                  @PathVariable Integer topicId) {
-        String response = topicService.updatePriceById(price, topicId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+
 }
