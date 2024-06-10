@@ -33,6 +33,10 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
       working-directory: ./backend/Tutor-Service
+      env:
+        EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
+        EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
+        EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
 
     - name: Build Docker image
       run: docker build -t Tutor-Service.tar:latest .
