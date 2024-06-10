@@ -7,7 +7,7 @@ export function HomeLayout() {
   return (
     <AppShell header={{ height: { base: 48, sm: 60 } }} padding='md' pb={'xs'}>
       <Header />
-      <AppShell.Main className='pb-0'>
+      <AppShell.Main>
         <Outlet />
       </AppShell.Main>
       <Footer />

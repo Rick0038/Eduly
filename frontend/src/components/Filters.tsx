@@ -1,11 +1,11 @@
 import {
+  Button,
   Flex,
   Group,
   MultiSelect,
   Select,
   Slider,
   Text,
-  // TextInput,
 } from '@mantine/core';
 import {
   languages,
@@ -15,6 +15,7 @@ import {
   weekDays,
 } from '../hooks';
 import {
+  IconAdjustments,
   IconCalendar,
   IconCurrencyEuro,
   IconLanguage,
@@ -22,12 +23,22 @@ import {
   IconStar,
 } from '@tabler/icons-react';
 
-export function Filters() {
+interface FiltersProps {
+  onSubmit?: () => void;
+}
+
+export function Filters(props: FiltersProps) {
+  const { onSubmit } = props;
   const { filters, handleChange } = useFilters();
 
   return (
     <Group>
-      <h2 className='text-xl font-semibold'>Filters</h2>
+      <Flex justify='center' align='center' gap={1}>
+        <Text size='lg' fw={500} visibleFrom='sm'>
+          Filters
+        </Text>
+        <IconAdjustments size={20} stroke={1} />
+      </Flex>
 
       {/* <Group>
         <TextInput
@@ -110,6 +121,10 @@ export function Filters() {
           value={filters.language}
           onChange={handleChange('language')}
         />
+      </Group>
+
+      <Group className='w-full mb-4 mr-1' hiddenFrom='sm'>
+        <Button onClick={onSubmit}>Apply Filters</Button>
       </Group>
     </Group>
   );
