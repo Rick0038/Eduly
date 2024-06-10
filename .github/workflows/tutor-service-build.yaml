@@ -64,7 +64,7 @@ jobs:
       run: |
         pwd
         ls
-        scp -o StrictHostKeyChecking=no docker-compose.yml svc-ci@20.224.153.213:/home/svc-ci/deploy
+        scp -o StrictHostKeyChecking=no docker-compose.yaml svc-ci@20.224.153.213:/home/svc-ci/deploy
       working-directory: ./backend/Tutor-Service
 
     - name: Deploy Docker image on remote server
