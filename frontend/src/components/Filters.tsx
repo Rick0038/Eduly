@@ -37,7 +37,9 @@ export function Filters(props: FiltersProps) {
         <Text size='lg' fw={500} visibleFrom='sm'>
           Filters
         </Text>
-        <IconAdjustments size={20} stroke={1} />
+        <Group visibleFrom='sm'>
+          <IconAdjustments size={20} stroke={1} />
+        </Group>
       </Flex>
 
       {/* <Group>
