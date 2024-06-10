@@ -1,21 +1,23 @@
 name: Build and deploy pipeline for tutor service
 
 on:
-  workflow_dispatch:
-  push:
+  pull_request:
+    types: [closed]
     branches:
-      - sagnik-dev  # pipeline target branch
-
+      - master
+      - dev
+  workflow_dispatch:  # Manual trigger
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    - name: Checkout repository and pull request branch
+      uses: actions/checkout@v4
       with:
-        ref: sagnik-dev  # pipeline target branch to pull
-
+        ref: ${{ github.event.pull_request.head.ref }} 
+        
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
@@ -31,7 +33,7 @@ jobs:
         cache: 'maven'
 
     - name: Build with Maven
-      run: mvn clean install
+      run:  mvn clean install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dmaven.source.skip=true -DoutputDirectory=target
       working-directory: ./backend/Tutor-Service
       env:
         EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
@@ -39,11 +41,14 @@ jobs:
         EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
 
     - name: Build Docker image
-      run:  docker build -t tutor-service:latest .
-      working-directory: ./backend/Tutor-Service
+      run: |
+        pwd
+        ls
+        docker build -t tutor-service:latest -f ../Dockerfile .
+      working-directory: ./backend/Tutor-Service/target
 
     - name: Save Docker image to file
-      run: docker save -o tutor-Service.tar tutor-Service:latest
+      run: docker save -o tutor-service.tar tutor-service:latest
 
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
@@ -51,24 +56,33 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Copy Docker image to server
-      run: scp -o StrictHostKeyChecking=no tutor-Service.tar svc-ci@20.224.153.213:/home/svc-ci/deploy
+      run: scp -o StrictHostKeyChecking=no tutor-service.tar svc-ci@${{ secrets.SSH_IP }}:/home/svc-ci/deploy
 
     - name: Copy Docker Compose file to server
-      run: scp -o StrictHostKeyChecking=no tutorService/docker-compose.yml svc-ci@20.224.153.213:/home/svc-ci/deploy
+      run: |
+        pwd
+        ls
+        scp -o StrictHostKeyChecking=no docker-compose.yaml svc-ci@${{ secrets.SSH_IP }}:/home/svc-ci/deploy
+      working-directory: ./backend/Tutor-Service
+    
+    - name: Stop and remove existing containers
+      run: |
+        ssh -o StrictHostKeyChecking=no svc-ci@${{ secrets.SSH_IP }} << 'EOF'
+        cd /home/svc-ci/deploy
+        docker compose down
+        EOF
 
     - name: Deploy Docker image on remote server
       run: |
-        ssh -o StrictHostKeyChecking=no svc-ci@20.224.153.213 << 'EOF'
+        ssh -o StrictHostKeyChecking=no svc-ci@${{ secrets.SSH_IP }} << 'EOF'
         cd /home/svc-ci/deploy
-        docker load -i tutor-Service.tar
+        docker load -i tutor-service.tar
         EDULY_DB_URL=${{ secrets.EDULY_DB_URL }} \
         EDULY_DB_USERNAME=${{ secrets.EDULY_DB_USERNAME }} \
         EDULY_DB_PASSWORD=${{ secrets.EDULY_DB_PASSWORD }} \
-        docker-compose up -d
+        docker compose up -d
         EOF
       env:
         EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
         EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
         EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
-
-# svc-edu-tutor username
