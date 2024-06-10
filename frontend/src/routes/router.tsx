@@ -1,11 +1,5 @@
 import { createHashRouter } from 'react-router-dom';
-import {
-  HomeLayout,
-  HomePage,
-  DemoPage,
-  SearchPage,
-  NotFound,
-} from '../components';
+import { HomeLayout, HomePage, SearchPage, NotFound } from '../components';
 
 /* Using HashRouter for routing to work in production!!! */
 export const router = createHashRouter([
@@ -15,10 +9,6 @@ export const router = createHashRouter([
       {
         path: '/',
         element: <HomePage />,
-      },
-      {
-        path: '/home',
-        element: <DemoPage />,
       },
       {
         path: '/search',
