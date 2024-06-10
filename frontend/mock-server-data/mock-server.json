@@ -61,7 +61,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "tutors/api/v1/search",
+      "endpoint": "api/v1/tutor/search",
       "responses": [
         {
           "uuid": "3a784ea1-67cc-454b-8ab4-7719300d019c",
