@@ -58,18 +58,25 @@ jobs:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Copy Docker image to server
-      run: scp -o StrictHostKeyChecking=no tutor-service.tar svc-ci@20.224.153.213:/home/svc-ci/deploy
+      run: scp -o StrictHostKeyChecking=no tutor-service.tar svc-ci@${{ secrets.SSH_IP }}:/home/svc-ci/deploy
 
     - name: Copy Docker Compose file to server
       run: |
         pwd
         ls
-        scp -o StrictHostKeyChecking=no docker-compose.yaml svc-ci@20.224.153.213:/home/svc-ci/deploy
+        scp -o StrictHostKeyChecking=no docker-compose.yaml svc-ci@${{ secrets.SSH_IP }}:/home/svc-ci/deploy
       working-directory: ./backend/Tutor-Service
+    
+    - name: Stop and remove existing containers
+      run: |
+        ssh -o StrictHostKeyChecking=no svc-ci@${{ secrets.SSH_IP }} << 'EOF'
+        cd /home/svc-ci/deploy
+        docker compose down
+        EOF
 
     - name: Deploy Docker image on remote server
       run: |
-        ssh -o StrictHostKeyChecking=no svc-ci@20.224.153.213 << 'EOF'
+        ssh -o StrictHostKeyChecking=no svc-ci@${{ secrets.SSH_IP }} << 'EOF'
         cd /home/svc-ci/deploy
         docker load -i tutor-service.tar
         EDULY_DB_URL=${{ secrets.EDULY_DB_URL }} \
