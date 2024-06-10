@@ -10,6 +10,7 @@ import {
   Group,
   Loader,
   NativeSelect,
+  Pagination,
   Stack,
   Text,
 } from '@mantine/core';
@@ -62,6 +63,9 @@ export function SearchPage() {
     });
   };
 
+  const [activePage, setActivePage] = useState(1);
+  const resultsPerPage = 3;
+
   return (
     <Container size='xl' px='md'>
       <Flex>
@@ -113,17 +117,38 @@ export function SearchPage() {
               <Filters onSubmit={() => setDrawerOpened(false)} />
             </Drawer>
           </Group>
-          {isLoading && (
-            <Center style={{ height: 'calc(100vh - 120px)' }}>
-              <Loader type='bars'></Loader>
-            </Center>
-          )}
-          {isError && (
-            <Text ta='center'>An error occurred while fetching tutors.</Text>
-          )}
-          {tutorsData?.tutors.map((tutor, index) => (
-            <TutorCard key={`${tutor.id}-${index}`} tutor={tutor} />
-          ))}
+          <Group>
+            {isLoading && (
+              <Container>
+                <Center style={{ height: 'calc(100vh - 120px)' }}>
+                  <Loader type='bars'></Loader>
+                </Center>
+              </Container>
+            )}
+            {isError && (
+              <Container>
+                <Text ta='center'>
+                  An error occurred while fetching tutors.
+                </Text>
+              </Container>
+            )}
+            {tutorsData?.tutors
+              .slice(
+                resultsPerPage * (activePage - 1),
+                resultsPerPage * activePage
+              )
+              .map((tutor) => <TutorCard key={tutor.id} tutor={tutor} />)}
+            {tutorsData && tutorsData.tutors && (
+              <Container mb={40}>
+                <Pagination
+                  value={activePage}
+                  onChange={setActivePage}
+                  total={Math.ceil(tutorsData.tutors.length / resultsPerPage)}
+                  mt={'sm'}
+                ></Pagination>
+              </Container>
+            )}
+          </Group>
         </Stack>
       </Flex>
     </Container>
