@@ -39,11 +39,11 @@ jobs:
         EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
 
     - name: Build Docker image
-      run: |
-        ls
-        pwd 
-        ls ..
-#      run: docker build -t tutor-service:latest -f ../Dockerfile .
+      # run: |
+      #   ls
+      #   pwd 
+      #   ls ..
+      run: docker build -t tutor-service:latest -f ../Dockerfile .
       working-directory: ./backend/Tutor-Service/target
 
     - name: Save Docker image to file

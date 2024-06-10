@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the compiled JAR file into the container
-COPY target/tutor-service.jar /app/tutor-service.jar
+COPY target/Tutor-Service-0.0.1-SNAPSHOT.jar /app/tutor-service.jar
 
 # Expose the application's port
 EXPOSE 8080
