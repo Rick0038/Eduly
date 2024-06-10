@@ -5,7 +5,7 @@ import {
   Select,
   Slider,
   Text,
-  TextInput,
+  // TextInput,
 } from '@mantine/core';
 import {
   languages,
@@ -18,7 +18,7 @@ import {
   IconCalendar,
   IconCurrencyEuro,
   IconLanguage,
-  IconLocation,
+  // IconLocation,
   IconStar,
 } from '@tabler/icons-react';
 
@@ -29,7 +29,7 @@ export function Filters() {
     <Group>
       <h2 className='text-xl font-semibold'>Filters</h2>
 
-      <Group>
+      {/* <Group>
         <TextInput
           label={
             <Flex justify='center' align='center'>
@@ -45,7 +45,7 @@ export function Filters() {
             handleChange('location')(event.currentTarget.value)
           }
         />
-      </Group>
+      </Group> */}
 
       <Group className='w-full mb-4 mr-1'>
         <Flex justify='center' align='center'>
