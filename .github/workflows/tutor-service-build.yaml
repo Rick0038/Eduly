@@ -9,7 +9,13 @@ on:
   push:
     branches:
       - sagnik-dev  # pipeline target branch to push changes
-
+      - aashay-dev
+  workflow_dispatch:  # Manual trigger
+    branches:
+      - master
+      - dev
+      - sagnik-dev
+      - aashay-dev
 jobs:
   build:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref != 'sagnik-dev'
@@ -19,8 +25,8 @@ jobs:
     - name: Checkout repository and pull request branch
       uses: actions/checkout@v2
       with:
-        ref: ${{ github.event.pull_request ? github.event.pull_request.head.ref : github.event.ref }}
-
+        ref: ${{ github.event.pull_request.head.ref }} 
+        
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
