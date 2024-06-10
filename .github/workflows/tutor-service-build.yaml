@@ -61,7 +61,10 @@ jobs:
       run: scp -o StrictHostKeyChecking=no tutor-service.tar svc-ci@20.224.153.213:/home/svc-ci/deploy
 
     - name: Copy Docker Compose file to server
-      run: scp -o StrictHostKeyChecking=no docker-compose.yml svc-ci@20.224.153.213:/home/svc-ci/deploy
+      run: |
+        pwd
+        ls
+        scp -o StrictHostKeyChecking=no docker-compose.yml svc-ci@20.224.153.213:/home/svc-ci/deploy
       working-directory: ./backend/Tutor-Service
 
     - name: Deploy Docker image on remote server
