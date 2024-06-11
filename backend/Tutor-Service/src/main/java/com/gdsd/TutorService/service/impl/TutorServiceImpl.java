@@ -26,6 +26,7 @@ public class TutorServiceImpl implements TutorService {
         Tutor tutor = modelMapper.map(tutorRequestDto, Tutor.class);
         tutor.setTutorId(null);
         tutorRepository.save(tutor);
+        //Todo if Tutor with given email already exists
 
         return "New Tutor with id: " + tutor.getTutorId() + " and email: "
                 + tutor.getEmail() + "successfully created";
