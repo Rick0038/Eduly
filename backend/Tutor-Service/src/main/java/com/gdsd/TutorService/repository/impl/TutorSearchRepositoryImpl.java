@@ -36,10 +36,10 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
 
 
         if (pricingMin != null) {
-            queryBuilder.append(" AND top.price >= :pricingMin");
+            queryBuilder.append(" AND tut.price >= :pricingMin");
         }
         if (pricingMax != null) {
-            queryBuilder.append(" AND top.price <= :pricingMax");
+            queryBuilder.append(" AND tut.price <= :pricingMax");
         }
         if (ratingsMin != null) {
             queryBuilder.append(" AND tut.rating >= :ratingsMin");
@@ -51,7 +51,7 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
             queryBuilder.append(" AND tut.language = :language");
         }
         if (experienceMin != null) {
-            queryBuilder.append(" AND top.experience >= :experienceMin");
+            queryBuilder.append(" AND tut.experience >= :experienceMin");
         }
 
         Query query = entityManager.createNativeQuery(queryBuilder.toString());
