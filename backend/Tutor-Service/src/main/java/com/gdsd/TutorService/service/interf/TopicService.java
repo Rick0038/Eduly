@@ -1,4 +1,4 @@
-package com.gdsd.TutorService.service;
+package com.gdsd.TutorService.service.interf;
 
 import com.gdsd.TutorService.dto.Topic.TopicRequestDto;
 import com.gdsd.TutorService.dto.Topic.TopicResponseDto;

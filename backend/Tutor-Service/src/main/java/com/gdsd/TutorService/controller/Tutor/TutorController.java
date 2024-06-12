@@ -3,7 +3,7 @@ package com.gdsd.TutorService.controller.Tutor;
 import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
 import com.gdsd.TutorService.dto.Tutor.TutorResponseDto;
 import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
-import com.gdsd.TutorService.service.TutorService;
+import com.gdsd.TutorService.service.interf.TutorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -6,7 +6,7 @@ import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
 import com.gdsd.TutorService.exception.ResourceNotFoundException;
 import com.gdsd.TutorService.model.Tutor;
 import com.gdsd.TutorService.repository.TutorRepository;
-import com.gdsd.TutorService.service.TutorService;
+import com.gdsd.TutorService.service.interf.TutorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

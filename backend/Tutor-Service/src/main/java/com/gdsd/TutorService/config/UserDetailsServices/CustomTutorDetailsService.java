@@ -1,4 +1,4 @@
-package com.gdsd.TutorService.config;
+package com.gdsd.TutorService.config.UserDetailsServices;
 
 import com.gdsd.TutorService.exception.GenericTutorException;
 import com.gdsd.TutorService.model.Tutor;

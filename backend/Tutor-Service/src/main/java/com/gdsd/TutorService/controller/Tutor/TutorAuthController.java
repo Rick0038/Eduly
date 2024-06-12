@@ -1,6 +1,6 @@
 package com.gdsd.TutorService.controller.Tutor;
 
-import com.gdsd.TutorService.config.CustomTutorDetailsService;
+import com.gdsd.TutorService.config.UserDetailsServices.CustomTutorDetailsService;
 import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
 import com.gdsd.TutorService.dto.Tutor.TutorLoginRequestDto;
 import com.gdsd.TutorService.dto.Tutor.TutorLoginResponseDto;

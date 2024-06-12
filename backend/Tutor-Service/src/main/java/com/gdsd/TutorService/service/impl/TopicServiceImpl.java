@@ -7,7 +7,7 @@ import com.gdsd.TutorService.model.Topic;
 import com.gdsd.TutorService.model.Tutor;
 import com.gdsd.TutorService.repository.TopicRepository;
 import com.gdsd.TutorService.repository.TutorRepository;
-import com.gdsd.TutorService.service.TopicService;
+import com.gdsd.TutorService.service.interf.TopicService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
