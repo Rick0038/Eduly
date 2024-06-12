@@ -1,5 +1,5 @@
 #React app image
-FROM node:lts-alpine as build
+FROM node:18-alpine as build
 
 ENV APP_API_URL http://20.224.153.213:8080
 
@@ -7,7 +7,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm ci
+RUN npm install
 
 COPY . .
 
