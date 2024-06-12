@@ -1,4 +1,4 @@
-export APP_API_URL="http://20.224.153.213:8080"
+export APP_API_URL="http://20.224.153.213:5001"
 
 npm run build
 
