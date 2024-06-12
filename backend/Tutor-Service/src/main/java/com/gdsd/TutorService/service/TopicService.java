@@ -1,8 +1,7 @@
 package com.gdsd.TutorService.service;
 
-import com.gdsd.TutorService.dto.TopicRequestDto;
-import com.gdsd.TutorService.dto.TopicResponseDto;
-import com.gdsd.TutorService.model.Topic;
+import com.gdsd.TutorService.dto.Topic.TopicRequestDto;
+import com.gdsd.TutorService.dto.Topic.TopicResponseDto;
 
 public interface TopicService {
     public String addTopic(TopicRequestDto topicRequestDto);

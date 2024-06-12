@@ -1,4 +1,4 @@
-package com.gdsd.TutorService.config;
+package com.gdsd.TutorService.config.GeneralSecurityConfig;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,4 +1,4 @@
-package com.gdsd.TutorService.config;
+package com.gdsd.TutorService.config.GeneralSecurityConfig;
 
 
 import jakarta.servlet.FilterChain;

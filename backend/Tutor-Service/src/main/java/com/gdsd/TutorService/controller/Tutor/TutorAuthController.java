@@ -1,9 +1,9 @@
-package com.gdsd.TutorService.controller;
+package com.gdsd.TutorService.controller.Tutor;
 
 import com.gdsd.TutorService.config.CustomTutorDetailsService;
-import com.gdsd.TutorService.config.JwtTokenProvider;
-import com.gdsd.TutorService.dto.TutorLoginRequestDto;
-import com.gdsd.TutorService.dto.TutorLoginResponseDto;
+import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
+import com.gdsd.TutorService.dto.Tutor.TutorLoginRequestDto;
+import com.gdsd.TutorService.dto.Tutor.TutorLoginResponseDto;
 import com.gdsd.TutorService.exception.GenericTutorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

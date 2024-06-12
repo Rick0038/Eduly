@@ -1,6 +1,6 @@
 package com.gdsd.TutorService.repository.impl;
 
-import com.gdsd.TutorService.dto.TutorSearchResponseDto;
+import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
 import com.gdsd.TutorService.repository.TutorSearchRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

@@ -1,20 +1,13 @@
-package com.gdsd.TutorService.dto;
+package com.gdsd.TutorService.dto.Topic;
 
-public class TopicResponseDto {
-    private Integer topicId;
+import com.gdsd.TutorService.model.Tutor;
+import jakarta.persistence.*;
+
+public class TopicRequestDto {
     private Integer tutorId;
     private String topicName;
 
-
-    public TopicResponseDto() {
-    }
-
-    public Integer getTopicId() {
-        return topicId;
-    }
-
-    public void setTopicId(Integer topicId) {
-        this.topicId = topicId;
+    public TopicRequestDto() {
     }
 
     public Integer getTutorId() {

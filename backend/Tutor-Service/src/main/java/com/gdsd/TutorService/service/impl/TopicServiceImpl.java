@@ -1,7 +1,7 @@
 package com.gdsd.TutorService.service.impl;
 
-import com.gdsd.TutorService.dto.TopicRequestDto;
-import com.gdsd.TutorService.dto.TopicResponseDto;
+import com.gdsd.TutorService.dto.Topic.TopicRequestDto;
+import com.gdsd.TutorService.dto.Topic.TopicResponseDto;
 import com.gdsd.TutorService.exception.ResourceNotFoundException;
 import com.gdsd.TutorService.model.Topic;
 import com.gdsd.TutorService.model.Tutor;

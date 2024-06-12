@@ -1,6 +1,6 @@
 package com.gdsd.TutorService.repository;
 
-import com.gdsd.TutorService.dto.TutorSearchResponseDto;
+import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.gdsd.TutorService.service.impl;
 
-import com.gdsd.TutorService.dto.TutorRequestDto;
-import com.gdsd.TutorService.dto.TutorResponseDto;
-import com.gdsd.TutorService.dto.TutorSearchResponseDto;
+import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
+import com.gdsd.TutorService.dto.Tutor.TutorResponseDto;
+import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
 import com.gdsd.TutorService.exception.ResourceNotFoundException;
 import com.gdsd.TutorService.model.Tutor;
 import com.gdsd.TutorService.repository.TutorRepository;

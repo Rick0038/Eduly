@@ -1,8 +1,8 @@
-package com.gdsd.TutorService.controller;
+package com.gdsd.TutorService.controller.Tutor;
 
-import com.gdsd.TutorService.dto.TutorRequestDto;
-import com.gdsd.TutorService.dto.TutorResponseDto;
-import com.gdsd.TutorService.dto.TutorSearchResponseDto;
+import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
+import com.gdsd.TutorService.dto.Tutor.TutorResponseDto;
+import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
 import com.gdsd.TutorService.service.TutorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.gdsd.TutorService.dto;
+package com.gdsd.TutorService.dto.Tutor;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
