@@ -19,4 +19,13 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(GenericTutorException.class)
+    public ResponseEntity<Map> genericException(GenericTutorException ex) {
+        String message = ex.getMessage();
+        Map<String, String> apiResponse = new HashMap<>();
+        apiResponse.put("message", message);
+
+        return new ResponseEntity<>(apiResponse, ex.getHttpStatus());
+    }
 }
