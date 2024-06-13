@@ -51,7 +51,6 @@ export function SignUp() {
             <TextInput
               label='First name'
               placeholder='First name'
-              required
               {...form.getInputProps('firstName')}
             />
             <TextInput
