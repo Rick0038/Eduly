@@ -12,11 +12,16 @@ import { SearchTutor } from './SearchTutor';
 import { Link } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 
-export function Header() {
+interface HeaderProps {
+  as?: React.ElementType;
+}
+
+export function Header(props: HeaderProps) {
+  const { as: Component = AppShell.Header } = props;
   const [opened, { toggle }] = useDisclosure(false);
 
   return (
-    <AppShell.Header>
+    <Component className='h-[48px] sm:h-[60px] border-b'>
       <Flex justify='space-between' align='center' h='100%' px='md'>
         <Flex justify='flex-start' align='center' gap={5}>
           <Group>
@@ -58,6 +63,6 @@ export function Header() {
           </Group>
         </Flex>
       </Flex>
-    </AppShell.Header>
+    </Component>
   );
 }

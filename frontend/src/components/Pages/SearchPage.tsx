@@ -14,7 +14,7 @@ import {
 } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { IconAdjustments } from '@tabler/icons-react';
-import { getTutors } from '../../service/searchApi';
+import { getTutors } from '../../service/getTutors';
 import TutorCard from '../TutorCard';
 import { Filters } from '../Filters';
 

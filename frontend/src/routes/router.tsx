@@ -1,5 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { HomeLayout, HomePage, NotFound, SearchPage } from '../components';
+import {
+  HomeLayout,
+  HomePage,
+  NotFound,
+  SearchPage,
+  MessagePage,
+  MessageLayout,
+} from '../components';
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +23,20 @@ export const router = createBrowserRouter([
       {
         path: '*',
         element: <NotFound />,
+      },
+    ],
+  },
+  {
+    path: '/messages',
+    element: <MessageLayout />,
+    children: [
+      {
+        path: '',
+        element: <MessagePage />,
+      },
+      {
+        path: ':id',
+        element: <MessagePage />,
       },
     ],
   },

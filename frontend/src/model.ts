@@ -16,3 +16,25 @@ export interface Tutor {
   numLessonsTaught: number;
   profileImgLink: string;
 }
+
+export interface Conversations {
+  conversations: Conversation[];
+}
+
+export interface Conversation {
+  id: string;
+  user: string;
+  timestamp: string;
+}
+
+export interface Chats {
+  messages: Message[];
+}
+
+export interface Message {
+  id: string;
+  sender: string;
+  receiver: string;
+  content: string;
+  timestamp: string;
+}

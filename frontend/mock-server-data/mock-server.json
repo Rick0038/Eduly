@@ -81,6 +81,83 @@
           "default": true,
           "crudKey": "id",
           "callbacks": []
+        },
+        {
+          "uuid": "32d0d28f-63a3-492b-896d-f970ee2ba646",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "0b7441ef-0521-4755-aba0-e8b0e90c3cac",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/conversations",
+      "responses": [
+        {
+          "uuid": "4db6b4fc-c984-4545-b506-dece0071506c",
+          "body": "{\n  \"conversations\": [\n    {\n      \"id\": \"1\",\n      \"user\": \"John Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"2\",\n      \"user\": \"Jane Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"3\",\n      \"user\": \"James Doe\",\n      \"timestamp\": \"21323321\"\n    },\n  ]\n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "6865a90d-dc80-4f8e-8730-0b044323295b",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/chat/2",
+      "responses": [
+        {
+          "uuid": "df409cab-56dd-44ff-9244-b8d51777197e",
+          "body": "{\n  \"messages\": [\n    {\n      \"id\": \"1\",\n      \"receiver\": \"Smith\",\n      \"sender\": \"John Doe\",\n      \"content\": \"Hey Smith!\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"2\",\n      \"receiver\": \"Smith\",\n      \"sender\": \"John Doe\",\n      \"content\": \"How are you?\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"3\",\n      \"receiver\": \"John Doe\",\n      \"sender\": \"Smith\",\n      \"content\": \"I am doing well, and you?\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"4\",\n      \"receiver\": \"Smith\",\n      \"sender\": \"John Doe\",\n      \"content\": \"All good, have a good one!\",\n      \"timestamp\": \"21323321\"\n    },\n  ]\n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
       "responseMode": null
@@ -94,6 +171,14 @@
     {
       "type": "route",
       "uuid": "09db5e2a-8503-4689-8311-3815ac8efe8c"
+    },
+    {
+      "type": "route",
+      "uuid": "0b7441ef-0521-4755-aba0-e8b0e90c3cac"
+    },
+    {
+      "type": "route",
+      "uuid": "6865a90d-dc80-4f8e-8730-0b044323295b"
     }
   ],
   "proxyMode": false,
