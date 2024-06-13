@@ -9,14 +9,14 @@ export const getChatMessages = async (id: string) => {
   //   messages: [
   //     {
   //       id: '1',
-  //       receiver: 'Smith',
+  //       receiver: 'You',
   //       sender: 'John Doe',
   //       content: 'Hey Smith!',
   //       timestamp: '12321321',
   //     },
   //     {
   //       id: '2',
-  //       receiver: 'Smith',
+  //       receiver: 'You',
   //       sender: 'John Doe',
   //       content: 'How are you?',
   //       timestamp: '12321321',
@@ -24,13 +24,13 @@ export const getChatMessages = async (id: string) => {
   //     {
   //       id: '3',
   //       receiver: 'John Doe',
-  //       sender: 'Smith',
+  //       sender: 'You',
   //       content: 'I am doing well, and you?',
   //       timestamp: '12321321',
   //     },
   //     {
   //       id: '4',
-  //       receiver: 'Smith',
+  //       receiver: 'You',
   //       sender: 'John Doe',
   //       content: 'All good, have a good one!',
   //       timestamp: '21323321',

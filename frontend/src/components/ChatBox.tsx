@@ -55,7 +55,7 @@ export function ChatBox(props?: ChatBoxProps) {
         <div className='flex-1 overflow-y-auto p-4'>
           {data.messages.map((msg, index) => (
             <Card key={`${msg.id}-${index}`} className='mb-2' shadow='sm'>
-              <div className='flex items-center mb-2'>
+              <Flex align='center' mb='xs'>
                 <Avatar
                   size='sm'
                   color={msg.sender === 'You' ? 'green' : 'blue'}
@@ -66,7 +66,7 @@ export function ChatBox(props?: ChatBoxProps) {
                     {msg.timestamp}
                   </span>
                 </div>
-              </div>
+              </Flex>
               <Text>{msg.content}</Text>
             </Card>
           ))}
