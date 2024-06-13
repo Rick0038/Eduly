@@ -64,7 +64,7 @@ export function SearchPage() {
   };
 
   const [activePage, setActivePage] = useState(1);
-  const resultsPerPage = 3;
+  const resultsPerPage = 10;
 
   return (
     <Container size='xl' px='md'>
