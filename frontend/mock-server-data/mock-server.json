@@ -33,11 +33,21 @@
           "default": true,
           "crudKey": "id",
           "callbacks": []
-        },
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "09db5e2a-8503-4689-8311-3815ac8efe8c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tutor/search",
+      "responses": [
         {
-          "uuid": "f328f2cc-f392-4f70-968e-ccf1d78d0b07",
-          "body": "{}",
-          "latency": 0,
+          "uuid": "3a784ea1-67cc-454b-8ab4-7719300d019c",
+          "body": "{\n  \"tutors\": [\n    {\n      \"id\": \"12345\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"pricing\": 40,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 100,\n      \"topic\": \"Math\",\n      \"language\": \"English\",\n      \"experience\": 5,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 10,\n      \"profileImgLink\": \"https://www.wyzant.com/images/tutor/silhouette.png\"\n    },\n    {\n      \"id\": \"67890\",\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Smith\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 27,\n      \"topic\": \"Physics\",\n      \"language\": \"English\",\n      \"experience\": 3,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 20,\n      \"profileImgLink\": \"https://www.wyzant.com/images/tutor/silhouette.png\"\n    }\n  ]\n}\n",
+          "latency": 1500,
           "statusCode": 200,
           "label": "",
           "headers": [],
@@ -52,21 +62,40 @@
           "default": false,
           "crudKey": "id",
           "callbacks": []
+        },
+        {
+          "uuid": "d9ec8ad1-e8ad-4d5f-8196-f64b45f0ff96",
+          "body": "{\n  \"tutors\": [\n    {\n      \"id\": \"12345\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"pricing\": 40,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 100,\n      \"topic\": \"Math\",\n      \"language\": \"English\",\n      \"experience\": 5,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 10,\n      \"profileImgLink\": \"https://www.wyzant.com/images/tutor/silhouette.png\"\n    },\n    {\n      \"id\": \"67890\",\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Smith\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 27,\n      \"topic\": \"Physics\",\n      \"language\": \"English\",\n      \"experience\": 3,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 20,\n      \"profileImgLink\": \"https://www.wyzant.com/images/tutor/silhouette.png\"\n    },\n    {\n      \"id\": \"12346\",\n      \"firstName\": \"Jonathan\",\n      \"lastName\": \"Woe\",\n      \"pricing\": 40,\n      \"rating\": 4.8,\n      \"numberOfRatings\": 35,\n      \"topic\": \"Mathematics\",\n      \"language\": \"English\",\n      \"experience\": 5,\n      \"intro\": \"John has a knack for making complex topics simple and understandable. With years of experience, he's helped many students excel in mathematics.\",\n      \"numLessonsTaught\": 50,\n      \"profileImgLink\": \"john.png\"\n    },\n    {\n      \"id\": \"23456\",\n      \"firstName\": \"Alice\",\n      \"lastName\": \"Johnson\",\n      \"pricing\": 30,\n      \"rating\": 4.5,\n      \"numberOfRatings\": 45,\n      \"topic\": \"Chemistry\",\n      \"language\": \"Spanish\",\n      \"experience\": 4,\n      \"intro\": \"Alice is passionate about chemistry and enjoys sharing her knowledge with students of all ages.\",\n      \"numLessonsTaught\": 60,\n      \"profileImgLink\": \"alice.png\"\n    },\n    {\n      \"id\": \"34567\",\n      \"firstName\": \"Michael\",\n      \"lastName\": \"Brown\",\n      \"pricing\": 45,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 50,\n      \"topic\": \"Biology\",\n      \"language\": \"English\",\n      \"experience\": 6,\n      \"intro\": \"Michael's enthusiasm for biology is contagious. He has a talent for making lessons engaging and informative.\",\n      \"numLessonsTaught\": 80,\n      \"profileImgLink\": \"michael.png\"\n    },\n    {\n      \"id\": \"45678\",\n      \"firstName\": \"Sarah\",\n      \"lastName\": \"Davis\",\n      \"pricing\": 25,\n      \"rating\": 4.4,\n      \"numberOfRatings\": 30,\n      \"topic\": \"History\",\n      \"language\": \"French\",\n      \"experience\": 2,\n      \"intro\": \"Sarah brings history to life with her captivating storytelling and deep knowledge of historical events.\",\n      \"numLessonsTaught\": 40,\n      \"profileImgLink\": \"sarah.png\"\n    },\n    {\n      \"id\": \"56789\",\n      \"firstName\": \"Robert\",\n      \"lastName\": \"Wilson\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 40,\n      \"topic\": \"Geography\",\n      \"language\": \"German\",\n      \"experience\": 3,\n      \"intro\": \"Robert's lessons are a journey around the world, filled with fascinating facts and insights.\",\n      \"numLessonsTaught\": 55,\n      \"profileImgLink\": \"robert.png\"\n    },\n    {\n      \"id\": \"67891\",\n      \"firstName\": \"Emily\",\n      \"lastName\": \"Martinez\",\n      \"pricing\": 28,\n      \"rating\": 4.3,\n      \"numberOfRatings\": 25,\n      \"topic\": \"Literature\",\n      \"language\": \"English\",\n      \"experience\": 4,\n      \"intro\": \"Emily's passion for literature shines through in every lesson. She loves helping students develop a love for reading.\",\n      \"numLessonsTaught\": 45,\n      \"profileImgLink\": \"emily.png\"\n    },\n    {\n      \"id\": \"78901\",\n      \"firstName\": \"David\",\n      \"lastName\": \"Lee\",\n      \"pricing\": 50,\n      \"rating\": 4.9,\n      \"numberOfRatings\": 60,\n      \"topic\": \"Physics\",\n      \"language\": \"English\",\n      \"experience\": 7,\n      \"intro\": \"David has a deep understanding of physics and a gift for explaining difficult concepts in an easy-to-understand way.\",\n      \"numLessonsTaught\": 100,\n      \"profileImgLink\": \"david.png\"\n    },\n    {\n      \"id\": \"89012\",\n      \"firstName\": \"Linda\",\n      \"lastName\": \"Taylor\",\n      \"pricing\": 32,\n      \"rating\": 4.5,\n      \"numberOfRatings\": 33,\n      \"topic\": \"Chemistry\",\n      \"language\": \"French\",\n      \"experience\": 5,\n      \"intro\": \"Linda's enthusiasm for chemistry is evident in every lesson. She enjoys helping students discover the wonders of the subject.\",\n      \"numLessonsTaught\": 70,\n      \"profileImgLink\": \"linda.png\"\n    },\n    {\n      \"id\": \"90123\",\n      \"firstName\": \"Daniel\",\n      \"lastName\": \"Anderson\",\n      \"pricing\": 38,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 48,\n      \"topic\": \"Mathematics\",\n      \"language\": \"English\",\n      \"experience\": 6,\n      \"intro\": \"Daniel is dedicated to helping students achieve their academic goals. His lessons are always well-organized and clear.\",\n      \"numLessonsTaught\": 85,\n      \"profileImgLink\": \"daniel.png\"\n    },\n    {\n      \"id\": \"01234\",\n      \"firstName\": \"Sophia\",\n      \"lastName\": \"Hernandez\",\n      \"pricing\": 29,\n      \"rating\": 4.4,\n      \"numberOfRatings\": 22,\n      \"topic\": \"History\",\n      \"language\": \"Spanish\",\n      \"experience\": 3,\n      \"intro\": \"Sophia makes history lessons fun and engaging. Her students appreciate her ability to connect past events to the present.\",\n      \"numLessonsTaught\": 35,\n      \"profileImgLink\": \"sophia.png\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
         }
       ],
       "responseMode": null
     },
     {
-      "uuid": "09db5e2a-8503-4689-8311-3815ac8efe8c",
+      "uuid": "c676a739-27a5-4466-a9d5-ca57fec7ab89",
       "type": "http",
       "documentation": "",
-      "method": "get",
-      "endpoint": "api/v1/tutor/search",
+      "method": "post",
+      "endpoint": "api/v1/auth/login",
       "responses": [
         {
-          "uuid": "3a784ea1-67cc-454b-8ab4-7719300d019c",
-          "body": "{\n  \"tutors\": [\n    {\n      \"id\": \"12345\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"pricing\": 40,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 100,\n      \"topic\": \"Math\",\n      \"language\": \"English\",\n      \"experience\": 5,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 10,\n      \"profileImgLink\": \"https://www.wyzant.com/images/tutor/silhouette.png\"\n    },\n    {\n      \"id\": \"67890\",\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Smith\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 27,\n      \"topic\": \"Physics\",\n      \"language\": \"English\",\n      \"experience\": 3,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 20,\n      \"profileImgLink\": \"https://www.wyzant.com/images/tutor/silhouette.png\"\n    }\n  ]\n}\n",
-          "latency": 1500,
+          "uuid": "e8d30084-7809-4699-a587-5bf931295b0e",
+          "body": "{\n  \n}",
+          "latency": 0,
           "statusCode": 200,
           "label": "",
           "headers": [],

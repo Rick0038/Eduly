@@ -9,6 +9,8 @@ import {
   Flex,
   Group,
   Loader,
+  NativeSelect,
+  Pagination,
   Stack,
   Text,
 } from '@mantine/core';
@@ -17,6 +19,7 @@ import { IconAdjustments } from '@tabler/icons-react';
 import { getTutors } from '../../service/getTutors';
 import TutorCard from '../TutorCard';
 import { Filters } from '../Filters';
+import { Tutor } from '../../model';
 
 export function SearchPage() {
   const [drawerOpened, setDrawerOpened] = useState(false);
@@ -31,6 +34,38 @@ export function SearchPage() {
     queryFn: () => getTutors(queryParams ?? ''),
   });
 
+  const availableSortTypes = ['Highest rating', 'Most popular', 'Lowest price'];
+  const [sortType, setSortType] = useState(availableSortTypes[0]);
+
+  const sortTutors = (selectedSortType: string) => {
+    setSortType(selectedSortType);
+    tutorsData?.tutors.sort((tutorA: Tutor, tutorB: Tutor) => {
+      if (selectedSortType === 'Highest rating') {
+        return tutorA.rating < tutorB.rating
+          ? 1
+          : tutorA.rating === tutorB.rating
+            ? 0
+            : -1;
+      } else if (selectedSortType === 'Most popular') {
+        return tutorA.numberOfRatings < tutorB.numberOfRatings
+          ? 1
+          : tutorA.numberOfRatings === tutorB.numberOfRatings
+            ? 0
+            : -1;
+      } else if (selectedSortType === 'Lowest price') {
+        return tutorA.pricing > tutorB.pricing
+          ? 1
+          : tutorA.pricing === tutorB.pricing
+            ? 0
+            : -1;
+      }
+      return 0;
+    });
+  };
+
+  const [activePage, setActivePage] = useState(1);
+  const resultsPerPage = 10;
+
   return (
     <Container size='xl' px='md'>
       <Flex>
@@ -39,6 +74,12 @@ export function SearchPage() {
           style={{ height: 'calc(100vh - 120px)' }}
           className='max-w-[200px]'
         >
+          <NativeSelect
+            label='Sort'
+            data={availableSortTypes}
+            value={sortType}
+            onChange={(event) => sortTutors(event.currentTarget.value)}
+          />
           <Filters />
         </Stack>
 
@@ -67,20 +108,47 @@ export function SearchPage() {
               padding='md'
               size='sm'
             >
+              <NativeSelect
+                label='Sort'
+                data={availableSortTypes}
+                value={sortType}
+                onChange={(event) => sortTutors(event.currentTarget.value)}
+              />
               <Filters onSubmit={() => setDrawerOpened(false)} />
             </Drawer>
           </Group>
-          {isLoading && (
-            <Center style={{ height: 'calc(100vh - 120px)' }}>
-              <Loader type='bars'></Loader>
-            </Center>
-          )}
-          {isError && (
-            <Text ta='center'>An error occurred while fetching tutors.</Text>
-          )}
-          {tutorsData?.tutors.map((tutor, index) => (
-            <TutorCard key={`${tutor.id}-${index}`} tutor={tutor} />
-          ))}
+          <Group>
+            {isLoading && (
+              <Container>
+                <Center style={{ height: 'calc(100vh - 120px)' }}>
+                  <Loader type='bars'></Loader>
+                </Center>
+              </Container>
+            )}
+            {isError && (
+              <Container>
+                <Text ta='center'>
+                  An error occurred while fetching tutors.
+                </Text>
+              </Container>
+            )}
+            {tutorsData?.tutors
+              .slice(
+                resultsPerPage * (activePage - 1),
+                resultsPerPage * activePage
+              )
+              .map((tutor) => <TutorCard key={tutor.id} tutor={tutor} />)}
+            {tutorsData && tutorsData.tutors && (
+              <Container mb={40}>
+                <Pagination
+                  value={activePage}
+                  onChange={setActivePage}
+                  total={Math.ceil(tutorsData.tutors.length / resultsPerPage)}
+                  mt={'sm'}
+                ></Pagination>
+              </Container>
+            )}
+          </Group>
         </Stack>
       </Flex>
     </Container>
