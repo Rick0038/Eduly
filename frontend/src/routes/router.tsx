@@ -1,8 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { HomeLayout, HomePage, NotFound, SearchPage } from '../components';
+import { Unauthorized } from '../components/Unauthorized/NotFound';
 import { GuardedRoute } from '../components/auth/GuardedRoute';
 import { Login } from '../components/auth/Login';
 import { SignUp } from '../components/auth/SignUp';
+import { ROLE } from '../constant';
 
 export const router = createBrowserRouter([
   {
@@ -27,10 +29,14 @@ export const router = createBrowserRouter([
       {
         path: '/test',
         element: (
-          <GuardedRoute>
+          <GuardedRoute allowedRoles={[ROLE.STUDENT]}>
             <p>I am guarded!!</p>
           </GuardedRoute>
         ),
+      },
+      {
+        path: '/unauthorized',
+        element: <Unauthorized />,
       },
       {
         path: '*',

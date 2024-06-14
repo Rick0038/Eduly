@@ -11,11 +11,9 @@ import {
 import { useForm } from '@mantine/form';
 import { useLocation, useNavigate } from 'react-router';
 import { ROLE } from '../../constant';
-import { useAuth } from '../../hooks';
 import { setUserInfoToLocalStorage } from '../../util/userInfo';
 
 export function Login() {
-  const { setAuth } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -60,7 +58,6 @@ export function Login() {
               profileImgLink: 'blah.com',
             };
             setUserInfoToLocalStorage(auth);
-            setAuth(auth);
             navigate(fromPath, { replace: true });
           })}
         >
