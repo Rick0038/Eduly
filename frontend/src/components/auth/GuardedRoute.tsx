@@ -7,8 +7,6 @@ export const GuardedRoute: FC<{ children: React.JSX.Element }> = ({
 }) => {
   const { isAuthenticated } = useAuth();
 
-  console.log(isAuthenticated);
-
   if (!isAuthenticated) {
     return <Navigate to='/login' />;
   }
