@@ -6,9 +6,10 @@ public class TutorSearchResponseDto {
     private String lastName;
     private Double pricing;
     private Double rating;
+    private Integer numberOfRatings;
     private String topic;
     private String language;
-    private Double experience;
+    private Integer numLessonsTaught;
     private String intro;
     private String profileImgLink;
 
@@ -55,6 +56,14 @@ public class TutorSearchResponseDto {
         this.rating = rating;
     }
 
+    public Integer getNumberOfRatings() {
+        return numberOfRatings;
+    }
+
+    public void setNumberOfRatings(Integer numberOfRatings) {
+        this.numberOfRatings = numberOfRatings;
+    }
+
     public String getTopic() {
         return topic;
     }
@@ -71,12 +80,12 @@ public class TutorSearchResponseDto {
         this.language = language;
     }
 
-    public Double getExperience() {
-        return experience;
+    public Integer getNumLessonsTaught() {
+        return numLessonsTaught;
     }
 
-    public void setExperience(Double experience) {
-        this.experience = experience;
+    public void setNumLessonsTaught(Integer numLessonsTaught) {
+        this.numLessonsTaught = numLessonsTaught;
     }
 
     public String getIntro() {

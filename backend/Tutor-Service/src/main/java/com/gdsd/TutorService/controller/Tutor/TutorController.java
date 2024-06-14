@@ -43,8 +43,7 @@ public class TutorController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Map> searchTutors(@RequestParam(required = false) String location,
-                                                @RequestParam(required = false) Double pricingMin,
+    public ResponseEntity<Map> searchTutors(@RequestParam(required = false) Double pricingMin,
                                                 @RequestParam(required = false) Double pricingMax,
                                                 @RequestParam(required = false) Double ratingsMin,
                                                 @RequestParam(required = false) String topic,

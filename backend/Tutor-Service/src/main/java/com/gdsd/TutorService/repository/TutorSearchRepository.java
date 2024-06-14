@@ -7,6 +7,7 @@ import java.util.List;
 
 @Repository
 public interface TutorSearchRepository {
-    List<TutorSearchResponseDto> searchTutors(Double pricingMin, Double pricingMax, Double ratingsMin,
-                                              String topic, String language, Integer experienceMin);
+    List<TutorSearchResponseDto> searchTutors(Double pricingMin,
+                                              Double pricingMax, Double ratingsMin,
+                                              String topic, String language);
 }

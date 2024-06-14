@@ -20,14 +20,6 @@ public class Tutor {
     private String language;
     private String email;
     private String password;
-    @Column(name = "videoLink")
-    private String videoLink;
-
-    @Column(name = "cvLink")
-    private String cvLink;
-
-    @Column(name = "profilePicture")
-    private String profilePicture;
     private Double rating;
 
     @Column(name = "isBanned")
@@ -36,11 +28,17 @@ public class Tutor {
     @Column(name = "isLocked")
     private Boolean isLocked;
 
+    private String status;
+
     private String intro;
 
     private Double price;
 
-    private Double experience;
+    @Column(name = "numLessonsTaught")
+    private Integer numLessonsTaught;
+
+    @Column(name = "numberOfRatings")
+    private Integer numberOfRatings;
 
 //Todo- cascading in db tables. if tutor deleted then associated topics, quali should also be deleted
 
@@ -95,30 +93,6 @@ public class Tutor {
         this.password = password;
     }
 
-    public String getVideoLink() {
-        return videoLink;
-    }
-
-    public void setVideoLink(String videoLink) {
-        this.videoLink = videoLink;
-    }
-
-    public String getCvLink() {
-        return cvLink;
-    }
-
-    public void setCvLink(String cvLink) {
-        this.cvLink = cvLink;
-    }
-
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
     public Double getRating() {
         return rating;
     }
@@ -143,6 +117,13 @@ public class Tutor {
         isLocked = locked;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getIntro() {
         return intro;
@@ -150,6 +131,14 @@ public class Tutor {
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public Integer getNumLessonsTaught() {
+        return numLessonsTaught;
+    }
+
+    public void setNumLessonsTaught(Integer numLessonsTaught) {
+        this.numLessonsTaught = numLessonsTaught;
     }
 
     public Double getPrice() {
@@ -160,12 +149,12 @@ public class Tutor {
         this.price = price;
     }
 
-    public Double getExperience() {
-        return experience;
+    public Integer getNumberOfRatings() {
+        return numberOfRatings;
     }
 
-    public void setExperience(Double experience) {
-        this.experience = experience;
+    public void setNumberOfRatings(Integer numberOfRatings) {
+        this.numberOfRatings = numberOfRatings;
     }
 
     @Override
@@ -174,7 +163,7 @@ public class Tutor {
                 "tutorId=" + tutorId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", language='" + language + '\'' +
-                ", email='" + email;
+                ", email='" + email + '\'' +
+                '}';
     }
 }

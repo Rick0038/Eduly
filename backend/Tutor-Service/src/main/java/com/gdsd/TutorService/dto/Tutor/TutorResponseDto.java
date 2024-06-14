@@ -1,23 +1,18 @@
 package com.gdsd.TutorService.dto.Tutor;
 
+
 public class TutorResponseDto {
     private Integer tutorId;
     private String firstName;
     private String lastName;
     private String language;
-    private String videoLink;
-    private String cvLink;
-    private String profilePicture;
+    private String email;
     private Double rating;
-    private Boolean isBanned;
-    private Boolean isLocked;
-
+    private String status;
+    private String intro;
     private Double price;
-
-    private Double experience;
-
-    public TutorResponseDto() {
-    }
+    private Integer numLessonsTaught;
+    private Integer numberOfRatings;
 
     public Integer getTutorId() {
         return tutorId;
@@ -51,28 +46,12 @@ public class TutorResponseDto {
         this.language = language;
     }
 
-    public String getVideoLink() {
-        return videoLink;
+    public String getEmail() {
+        return email;
     }
 
-    public void setVideoLink(String videoLink) {
-        this.videoLink = videoLink;
-    }
-
-    public String getCvLink() {
-        return cvLink;
-    }
-
-    public void setCvLink(String cvLink) {
-        this.cvLink = cvLink;
-    }
-
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Double getRating() {
@@ -83,20 +62,20 @@ public class TutorResponseDto {
         this.rating = rating;
     }
 
-    public Boolean getBanned() {
-        return isBanned;
+    public String getStatus() {
+        return status;
     }
 
-    public void setBanned(Boolean banned) {
-        isBanned = banned;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public Boolean getLocked() {
-        return isLocked;
+    public String getIntro() {
+        return intro;
     }
 
-    public void setLocked(Boolean locked) {
-        isLocked = locked;
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 
     public Double getPrice() {
@@ -107,11 +86,19 @@ public class TutorResponseDto {
         this.price = price;
     }
 
-    public Double getExperience() {
-        return experience;
+    public Integer getNumLessonsTaught() {
+        return numLessonsTaught;
     }
 
-    public void setExperience(Double experience) {
-        this.experience = experience;
+    public void setNumLessonsTaught(Integer numLessonsTaught) {
+        this.numLessonsTaught = numLessonsTaught;
+    }
+
+    public Integer getNumberOfRatings() {
+        return numberOfRatings;
+    }
+
+    public void setNumberOfRatings(Integer numberOfRatings) {
+        this.numberOfRatings = numberOfRatings;
     }
 }

@@ -17,8 +17,7 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
     @Override
     public List<TutorSearchResponseDto> searchTutors(Double pricingMin,
                                                      Double pricingMax, Double ratingsMin,
-                                                     String topic, String language,
-                                                     Integer experienceMin) {
+                                                     String topic, String language) {
 
         StringBuilder queryBuilder = new StringBuilder(
                 "SELECT tut.tutorId AS tutorId, " +
@@ -26,13 +25,16 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
                         "tut.lastName AS lastName, " +
                         "tut.price AS pricing, " +
                         "tut.rating AS rating, " +
+                        "tut.numberOfRatings AS numberOfRatings, " +
                         "top.topicName AS topic, " +
                         "tut.language AS language, " +
-                        "tut.experience AS experience, " +
+                        "tut.numLessonsTaught AS numLessonsTaught, " +
                         "tut.intro AS intro, " +
-                        "tut.profilePicture AS profileImgLink " +
+                        "content.contentLink AS profileImgLink " +
                         "FROM tutor_user_det tut " +
-                        "JOIN tutor_topic_det top ON tut.tutorId = top.tutorId WHERE 1=1");
+                        "JOIN tutor_topic_det top ON tut.tutorId = top.tutorId " +
+                        "JOIN tutor_profile_content content ON tut.tutorId = content.tutorId " +  // Join with tutor_course_det table
+                        "WHERE 1=1 AND content.contentType= 'profile_image'");
 
 
         if (pricingMin != null) {
@@ -50,9 +52,7 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
         if (language != null) {
             queryBuilder.append(" AND tut.language = :language");
         }
-        if (experienceMin != null) {
-            queryBuilder.append(" AND tut.experience >= :experienceMin");
-        }
+
 
         Query query = entityManager.createNativeQuery(queryBuilder.toString());
 
@@ -71,9 +71,7 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
         if (language != null) {
             query.setParameter("language", language);
         }
-        if (experienceMin != null) {
-            query.setParameter("experienceMin", experienceMin);
-        }
+
 
         List<Object[]> results = query.getResultList();
         List<TutorSearchResponseDto> dtos = new ArrayList<>();
@@ -86,12 +84,12 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
             dto.setLastName((String) result[2]);
             dto.setPricing(((Number) result[3]).doubleValue());
             dto.setRating(((Number) result[4]).doubleValue());
-            dto.setTopic((String) result[5]);
-            dto.setLanguage((String) result[6]);
-            dto.setExperience(((Number) result[7]).doubleValue());
-            dto.setIntro((String) result[8]);
-            dto.setProfileImgLink((String) result[9]);
-
+            dto.setNumberOfRatings(((Number) result[5]).intValue());
+            dto.setTopic((String) result[6]);
+            dto.setLanguage((String) result[7]);
+            dto.setNumLessonsTaught(((Number) result[8]).intValue());
+            dto.setIntro((String) result[9]);
+            dto.setProfileImgLink((String) result[10]);
             dtos.add(dto);
         }
 
