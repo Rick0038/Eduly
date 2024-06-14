@@ -3,8 +3,7 @@ import { ReactNode, createContext, useState } from 'react';
 
 export interface AuthContextType {
   isAuthenticated: boolean;
-  login: () => void;
-  logout: () => void;
+  setIsAuthenticated: (isAuth: boolean) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -16,18 +15,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.getItem('token') ? true : false
   );
 
-  // todo implement proper login and sign up
-  const login = () => {
-    localStorage.setItem('token', 'yo');
-    setIsAuthenticated(true);
-  };
-  const logout = () => {
-    localStorage.clear();
-    setIsAuthenticated(false);
-  };
-
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

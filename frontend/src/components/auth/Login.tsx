@@ -9,10 +9,16 @@ import {
   Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../../hooks';
 
 export function Login() {
-  const { login } = useAuth();
+  const { setIsAuthenticated } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // to go back to same page after login instead of going to home page
+  const fromPath = location.state?.from || '/';
 
   const form = useForm({
     initialValues: {
@@ -41,8 +47,11 @@ export function Login() {
       <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
         <form
           onSubmit={form.onSubmit((values) => {
+            // todo implement proper login
             console.log(values);
-            login();
+            localStorage.setItem('token', 'yo');
+            setIsAuthenticated(true);
+            navigate(fromPath);
           })}
         >
           <Stack>
