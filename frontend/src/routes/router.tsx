@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { HomeLayout, HomePage, NotFound, SearchPage } from '../components';
-import { Unauthorized } from '../components/Unauthorized/NotFound';
+import { Unauthorized } from '../components/Unauthorized/Unauthorized';
 import { GuardedRoute } from '../components/auth/GuardedRoute';
 import { Login } from '../components/auth/Login';
 import { SignUp } from '../components/auth/SignUp';
