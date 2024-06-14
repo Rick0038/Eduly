@@ -9,8 +9,11 @@ import {
   Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useAuth } from '../../hooks';
 
 export function Login() {
+  const { login } = useAuth();
+
   const form = useForm({
     initialValues: {
       role: 'Tutor',
@@ -36,7 +39,12 @@ export function Login() {
       <Title ta='center'>Welcome back!</Title>
 
       <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
-        <form onSubmit={form.onSubmit((values) => console.log(values))}>
+        <form
+          onSubmit={form.onSubmit((values) => {
+            console.log(values);
+            login();
+          })}
+        >
           <Stack>
             <NativeSelect
               label='Role'

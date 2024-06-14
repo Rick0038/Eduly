@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { HomeLayout, HomePage, NotFound, SearchPage } from '../components';
+import { GuardedRoute } from '../components/auth/GuardedRoute';
 import { Login } from '../components/auth/Login';
 import { SignUp } from '../components/auth/SignUp';
 
@@ -22,6 +23,14 @@ export const router = createBrowserRouter([
       {
         path: '/register',
         element: <SignUp />,
+      },
+      {
+        path: '/test',
+        element: (
+          <GuardedRoute>
+            <p>I am guarded!!</p>
+          </GuardedRoute>
+        ),
       },
       {
         path: '*',
