@@ -40,6 +40,9 @@ public class Tutor {
     @Column(name = "numberOfRatings")
     private Integer numberOfRatings;
 
+    @Column(name = "bbbLink")
+    private String bbbLink;
+
 //Todo- cascading in db tables. if tutor deleted then associated topics, quali should also be deleted
 
     public Tutor() {
@@ -155,6 +158,14 @@ public class Tutor {
 
     public void setNumberOfRatings(Integer numberOfRatings) {
         this.numberOfRatings = numberOfRatings;
+    }
+
+    public String getBbbLink() {
+        return bbbLink;
+    }
+
+    public void setBbbLink(String bbbLink) {
+        this.bbbLink = bbbLink;
     }
 
     @Override

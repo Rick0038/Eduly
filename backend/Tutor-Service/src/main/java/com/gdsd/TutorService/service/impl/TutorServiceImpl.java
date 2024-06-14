@@ -25,6 +25,11 @@ public class TutorServiceImpl implements TutorService {
     public String createTutor(TutorRequestDto tutorRequestDto) {
         Tutor tutor = modelMapper.map(tutorRequestDto, Tutor.class);
         tutor.setTutorId(null);
+        tutor.setRating(0.0);
+        tutor.setNumLessonsTaught(0);
+        tutor.setPrice(0.0);
+        tutor.setNumberOfRatings(0);
+        tutor.setStatus("PENDING_APPROVAL");
         tutorRepository.save(tutor);
         //Todo if Tutor with given email already exists
 

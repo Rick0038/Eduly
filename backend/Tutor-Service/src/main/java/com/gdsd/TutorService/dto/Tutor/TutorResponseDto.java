@@ -13,6 +13,7 @@ public class TutorResponseDto {
     private Double price;
     private Integer numLessonsTaught;
     private Integer numberOfRatings;
+    private String bbbLink;
 
     public Integer getTutorId() {
         return tutorId;
@@ -100,5 +101,13 @@ public class TutorResponseDto {
 
     public void setNumberOfRatings(Integer numberOfRatings) {
         this.numberOfRatings = numberOfRatings;
+    }
+
+    public String getBbbLink() {
+        return bbbLink;
+    }
+
+    public void setBbbLink(String bbbLink) {
+        this.bbbLink = bbbLink;
     }
 }
