@@ -3,7 +3,7 @@
   "lastMigration": 32,
   "name": "Tutor App Mock API",
   "endpointPrefix": "",
-  "latency": 0,
+  "latency": 1000,
   "port": 3001,
   "hostname": "",
   "folders": [],
