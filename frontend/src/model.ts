@@ -19,7 +19,7 @@ export interface Tutor {
   profileImgLink: string;
 }
 
-export interface Auth {
+export interface UserInfo {
   id: number;
   name: string;
   token: string;

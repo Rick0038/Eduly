@@ -7,12 +7,12 @@ export const GuardedRoute: FC<{
   children: React.JSX.Element;
   allowedRoles?: ROLE[];
 }> = ({ children, allowedRoles = [ROLE.ADMIN, ROLE.STUDENT, ROLE.TUTOR] }) => {
-  const auth = getUserInfoFromLocalStorage();
+  const userInfo = getUserInfoFromLocalStorage();
   const location = useLocation();
 
   // if user is logged in
-  if (auth) {
-    if (allowedRoles.includes(auth.role)) {
+  if (userInfo) {
+    if (allowedRoles.includes(userInfo.role)) {
       return children;
     } else return <Navigate to='/unauthorized' replace />;
   } else {

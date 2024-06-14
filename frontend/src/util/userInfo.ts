@@ -1,6 +1,6 @@
-import { Auth } from '../components/auth/AuthContext';
+import { UserInfo } from '../model';
 
-export function getUserInfoFromLocalStorage(): Auth | null {
+export function getUserInfoFromLocalStorage(): UserInfo | null {
   const user = localStorage.getItem('user');
   if (user) {
     return JSON.parse(user);
@@ -8,7 +8,7 @@ export function getUserInfoFromLocalStorage(): Auth | null {
   return null;
 }
 
-export function setUserInfoToLocalStorage(user: Auth | null) {
+export function setUserInfoToLocalStorage(user: UserInfo | null) {
   if (user) {
     localStorage.setItem('user', JSON.stringify(user));
   }
