@@ -18,7 +18,7 @@ export function ConversationList(props?: ConversationListProps) {
   if (isLoading) {
     return (
       <Flex align='center' justify='center' pt={'sm'}>
-        <Loader size='sm' />
+        <Loader type='bars' size='sm' />
       </Flex>
     );
   }

@@ -41,7 +41,7 @@ export function ChatBox(props?: ChatBoxProps) {
     <Fragment>
       {isLoading ? (
         <Flex align='center' justify='center' pt={'sm'} className='h-full'>
-          <Loader size='sm' />
+          <Loader type='bars' size='sm' />
         </Flex>
       ) : isError ? (
         <Flex align='center' justify='center' pt={'sm'} className='h-full'>
