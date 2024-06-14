@@ -18,7 +18,7 @@ client.interceptors.request.use(
     const role = localStorage.getItem('role');
     if (role) {
       const params = config.params || {};
-      params.role = 'admin';
+      params.role = role;
       config.params = params;
     }
     return config;
