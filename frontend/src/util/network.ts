@@ -10,9 +10,16 @@ const client = axios.create({
 
 client.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('eduly_id_token');
+    const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    const role = localStorage.getItem('role');
+    if (role) {
+      const params = config.params || {};
+      params.role = 'admin';
+      config.params = params;
     }
     return config;
   },
