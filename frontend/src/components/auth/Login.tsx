@@ -10,10 +10,12 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useLocation, useNavigate } from 'react-router';
+import { ROLE } from '../../constant';
 import { useAuth } from '../../hooks';
+import { setUserInfoToLocalStorage } from '../../util/userInfo';
 
 export function Login() {
-  const { setIsAuthenticated } = useAuth();
+  const { setAuth } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -49,9 +51,17 @@ export function Login() {
           onSubmit={form.onSubmit((values) => {
             // todo implement proper login
             console.log(values);
-            localStorage.setItem('token', 'yo');
-            setIsAuthenticated(true);
-            navigate(fromPath);
+            const auth = {
+              id: 123,
+              name: 'hello@hello.com',
+              token:
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTUyYjJkNzk1ZDNkZTU0MWZmNDlhODYiLCJpYXQiOjE1ODI0NzgwNTd9.VQ6kqsSCYuQ7f5OHRJkwDvN5_QLgdMeK5jKfk_BZczc',
+              role: ROLE.STUDENT,
+              profileImgLink: 'blah.com',
+            };
+            setUserInfoToLocalStorage(auth);
+            setAuth(auth);
+            navigate(fromPath, { replace: true });
           })}
         >
           <Stack>
