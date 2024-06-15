@@ -1,4 +1,4 @@
-package com.gdsd.TutorService.dto;
+package com.gdsd.TutorService.dto.Tutor;
 
 public class TutorLoginRequestDto {
     private String email;

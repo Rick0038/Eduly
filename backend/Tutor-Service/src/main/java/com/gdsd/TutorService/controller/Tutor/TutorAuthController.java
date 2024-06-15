@@ -1,9 +1,9 @@
-package com.gdsd.TutorService.controller;
+package com.gdsd.TutorService.controller.Tutor;
 
-import com.gdsd.TutorService.config.CustomTutorDetailsService;
-import com.gdsd.TutorService.config.JwtTokenProvider;
-import com.gdsd.TutorService.dto.TutorLoginRequestDto;
-import com.gdsd.TutorService.dto.TutorLoginResponseDto;
+import com.gdsd.TutorService.config.UserDetailsServices.CustomTutorDetailsService;
+import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
+import com.gdsd.TutorService.dto.Tutor.TutorLoginRequestDto;
+import com.gdsd.TutorService.dto.Tutor.TutorLoginResponseDto;
 import com.gdsd.TutorService.exception.GenericTutorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,11 +37,11 @@ public class TutorAuthController {
         UserDetails userDetails = customTutorDetailsService.loadUserByUsername(email);
 
         if(userDetails == null) {
-            throw new GenericTutorException("Invalid Username", HttpStatus.BAD_REQUEST);
+            throw new GenericTutorException("Invalid Username", HttpStatus.UNAUTHORIZED);
         }
 
         if(!password.equals(userDetails.getPassword())) {
-            throw new GenericTutorException("Invalid Username or Password", HttpStatus.BAD_REQUEST);
+            throw new GenericTutorException("Invalid Username or Password", HttpStatus.UNAUTHORIZED);
         }
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, new ArrayList<>());
