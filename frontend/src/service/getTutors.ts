@@ -1,8 +1,8 @@
 import { Tutors } from '../model';
-import client from '../util/network';
+import { httpService } from './HTTPService';
 
 export const getTutors = async (query?: URLSearchParams) => {
   const url = query ? `/tutor/search?${query}` : '/tutor/search';
-  const response = await client.get<Tutors>(url);
-  return response.data;
+  const response = await httpService.get<Tutors>(url);
+  return response;
 };
