@@ -1,9 +1,7 @@
-import { Stack, Text } from '@mantine/core';
+import { Hero } from '../HomepageHero';
 
 export function HomePage() {
   return (
-    <Stack>
-      <Text>Home Page</Text>
-    </Stack>
+    <Hero />
   );
 }
