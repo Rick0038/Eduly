@@ -1,15 +1,9 @@
-import {
-  AppShell,
-  Burger,
-  Button,
-  Flex,
-  Group,
-  Menu,
-  Text,
-} from '@mantine/core';
+import { AppShell, Burger, Button, Flex, Group, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconPlant2 } from '@tabler/icons-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { authService } from '../service/AuthService';
+import { getUserInfoFromLocalStorage } from '../util/userInfo';
 import { SearchTutor } from './SearchTutor';
 
 interface HeaderProps {
@@ -45,14 +39,30 @@ export function Header(props: HeaderProps) {
           <SearchTutor />
           <Group visibleFrom='sm'>
             <Button variant='outline'>Forum</Button>
-            <Menu trigger='click-hover' withinPortal>
-              <Menu.Target>
+
+            {!authService.isLoggedIn() && (
+              <>
                 <Button variant='outline' onClick={() => navigate('/register')}>
                   Register
                 </Button>
-              </Menu.Target>
-            </Menu>
-            <Button onClick={() => navigate('/login')}>Login</Button>
+
+                <Button onClick={() => navigate('/login')}>Login</Button>
+              </>
+            )}
+
+            {authService.isLoggedIn() && (
+              <>
+                <Text>{getUserInfoFromLocalStorage()?.name}</Text>
+                <Button
+                  onClick={() => {
+                    authService.logout();
+                    navigate('/');
+                  }}
+                >
+                  Logout
+                </Button>
+              </>
+            )}
           </Group>
         </Flex>
       </Flex>

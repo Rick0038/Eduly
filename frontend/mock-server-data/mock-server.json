@@ -3,7 +3,7 @@
   "lastMigration": 32,
   "name": "Tutor App Mock API",
   "endpointPrefix": "",
-  "latency": 1000,
+  "latency": 200,
   "port": 3001,
   "hostname": "",
   "folders": [],
@@ -90,11 +90,11 @@
       "type": "http",
       "documentation": "",
       "method": "post",
-      "endpoint": "api/v1/auth/login",
+      "endpoint": "auth/v1/login",
       "responses": [
         {
           "uuid": "e8d30084-7809-4699-a587-5bf931295b0e",
-          "body": "{\n  \n}",
+          "body": "{\n  \"id\": 123,\n  \"name\": \"John Adams\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTUyYjJkNzk1ZDNkZTU0MWZmNDlhODYiLCJpYXQiOjE1ODI0NzgwNTd9.VQ6kqsSCYuQ7f5OHRJkwDvN5_QLgdMeK5jKfk_BZczc\",\n  \"role\": \"STUDENT\",\n  \"profileImgLink\": \"blah.com\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -112,17 +112,25 @@
           "callbacks": []
         },
         {
-          "uuid": "32d0d28f-63a3-492b-896d-f970ee2ba646",
-          "body": "{}",
+          "uuid": "a9986ce2-40c1-4b49-8825-221f241f1e30",
+          "body": "{\n  \"message\": \"Wrong credentials\"\n}",
           "latency": 0,
-          "statusCode": 200,
+          "statusCode": 400,
           "label": "",
           "headers": [],
           "bodyType": "INLINE",
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [],
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "role",
+              "value": "STUDENT",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
@@ -190,6 +198,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "6febb040-772d-484a-9159-0dcf26568298",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/v1/register",
+      "responses": [
+        {
+          "uuid": "f271a056-cdd2-4052-8497-7c093e47a39f",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -212,6 +249,10 @@
     {
       "type": "route",
       "uuid": "c676a739-27a5-4466-a9d5-ca57fec7ab89"
+    },
+    {
+      "type": "route",
+      "uuid": "6febb040-772d-484a-9159-0dcf26568298"
     }
   ],
   "proxyMode": false,
