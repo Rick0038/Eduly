@@ -11,11 +11,11 @@ public class Chat {
     @Column(name = "chatId")
     private Integer chatId;
 
-    @Column(name = "studentEmailId")
-    private String studentEmailId;
+    @Column(name = "studentId")
+    private Integer studentId;
 
-    @Column(name = "tutorEmailId")
-    private String tutorEmailId;
+    @Column(name = "tutorId")
+    private Integer tutorId;
 
     public Chat() {
     }
@@ -28,28 +28,28 @@ public class Chat {
         this.chatId = chatId;
     }
 
-    public String getStudentEmailId() {
-        return studentEmailId;
+    public Integer getStudentId() {
+        return studentId;
     }
 
-    public void setStudentEmailId(String studentEmailId) {
-        this.studentEmailId = studentEmailId;
+    public void setStudentId(Integer studentId) {
+        this.studentId = studentId;
     }
 
-    public String getTutorEmailId() {
-        return tutorEmailId;
+    public Integer getTutorId() {
+        return tutorId;
     }
 
-    public void setTutorEmailId(String tutorEmailId) {
-        this.tutorEmailId = tutorEmailId;
+    public void setTutorId(Integer tutorId) {
+        this.tutorId = tutorId;
     }
 
     @Override
     public String toString() {
         return "Chat{" +
                 "chatId=" + chatId +
-                ", studentEmailId='" + studentEmailId + '\'' +
-                ", tutorEmailId='" + tutorEmailId + '\'' +
+                ", studentId=" + studentId +
+                ", tutorId=" + tutorId +
                 '}';
     }
 }

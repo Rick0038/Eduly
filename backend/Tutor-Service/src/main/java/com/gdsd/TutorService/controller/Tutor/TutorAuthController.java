@@ -37,11 +37,11 @@ public class TutorAuthController {
         UserDetails userDetails = customTutorDetailsService.loadUserByUsername(email);
 
         if(userDetails == null) {
-            throw new GenericTutorException("Invalid Username", HttpStatus.BAD_REQUEST);
+            throw new GenericTutorException("Invalid Username", HttpStatus.UNAUTHORIZED);
         }
 
         if(!password.equals(userDetails.getPassword())) {
-            throw new GenericTutorException("Invalid Username or Password", HttpStatus.BAD_REQUEST);
+            throw new GenericTutorException("Invalid Username or Password", HttpStatus.UNAUTHORIZED);
         }
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, new ArrayList<>());

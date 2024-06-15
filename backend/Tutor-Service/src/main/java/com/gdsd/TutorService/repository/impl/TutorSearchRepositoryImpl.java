@@ -34,7 +34,7 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
                         "FROM tutor_user_det tut " +
                         "JOIN tutor_topic_det top ON tut.tutorId = top.tutorId " +
                         "JOIN tutor_profile_content content ON tut.tutorId = content.tutorId " +  // Join with tutor_course_det table
-                        "WHERE 1=1 AND content.contentType= 'profile_image'");
+                        "WHERE 1=1 AND content.contentType= 'profile_image' AND tut.status='APPROVED'");
 
 
         if (pricingMin != null) {

@@ -5,9 +5,10 @@ import java.time.LocalDateTime;
 public class SaveMessageRequestDto {
     private Integer messageId;
     private Integer chatId;
-    private String senderEmailId;
     private String content;
     private LocalDateTime timestamp;
+    private Integer senderId;
+    private String senderRole;
 
     public SaveMessageRequestDto() {
     }
@@ -28,13 +29,14 @@ public class SaveMessageRequestDto {
         this.chatId = chatId;
     }
 
-    public String getSenderEmailId() {
-        return senderEmailId;
+    public Integer getSenderId() {
+        return senderId;
     }
 
-    public void setSenderEmailId(String senderEmailId) {
-        this.senderEmailId = senderEmailId;
+    public void setSenderId(Integer senderId) {
+        this.senderId = senderId;
     }
+
 
     public String getContent() {
         return content;
@@ -50,5 +52,13 @@ public class SaveMessageRequestDto {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getSenderRole() {
+        return senderRole;
+    }
+
+    public void setSenderRole(String senderRole) {
+        this.senderRole = senderRole;
     }
 }

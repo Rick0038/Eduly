@@ -1,6 +1,5 @@
 package com.gdsd.TutorService.service.impl;
 
-import com.gdsd.TutorService.dto.Chat.ChatCreateRequestDto;
 import com.gdsd.TutorService.dto.Chat.SaveMessageRequestDto;
 import com.gdsd.TutorService.exception.GenericException;
 import com.gdsd.TutorService.exception.GenericTutorException;
@@ -35,20 +34,48 @@ public class ChatServiceImpl implements ChatService {
     private ModelMapper modelMapper;
 
     @Override
-    public String createChat(ChatCreateRequestDto chatCreateRequestDto) {
-        //Todo if Student with Email not found throw exception
-        Chat chat = modelMapper.map(chatCreateRequestDto, Chat.class);
+    public Integer createChat(Integer studentId, Integer tutorId) {
+        Chat chat = new Chat();
+        chat.setStudentId(studentId);
+        chat.setTutorId(tutorId);
         chat.setChatId(null);
 
-        tutorRepository.findByEmail(chat.getTutorEmailId())
+        tutorRepository.findById(chat.getTutorId())
                         .orElseThrow(() ->
-                                new GenericTutorException("Tutor with emailId: "
-                                        + chat.getTutorEmailId() + " not found"
+                                new GenericTutorException("Tutor with tutorId: "
+                                        + chat.getTutorId() + " not found"
                                         , HttpStatus.NOT_FOUND));
 
-        chatRepository.save(chat);
-        return "New Chat " + chat + "created successfully";
+        //Todo if Student with Id not found throw exception
+
+        Chat savedChat = chatRepository.save(chat);
+        return savedChat.getChatId();
     }
+
+    @Override
+    public Boolean chatExistsByStudentIdAndTutorId(Integer studentId, Integer tutorId) {
+        return chatRepository.existsByStudentIdAndTutorId(studentId, tutorId);
+    }
+
+    @Override
+    public Integer getChatIdForStudentIdAndTutorId(Integer studentId, Integer tutorId) {
+        Chat chat = chatRepository.findByStudentIdAndTutorId(studentId, tutorId)
+                .orElseThrow(() -> new GenericException("No such chat between student: "
+                        + studentId + " and tutor: " + tutorId + " was found",
+                        HttpStatus.NOT_FOUND));
+
+        return chat.getChatId();
+    }
+
+    @Override
+    public Message getLatestMessageForChatId(Integer chatId) {
+        Message message = messageRepository.findFirstByChatIdOrderByTimestampDesc(chatId)
+                .orElseThrow(() -> new GenericException("No message found for chatId: "
+                        + chatId, HttpStatus.NOT_FOUND));
+
+        return message;
+    }
+
 
     @Override
     public Chat getChatById(Integer chatId) {
@@ -68,33 +95,33 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<Chat> getChatsForStudent(String studentEmailId) {
-        //Todo Student repository to check if studentemail exists
-        List<Chat> chats = chatRepository.findByStudentEmailId(studentEmailId)
+    public List<Chat> getChatsForStudent(Integer studentId) {
+        //Todo Student repository to check if studentId exists
+        List<Chat> chats = chatRepository.findByStudentId(studentId)
                 .orElseThrow(() ->
-                        new GenericException("Unable to retrieve chats for "
-                                + studentEmailId, HttpStatus.NOT_FOUND));
+                        new GenericException("Unable to retrieve chats for Student with studentId"
+                                + studentId, HttpStatus.NOT_FOUND));
 
         return chats;
     }
 
     @Override
-    public List<Chat> getChatsForTutor(String tutorEmailId) {
-        tutorRepository.findByEmail(tutorEmailId).orElseThrow(() ->
-                new GenericTutorException("Tutor with emailId: "
-                        + tutorEmailId + " not found", HttpStatus.NOT_FOUND));
+    public List<Chat> getChatsForTutor(Integer tutorId) {
+        tutorRepository.findById(tutorId).orElseThrow(() ->
+                new GenericTutorException("Tutor with tutorId: "
+                        + tutorId + " not found", HttpStatus.NOT_FOUND));
 
-        List<Chat> chats = chatRepository.findByTutorEmailId(tutorEmailId)
+        List<Chat> chats = chatRepository.findByTutorId(tutorId)
                 .orElseThrow(() ->
-                        new GenericException("Unable to retrieve chats for "
-                                + tutorEmailId, HttpStatus.NOT_FOUND));
+                        new GenericException("Unable to retrieve chats for tutorId "
+                                + tutorId, HttpStatus.NOT_FOUND));
 
 
         return chats;
     }
 
     @Override
-    public String saveMessage(SaveMessageRequestDto saveMessageRequestDto) {
+    public Message saveMessage(SaveMessageRequestDto saveMessageRequestDto) {
         Message message = modelMapper.map(saveMessageRequestDto, Message.class);
         message.setMessageId(null);
         message.setTimestamp(LocalDateTime.now());
@@ -104,15 +131,18 @@ public class ChatServiceImpl implements ChatService {
                         new ResourceNotFoundException("Chat", "" +
                                 "id", message.getChatId()));
 
-        if(!(chat.getStudentEmailId().equals(message.getSenderEmailId())) &&
-                !(chat.getTutorEmailId().equals(message.getSenderEmailId()))) {
-            throw new GenericException("Sender with email " + message.getSenderEmailId()
+        if((message.getSenderRole().equals("STUDENT")) &&
+                !(chat.getStudentId() == message.getSenderId()) ||
+                ((message.getSenderRole().equals("TUTOR"))
+                        && !(chat.getTutorId() == message.getSenderId()))
+        ) {
+            throw new GenericException(message.getSenderRole() +" with id " + message.getSenderId()
                     + " is not related to the chat "
                     + chat.getChatId(), HttpStatus.UNAUTHORIZED);
         }
 
-        messageRepository.save(message);
-        return "Message " + message + " successfully saved";
+        Message savedMessage = messageRepository.save(message);
+        return savedMessage;
     }
 
     @Override

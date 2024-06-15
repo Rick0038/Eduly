@@ -16,14 +16,17 @@ public class Message {
     @Column(name = "chatId")
     private Integer chatId;
 
-    @Column(name = "senderEmailId")
-    private String senderEmailId;
-
     @Column(name = "content")
     private String content;
 
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
+
+    @Column(name = "senderId")
+    private Integer senderId;
+
+    @Column(name = "senderRole")
+    private String senderRole;
 
     public Message() {
     }
@@ -44,14 +47,6 @@ public class Message {
         this.chatId = chatId;
     }
 
-    public String getSenderEmailId() {
-        return senderEmailId;
-    }
-
-    public void setSenderEmailId(String senderEmailId) {
-        this.senderEmailId = senderEmailId;
-    }
-
     public String getContent() {
         return content;
     }
@@ -68,13 +63,30 @@ public class Message {
         this.timestamp = timestamp;
     }
 
+    public Integer getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(Integer senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getSenderRole() {
+        return senderRole;
+    }
+
+    public void setSenderRole(String senderRole) {
+        this.senderRole = senderRole;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
                 "messageId=" + messageId +
                 ", chatId=" + chatId +
-                ", senderEmailId='" + senderEmailId + '\'' +
                 ", timestamp=" + timestamp +
+                ", senderId=" + senderId +
+                ", senderRole='" + senderRole + '\'' +
                 '}';
     }
 }
