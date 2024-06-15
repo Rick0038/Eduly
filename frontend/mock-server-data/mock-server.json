@@ -208,6 +208,10 @@
     {
       "type": "route",
       "uuid": "6865a90d-dc80-4f8e-8730-0b044323295b"
+    },
+    {
+      "type": "route",
+      "uuid": "c676a739-27a5-4466-a9d5-ca57fec7ab89"
     }
   ],
   "proxyMode": false,
