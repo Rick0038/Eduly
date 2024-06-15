@@ -1,41 +1,63 @@
 import {
-  Text,
-  Flex,
-  Loader,
-  Card,
-  Avatar,
-  Textarea,
-  Button,
-} from '@mantine/core';
-import { useQuery } from '@tanstack/react-query';
-import { getChatMessages } from '../service/getChatMessages';
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useParams } from 'react-router';
-import { Fragment, useEffect, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Text, Flex, Loader, Textarea, Button } from '@mantine/core';
+import { getChatMessages } from '../service';
+import { useWebSocket } from '../hooks';
+import { MessageCard } from './MessageCard';
 
-interface ChatBoxProps {
-  chatId?: string;
-}
-
-export function ChatBox(props?: ChatBoxProps) {
-  const { chatId } = props || {};
+export function ChatBox() {
   const { id } = useParams();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [input, setInput] = useState('');
+  const { messages, sendMessage, subscribeToTopic, unsubscribeFromTopic } =
+    useWebSocket();
 
-  const key = chatId ?? id!;
+  const key = id!;
   const { data, isLoading, isError } = useQuery({
     queryKey: ['getChatMessages', key],
     queryFn: () => getChatMessages(key),
   });
 
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const chatMessages = useMemo(() => messages.get(id!) || [], [id, messages]);
+
+  const scrollToBottom = useCallback(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [data?.messages]);
+  }, [data?.messages, chatMessages, scrollToBottom]);
+
+  useEffect(() => {
+    if (id) {
+      subscribeToTopic(`/topic/${id}`);
+
+      // TODO: Should we unsubscribe?
+      // return () => {
+      //   unsubscribeFromTopic(`/topic/${id}`);
+      // };
+    }
+  }, [id, subscribeToTopic, unsubscribeFromTopic]);
+
+  const handleSend = useCallback(() => {
+    if (id && input) {
+      const message = {
+        sender: 'sender1',
+        message: input,
+        chatId: id,
+      };
+      sendMessage('/app/hello', message);
+      setInput('');
+    }
+  }, [id, input, sendMessage]);
 
   return (
     <Fragment>
@@ -53,22 +75,13 @@ export function ChatBox(props?: ChatBoxProps) {
         </Flex>
       ) : (
         <div className='flex-1 overflow-y-auto p-4'>
+          {/* REST API messages */}
           {data.messages.map((msg, index) => (
-            <Card key={`${msg.id}-${index}`} className='mb-2' shadow='sm'>
-              <Flex align='center' mb='xs'>
-                <Avatar
-                  size='sm'
-                  color={msg.sender === 'You' ? 'green' : 'blue'}
-                />
-                <div className='ml-2'>
-                  <span className='font-bold'>{msg.sender}</span>
-                  <span className='text-gray-500 ml-2 text-sm'>
-                    {msg.timestamp}
-                  </span>
-                </div>
-              </Flex>
-              <Text>{msg.content}</Text>
-            </Card>
+            <MessageCard key={`${msg.id}-${index}`} message={msg} />
+          ))}
+          {/* Socket Messages */}
+          {chatMessages.map((msg, index) => (
+            <MessageCard key={`${msg.id}-${index}`} message={msg} />
           ))}
           <div ref={messagesEndRef} />
         </div>
@@ -80,8 +93,12 @@ export function ChatBox(props?: ChatBoxProps) {
           autosize
           minRows={2}
           className='mb-2'
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
-        <Button disabled={isLoading}>Send</Button>
+        <Button onClick={handleSend} disabled={isLoading}>
+          Send
+        </Button>
       </div>
     </Fragment>
   );

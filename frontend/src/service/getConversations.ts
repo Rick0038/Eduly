@@ -1,8 +1,8 @@
 import { Conversations } from '../model';
-import client from '../util/network';
+import { httpService } from './HTTPService';
 
 export const getConversations = async () => {
   const url = '/api/v1/conversations';
-  const response = await client.get<Conversations>(url);
-  return response.data;
+  const response = await httpService.get<Conversations>(url);
+  return response;
 };

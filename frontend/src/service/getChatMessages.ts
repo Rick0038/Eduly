@@ -1,8 +1,8 @@
 import { Chats } from '../model';
-import client from '../util/network';
+import { httpService } from './HTTPService';
 
 export const getChatMessages = async (id: string) => {
   const url = `/api/v1/chat/${id}`;
-  const response = await client.get<Chats>(url);
-  return response.data;
+  const response = await httpService.get<Chats>(url);
+  return response;
 };
