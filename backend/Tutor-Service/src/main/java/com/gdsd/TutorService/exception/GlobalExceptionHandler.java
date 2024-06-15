@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,11 +22,29 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(GenericTutorException.class)
-    public ResponseEntity<Map> genericException(GenericTutorException ex) {
+    public ResponseEntity<Map> genericTutorException(GenericTutorException ex) {
         String message = ex.getMessage();
         Map<String, String> apiResponse = new HashMap<>();
         apiResponse.put("message", message);
 
         return new ResponseEntity<>(apiResponse, ex.getHttpStatus());
+    }
+
+    @ExceptionHandler(GenericException.class)
+    public ResponseEntity<Map> genericException(GenericException ex) {
+        String message = ex.getMessage();
+        Map<String, String> apiResponse = new HashMap<>();
+        apiResponse.put("message", message);
+
+        return new ResponseEntity<>(apiResponse, ex.getHttpStatus());
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<Map> sqlIntegrityConstraintViolation(SQLIntegrityConstraintViolationException ex) {
+        String message = ex.getMessage();
+        Map<String, String> apiResponse = new HashMap<>();
+        apiResponse.put("message", message);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 }

@@ -12,12 +12,17 @@ import { IconPlant2 } from '@tabler/icons-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { SearchTutor } from './SearchTutor';
 
-export function Header() {
+interface HeaderProps {
+  as?: React.ElementType;
+}
+
+export function Header(props: HeaderProps) {
+  const { as: Component = AppShell.Header } = props;
   const [opened, { toggle }] = useDisclosure(false);
   const navigate = useNavigate();
 
   return (
-    <AppShell.Header>
+    <Component className='h-[48px] sm:h-[60px] border-b'>
       <Flex justify='space-between' align='center' h='100%' px='md'>
         <Flex justify='flex-start' align='center' gap={5}>
           <Group>
@@ -51,6 +56,6 @@ export function Header() {
           </Group>
         </Flex>
       </Flex>
-    </AppShell.Header>
+    </Component>
   );
 }
