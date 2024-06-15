@@ -33,8 +33,8 @@ export interface Chats {
 
 export interface Message {
   id: string;
+  chatId: string;
   sender: string;
-  receiver: string;
-  content: string;
+  message: string;
   timestamp: string;
 }

@@ -5,13 +5,15 @@ import React, {
   ReactNode,
   useCallback,
 } from 'react';
-import { webSocketService, MessageIn, MessageOut } from '../service';
+import { webSocketService, MessageOut } from '../service';
+import { Message } from '../model';
 
 export interface WebSocketContextProps {
-  messages: MessageIn[];
+  messages: Map<string, Message[]>;
   sendMessage: (destination: string, message: MessageOut) => void;
   subscribeToTopic: (topic: string) => void;
   unsubscribeFromTopic: (topic: string) => void;
+  getAllMessages: () => Message[];
 }
 
 export const WebSocketContext = createContext<
@@ -21,7 +23,7 @@ export const WebSocketContext = createContext<
 export const WebSocketProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [messages, setMessages] = useState<MessageIn[]>([]);
+  const [messages, setMessages] = useState<Map<string, Message[]>>(new Map());
 
   useEffect(() => {
     const onConnect = () => {
@@ -40,8 +42,16 @@ export const WebSocketProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const subscribeToTopic = useCallback((topic: string) => {
-    webSocketService.subscribe(topic, (message: MessageIn) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+    webSocketService.subscribe(topic, (message: Message) => {
+      const chatId = topic.split('/')[2];
+      setMessages((prevMessages) => {
+        const newMessages = new Map(prevMessages);
+        if (!newMessages.has(chatId)) {
+          newMessages.set(chatId, []);
+        }
+        newMessages.get(chatId)!.push(message);
+        return newMessages;
+      });
     });
   }, []);
 
@@ -56,9 +66,23 @@ export const WebSocketProvider: React.FC<{ children: ReactNode }> = ({
     []
   );
 
+  const getAllMessages = useCallback(() => {
+    const allMessages: Message[] = [];
+    messages.forEach((msgs) => {
+      allMessages.push(...msgs);
+    });
+    return allMessages;
+  }, [messages]);
+
   return (
     <WebSocketContext.Provider
-      value={{ messages, sendMessage, subscribeToTopic, unsubscribeFromTopic }}
+      value={{
+        messages,
+        sendMessage,
+        subscribeToTopic,
+        unsubscribeFromTopic,
+        getAllMessages,
+      }}
     >
       {children}
     </WebSocketContext.Provider>

@@ -1,32 +1,67 @@
 import { Client, StompSubscription } from '@stomp/stompjs';
-
-export interface MessageIn {
-  id: string;
-  chatId: string;
-  sender: string;
-  content: string;
-  timestamp: string;
-}
+import { APP_WS_URL } from '../constant';
+import { formatDate } from '../util/helpers';
+import { Message } from '../model';
 
 export interface MessageOut {
-  content: string;
+  chatId: string;
+  sender: string;
+  message: string;
 }
 
-const WSS_URL = 'ws://localhost:8080/ws';
+const WSS_URL = `${APP_WS_URL}/ws`;
 
 class WebSocketService {
   private client: Client;
+  private messages: Map<string, Message[]>;
   private subscriptions: Map<string, StompSubscription>;
+  private subscriptionQueue: {
+    topic: string;
+    callback: (message: Message) => void;
+  }[];
 
   constructor() {
     this.client = new Client({
       brokerURL: WSS_URL,
       reconnectDelay: 5000,
       debug: (str) => {
-        console.log(new Date(), str);
+        const now = new Date();
+        const formattedDate = formatDate(now);
+        console.log(`[${formattedDate}]`, str);
       },
     });
+    this.messages = new Map<string, Message[]>();
     this.subscriptions = new Map<string, StompSubscription>();
+    this.subscriptionQueue = [];
+  }
+
+  private processSubscriptionQueue() {
+    while (this.subscriptionQueue.length > 0) {
+      const { topic, callback } = this.subscriptionQueue.shift()!;
+      this.subscribe(topic, callback);
+    }
+  }
+
+  private addMessage(message: Message) {
+    const { chatId } = message;
+    if (!this.messages.has(chatId)) {
+      this.messages.set(chatId, []);
+    }
+    const chatMessages = this.messages.get(chatId)!;
+    chatMessages.push(message);
+    this.messages.set(chatId, chatMessages);
+  }
+
+  getMessages(chatId: string) {
+    return this.messages.get(chatId) || [];
+  }
+
+  getAllMessages() {
+    let allMessages: Message[] = [];
+    this.messages.forEach((chatMessages) => {
+      allMessages = allMessages.concat(chatMessages);
+    });
+    return allMessages;
   }
 
   connect(
@@ -35,6 +70,7 @@ class WebSocketService {
   ) {
     this.client.onConnect = (frame) => {
       console.debug('Connected: ', frame);
+      this.processSubscriptionQueue();
       onConnectCallback?.();
     };
 
@@ -47,14 +83,25 @@ class WebSocketService {
     this.client.activate();
   }
 
-  subscribe(topic: string, onMessageCallback: (message: MessageIn) => void) {
+  subscribe(topic: string, callback: (message: Message) => void) {
     if (this.client.connected) {
-      const subscription = this.client.subscribe(topic, (message) => {
-        onMessageCallback(JSON.parse(message.body));
-      });
-      this.subscriptions.set(topic, subscription);
+      try {
+        if (this.subscriptions.has(topic)) {
+          console.log(`Already subscribed to topic: ${topic}`);
+          return;
+        }
+        const subscription = this.client.subscribe(topic, (message) => {
+          const parsedMessage = JSON.parse(message.body);
+          callback(parsedMessage);
+          this.addMessage(parsedMessage);
+        });
+        this.subscriptions.set(topic, subscription);
+      } catch (error) {
+        console.error('Unable to subscribe', error);
+      }
     } else {
-      console.error('Client is not connected. Cannot subscribe to topic.');
+      console.log(`Queueing subscription for topic: ${topic}`);
+      this.subscriptionQueue.push({ topic, callback });
     }
   }
 
@@ -70,15 +117,21 @@ class WebSocketService {
     this.subscriptions.forEach((subscription) => {
       subscription.unsubscribe();
     });
+    this.messages.clear();
     this.subscriptions.clear();
+    this.subscriptionQueue = [];
     this.client.deactivate();
   }
 
   sendMessage(destination: string, message: MessageOut) {
-    this.client.publish({
-      destination,
-      body: JSON.stringify(message),
-    });
+    if (this.client.connected) {
+      this.client.publish({
+        destination,
+        body: JSON.stringify(message),
+      });
+    } else {
+      console.error('Unable to send message: WebSocket is not connected.');
+    }
   }
 }
 

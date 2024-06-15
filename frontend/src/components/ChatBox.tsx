@@ -1,17 +1,17 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
-import {
-  Text,
-  Flex,
-  Loader,
-  Card,
-  Avatar,
-  Textarea,
-  Button,
-} from '@mantine/core';
-import { MessageOut, getChatMessages } from '../service';
+import { Text, Flex, Loader, Textarea, Button } from '@mantine/core';
+import { getChatMessages } from '../service';
 import { useWebSocket } from '../hooks';
+import { MessageCard } from './MessageCard';
 
 export function ChatBox() {
   const { id } = useParams();
@@ -26,32 +26,35 @@ export function ChatBox() {
     queryFn: () => getChatMessages(key),
   });
 
+  const chatMessages = useMemo(() => messages.get(id!) || [], [id, messages]);
+
   const scrollToBottom = useCallback(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [data?.messages, messages, scrollToBottom]);
+  }, [data?.messages, chatMessages, scrollToBottom]);
 
   useEffect(() => {
     if (id) {
-      subscribeToTopic(`/topic/conversations/${id}`);
-    }
+      subscribeToTopic(`/topic/${id}`);
 
-    return () => {
-      if (id) {
-        unsubscribeFromTopic(`/topic/conversations/${id}`);
-      }
-    };
+      // TODO: Should we unsubscribe?
+      // return () => {
+      //   unsubscribeFromTopic(`/topic/${id}`);
+      // };
+    }
   }, [id, subscribeToTopic, unsubscribeFromTopic]);
 
   const handleSend = useCallback(() => {
     if (id && input) {
-      const message: MessageOut = { content: input };
-      sendMessage(`/app/conversations/${id}`, message);
+      const message = {
+        sender: 'sender1',
+        message: input,
+        chatId: id,
+      };
+      sendMessage('/app/hello', message);
       setInput('');
     }
   }, [id, input, sendMessage]);
@@ -74,46 +77,12 @@ export function ChatBox() {
         <div className='flex-1 overflow-y-auto p-4'>
           {/* REST API messages */}
           {data.messages.map((msg, index) => (
-            <Card key={`${msg.id}-${index}`} className='mb-2' shadow='sm'>
-              <Flex align='center' mb='xs'>
-                <Avatar
-                  size='sm'
-                  color={msg.sender === 'You' ? 'green' : 'blue'}
-                />
-                <div className='ml-2'>
-                  <span className='font-bold'>{msg.sender}</span>
-                  <span className='text-gray-500 ml-2 text-sm'>
-                    {msg.timestamp}
-                  </span>
-                </div>
-              </Flex>
-              <Text>{msg.content}</Text>
-            </Card>
+            <MessageCard key={`${msg.id}-${index}`} message={msg} />
           ))}
           {/* Socket Messages */}
-          {messages
-            .filter((msg) => msg.chatId === id)
-            .map((msg, index) => (
-              <Card
-                key={`realtime-${msg.id}-${index}`}
-                className='mb-2'
-                shadow='sm'
-              >
-                <Flex align='center' mb='xs'>
-                  <Avatar
-                    size='sm'
-                    color={msg.sender === 'You' ? 'green' : 'blue'}
-                  />
-                  <div className='ml-2'>
-                    <span className='font-bold'>{msg.sender}</span>
-                    <span className='text-gray-500 ml-2 text-sm'>
-                      {msg.timestamp}
-                    </span>
-                  </div>
-                </Flex>
-                <Text>{msg.content}</Text>
-              </Card>
-            ))}
+          {chatMessages.map((msg, index) => (
+            <MessageCard key={`${msg.id}-${index}`} message={msg} />
+          ))}
           <div ref={messagesEndRef} />
         </div>
       )}
