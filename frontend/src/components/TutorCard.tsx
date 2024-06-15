@@ -22,7 +22,7 @@ import { Tutor } from '../model';
 
 const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
   return (
-    <Paper withBorder shadow='sm' className='p-5'>
+    <Paper className='p-5' w={'100%'} withBorder shadow='sm'>
       <Grid h={'100%'}>
         <Grid.Col span={'auto'}>
           <Center>
@@ -36,11 +36,12 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
               <div>
                 <Badge>{tutor.topic}</Badge>
               </div>
-              <div className='flex items-center' >
-                <IconUser /> <Text>{tutor.numLessonsTaught} lessons taught</Text>
+              <div className='flex items-center'>
+                <IconUser />
+                <Text>{tutor.numLessonsTaught} lessons taught</Text>
               </div>
               <div className='flex items-center'>
-                <IconLanguage />  <Text>Language: {tutor.language}</Text>
+                <IconLanguage /> <Text>Language: {tutor.language}</Text>
               </div>
             </div>
             <div style={{ marginTop: '10px' }}>
