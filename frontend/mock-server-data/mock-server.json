@@ -146,7 +146,7 @@
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "api/v1/conversations",
+      "endpoint": "api/v1/chat/conversations",
       "responses": [
         {
           "uuid": "4db6b4fc-c984-4545-b506-dece0071506c",
