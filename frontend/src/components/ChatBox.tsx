@@ -1,3 +1,5 @@
+import { Button, Flex, Loader, Text, Textarea } from '@mantine/core';
+import { useQuery } from '@tanstack/react-query';
 import {
   Fragment,
   useCallback,
@@ -7,10 +9,8 @@ import {
   useState,
 } from 'react';
 import { useParams } from 'react-router';
-import { useQuery } from '@tanstack/react-query';
-import { Text, Flex, Loader, Textarea, Button } from '@mantine/core';
-import { getChatMessages } from '../service';
 import { useWebSocket } from '../hooks';
+import { chatService } from '../service';
 import { MessageCard } from './MessageCard';
 
 export function ChatBox() {
@@ -23,7 +23,7 @@ export function ChatBox() {
   const key = id!;
   const { data, isLoading, isError } = useQuery({
     queryKey: ['getChatMessages', key],
-    queryFn: () => getChatMessages(key),
+    queryFn: () => chatService.getChatMessages(key),
   });
 
   const chatMessages = useMemo(() => messages.get(id!) || [], [id, messages]);

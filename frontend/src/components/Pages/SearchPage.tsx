@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router';
 import {
   ActionIcon,
   Center,
@@ -14,12 +12,14 @@ import {
   Stack,
   Text,
 } from '@mantine/core';
-import { useQuery } from '@tanstack/react-query';
 import { IconAdjustments } from '@tabler/icons-react';
-import { getTutors } from '../../service/getTutors';
-import TutorCard from '../TutorCard';
-import { Filters } from '../Filters';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useLocation } from 'react-router';
 import { Tutor } from '../../model';
+import { tutorService } from '../../service/TutorService';
+import { Filters } from '../Filters';
+import TutorCard from '../TutorCard';
 
 export function SearchPage() {
   const [drawerOpened, setDrawerOpened] = useState(false);
@@ -31,7 +31,7 @@ export function SearchPage() {
     isError,
   } = useQuery({
     queryKey: ['getTutors', location.search], // Include query in queryKey for caching purposes
-    queryFn: () => getTutors(queryParams ?? ''),
+    queryFn: () => tutorService.getTutors(queryParams ?? ''),
   });
 
   const availableSortTypes = ['Highest rating', 'Most popular', 'Lowest price'];

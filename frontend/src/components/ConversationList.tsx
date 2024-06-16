@@ -1,7 +1,7 @@
-import { Avatar, Text, Flex, Loader, Button, Group } from '@mantine/core';
+import { Avatar, Button, Flex, Group, Loader, Text } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
-import { getConversations } from '../service/getConversations';
 import { Conversation } from '../model';
+import { chatService } from '../service/ChatService';
 
 interface ConversationListProps {
   onSelect?: (conversation: Conversation) => void;
@@ -12,7 +12,7 @@ export function ConversationList(props?: ConversationListProps) {
   const { onSelect, selectedId } = props || {};
   const { data, isLoading, isError } = useQuery({
     queryKey: ['getConversations'],
-    queryFn: getConversations,
+    queryFn: chatService.getConversations,
   });
 
   if (isLoading) {

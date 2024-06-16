@@ -4,6 +4,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 import { APP_API_URL } from '../constant';
+import { getUserInfoFromLocalStorage } from '../util/userInfo';
 
 class HTTPService {
   private client: AxiosInstance;
@@ -25,18 +26,13 @@ class HTTPService {
   private handleRequest(
     config: InternalAxiosRequestConfig
   ): InternalAxiosRequestConfig {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-
-    const role = localStorage.getItem('role');
-    if (role) {
+    const user = getUserInfoFromLocalStorage();
+    if (user) {
+      config.headers.Authorization = `Bearer ${user.token}`;
       const params = config.params || {};
-      params.role = role;
+      params.role = user.role;
       config.params = params;
     }
-
     return config;
   }
 
@@ -66,4 +62,4 @@ class HTTPService {
 }
 
 const httpService = new HTTPService();
-export { httpService, HTTPService };
+export { HTTPService, httpService };

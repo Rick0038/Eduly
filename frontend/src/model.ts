@@ -1,3 +1,5 @@
+import { ROLE } from './constant';
+
 export interface Tutors {
   tutors: Tutor[];
 }
@@ -17,6 +19,13 @@ export interface Tutor {
   profileImgLink: string;
 }
 
+export interface UserInfo {
+  id: number;
+  name: string;
+  token: string;
+  role: ROLE;
+  profileImgLink: string;
+}
 export interface Conversations {
   conversations: Conversation[];
 }
