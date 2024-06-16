@@ -72,7 +72,11 @@ public class ChatController {
                 dto.setUserId(chat.getStudentId());
                 dto.setName(studentService.getStudentNameFromId(chat.getStudentId()));
                 dto.setProfileImgLink(studentService.getStudentProfileImageFromId(chat.getStudentId()));
-                dto.setLastMessageContent(chatService.getLatestMessageForChatId(chat.getChatId()).getContent());
+                if(chatService.getLatestMessageForChatId(chat.getChatId()).isPresent()) {
+                    dto.setLastMessageContent(chatService.getLatestMessageForChatId(chat.getChatId()).get().getContent());
+                } else {
+                    dto.setLastMessageContent("");
+                }
                 dtos.add(dto);
             }
         } else {
@@ -86,7 +90,11 @@ public class ChatController {
                 dto.setUserId(chat.getTutorId());
                 dto.setName(tutorService.getTutorNameFromId(chat.getTutorId()));
                 dto.setProfileImgLink(tutorService.getTutorProfileImageFromId(chat.getStudentId()));
-                dto.setLastMessageContent(chatService.getLatestMessageForChatId(chat.getChatId()).getContent());
+                if(chatService.getLatestMessageForChatId(chat.getChatId()).isPresent()) {
+                    dto.setLastMessageContent(chatService.getLatestMessageForChatId(chat.getChatId()).get().getContent());
+                } else {
+                    dto.setLastMessageContent("");
+                }
                 dtos.add(dto);
             }
         }
@@ -102,18 +110,6 @@ public class ChatController {
         String response = chatService.deleteChatById(chatId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-//    @GetMapping("/student/email/{studentEmail}")
-//    public ResponseEntity<List<Chat>> getChatsForStudentEmail(@PathVariable String studentEmail) {
-//        List<Chat> chatsForStudent = chatService.getChatsForStudent(studentEmail);
-//        return new ResponseEntity<>(chatsForStudent, HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/tutor/email/{tutorEmail}")
-//    public ResponseEntity<List<Chat>> getChatsForTutorEmail(@PathVariable String tutorEmail) {
-//        List<Chat> chatsForTutor = chatService.getChatsForTutor(tutorEmail);
-//        return new ResponseEntity<>(chatsForTutor, HttpStatus.OK);
-//    }
 
     @PostMapping("/message/save")
     public ResponseEntity<Message> saveMessage(@RequestBody SaveMessageRequestDto saveMessageRequestDto) {
