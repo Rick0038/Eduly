@@ -63,8 +63,6 @@ public class AuthController {
         String firstName = registerRequestDto.getFirstName();
         String lastName = registerRequestDto.getLastName();
 
-        System.out.println("RegisterRequestDto: " + registerRequestDto);
-
         //check if the email is already registered
         if (accountAlreadyExists(email)) {
             throw new GenericException("User with Email-Id: " + email
