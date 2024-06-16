@@ -71,18 +71,21 @@ export function Login() {
               label='Role'
               data={[ROLE.TUTOR, ROLE.STUDENT, ROLE.ADMIN]}
               required
+              withAsterisk={false}
               {...form.getInputProps('role')}
             />
             <TextInput
               label='Email'
               placeholder='Your email'
               required
+              withAsterisk={false}
               {...form.getInputProps('email')}
             />
             <PasswordInput
               label='Password'
               placeholder='Your password'
               required
+              withAsterisk={false}
               {...form.getInputProps('password')}
             />
           </Stack>

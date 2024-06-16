@@ -82,24 +82,28 @@ export function SignUp() {
               label='First name'
               placeholder='First name'
               required
+              withAsterisk={false}
               {...form.getInputProps('firstName')}
             />
             <TextInput
               label='Last name'
               placeholder='Last name'
               required
+              withAsterisk={false}
               {...form.getInputProps('lastName')}
             />
             <TextInput
               label='Email'
               placeholder='Your email'
               required
+              withAsterisk={false}
               {...form.getInputProps('email')}
             />
             <PasswordInput
               label='Password'
               placeholder='Your password'
               required
+              withAsterisk={false}
               {...form.getInputProps('password')}
             />
           </Stack>
