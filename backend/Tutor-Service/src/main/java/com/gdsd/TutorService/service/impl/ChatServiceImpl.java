@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -68,10 +69,8 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Message getLatestMessageForChatId(Integer chatId) {
-        Message message = messageRepository.findFirstByChatIdOrderByTimestampDesc(chatId)
-                .orElseThrow(() -> new GenericException("No message found for chatId: "
-                        + chatId, HttpStatus.NOT_FOUND));
+    public Optional<Message> getLatestMessageForChatId(Integer chatId) {
+        Optional<Message> message = messageRepository.findFirstByChatIdOrderByTimestampDesc(chatId);
 
         return message;
     }

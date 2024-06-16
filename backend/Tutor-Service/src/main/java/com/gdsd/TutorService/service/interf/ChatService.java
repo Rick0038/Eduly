@@ -5,6 +5,7 @@ import com.gdsd.TutorService.model.Chat;
 import com.gdsd.TutorService.model.Message;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ChatService {
     Integer createChat(Integer studentId, Integer tutorId);
@@ -16,5 +17,5 @@ public interface ChatService {
     List<Message> getMessagesForChatById(Integer chatId);
     Boolean chatExistsByStudentIdAndTutorId(Integer studentId, Integer tutorId);
     Integer getChatIdForStudentIdAndTutorId(Integer studentId, Integer tutorId);
-    Message getLatestMessageForChatId(Integer chatId);
+    Optional<Message> getLatestMessageForChatId(Integer chatId);
 }
