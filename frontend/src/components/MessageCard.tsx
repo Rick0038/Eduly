@@ -1,5 +1,8 @@
 import { Avatar, Card, Flex, Text } from '@mantine/core';
 import { Message } from '../model';
+import { useMemo } from 'react';
+import { getUserInfoFromLocalStorage } from '../util/userInfo';
+import { formatDate } from '../util/helpers';
 
 interface MessageCardProps {
   message: Message;
@@ -7,22 +10,23 @@ interface MessageCardProps {
 
 export const MessageCard = (props: MessageCardProps) => {
   const { message } = props;
+  const user = useMemo(() => getUserInfoFromLocalStorage(), [])!;
 
   return (
     <Card className='mb-2' shadow='sm'>
       <Flex align='center' mb='xs'>
         <Avatar
           size='sm'
-          color={message.sender.toLowerCase() === 'you' ? 'green' : 'blue'}
+          color={message.senderId === user.id ? 'green' : 'blue'}
         />
         <div className='ml-2'>
-          <span className='font-bold'>{message.sender}</span>
+          <span className='font-bold'>{message.senderName}</span>
           <span className='text-gray-500 ml-2 text-sm'>
-            {message.timestamp}
+            {formatDate(new Date(message.timestamp), { skipSeconds: true })}
           </span>
         </div>
       </Flex>
-      <Text>{message.message}</Text>
+      <Text>{message.content}</Text>
     </Card>
   );
 };

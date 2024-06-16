@@ -1,4 +1,5 @@
 import { UserInfo } from '../model';
+import { getUserInfoFromLocalStorage } from '../util/userInfo';
 import { httpService } from './HTTPService';
 
 export interface LoginInfo {
@@ -35,6 +36,10 @@ class AuthService {
 
   logout() {
     localStorage.removeItem('user');
+  }
+
+  get user() {
+    return getUserInfoFromLocalStorage();
   }
 }
 

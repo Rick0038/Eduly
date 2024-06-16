@@ -31,9 +31,11 @@ export interface Conversations {
 }
 
 export interface Conversation {
-  id: string;
-  user: string;
-  timestamp: string;
+  chatId: string | undefined;
+  lastMessageContent: string;
+  name: string;
+  profileImgLink: string;
+  userId: number;
 }
 
 export interface Chats {
@@ -41,9 +43,10 @@ export interface Chats {
 }
 
 export interface Message {
-  id: string;
-  chatId: string;
-  sender: string;
-  message: string;
+  messageId: number;
+  content: string;
   timestamp: string;
+  senderName: string;
+  senderId: number;
+  senderRole: ROLE;
 }

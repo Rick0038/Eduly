@@ -77,11 +77,11 @@ export function ChatBox() {
         <div className='flex-1 overflow-y-auto p-4'>
           {/* REST API messages */}
           {data.messages.map((msg, index) => (
-            <MessageCard key={`${msg.id}-${index}`} message={msg} />
+            <MessageCard key={`${msg.messageId}-${index}`} message={msg} />
           ))}
           {/* Socket Messages */}
           {chatMessages.map((msg, index) => (
-            <MessageCard key={`${msg.id}-${index}`} message={msg} />
+            <MessageCard key={`${msg.messageId}-${index}`} message={msg} />
           ))}
           <div ref={messagesEndRef} />
         </div>

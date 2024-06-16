@@ -14,9 +14,9 @@ export function MessagePage() {
   const handleSelect = (convo: Conversation) => {
     // Replace on bigger screen
     if (isSmallScreen) {
-      navigate(`/messages/${convo.id}`);
+      navigate(`/messages/${convo.chatId}`);
     } else {
-      navigate(`/messages/${convo.id}`, { replace: true });
+      navigate(`/messages/${convo.chatId}`, { replace: true });
     }
   };
 

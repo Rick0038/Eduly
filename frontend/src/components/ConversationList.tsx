@@ -35,10 +35,10 @@ export function ConversationList(props?: ConversationListProps) {
     <Group className='w-full'>
       {data.conversations.map((conversation: Conversation) => (
         <Button
-          key={conversation.id}
+          key={conversation.chatId}
           fullWidth
-          variant={selectedId === conversation.id ? 'filled' : 'subtle'}
-          color={selectedId === conversation.id ? '#7d3ec9' : 'black'}
+          variant={selectedId === conversation.chatId ? 'filled' : 'subtle'}
+          color={selectedId === conversation.chatId ? '#7d3ec9' : 'black'}
           justify='left'
           size='xs'
           className='p-0 border m-0'
@@ -46,11 +46,11 @@ export function ConversationList(props?: ConversationListProps) {
           leftSection={
             <Avatar
               size='sm'
-              color={selectedId === conversation.id ? 'white' : '#7d3ec9'}
+              color={selectedId === conversation.chatId ? 'white' : '#7d3ec9'}
             />
           }
         >
-          <Text>{conversation.user}</Text>
+          <Text>{conversation.name}</Text>
         </Button>
       ))}
     </Group>
