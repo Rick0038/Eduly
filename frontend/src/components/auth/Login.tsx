@@ -9,19 +9,16 @@ import {
   Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router';
 import { ROLE } from '../../constant';
 import { authService } from '../../service/AuthService';
+import { notificationService } from '../../service/NotificationService';
 import { setUserInfoToLocalStorage } from '../../util/userInfo';
 
 export function Login() {
   const location = useLocation();
   const navigate = useNavigate();
-
-  // to go back to same page after login instead of going to home page
-  const fromPath = location.state?.from || '/';
 
   const form = useForm({
     initialValues: {
@@ -47,14 +44,12 @@ export function Login() {
     mutationFn: authService.login,
     onSuccess: (data) => {
       setUserInfoToLocalStorage(data);
+      // to go back to same page after login instead of going to home page
+      const fromPath = location.state?.from || '/';
       navigate(fromPath, { replace: true });
     },
     onError: (err) => {
-      console.error(err);
-      notifications.show({
-        title: 'Error',
-        message: 'Invalid Credentials or Server Error!',
-      });
+      notificationService.showError({ err });
     },
   });
 
