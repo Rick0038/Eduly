@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
   {
     path: '/messages',
     element: (
-      <GuardedRoute allowedRoles={[ROLE.STUDENT, ROLE.ADMIN]}>
+      <GuardedRoute allowedRoles={[ROLE.STUDENT, ROLE.TUTOR]}>
         <MessageLayout />
       </GuardedRoute>
     ),
