@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface TutorRepository extends JpaRepository<Tutor, Integer>, TutorSearchRepository {
     Optional<Tutor> findByEmail(String email);
+    Boolean existsByEmail(String email);
 }

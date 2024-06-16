@@ -1,8 +1,11 @@
 package com.gdsd.TutorService.controller.Chat;
 
 import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
+import com.gdsd.TutorService.dto.Chat.ChatMessageResponseDto;
+import com.gdsd.TutorService.dto.Chat.ChatResponseDto;
 import com.gdsd.TutorService.dto.Chat.ConversationDto;
 import com.gdsd.TutorService.dto.Chat.SaveMessageRequestDto;
+import com.gdsd.TutorService.exception.GenericException;
 import com.gdsd.TutorService.model.Chat;
 import com.gdsd.TutorService.model.Message;
 import com.gdsd.TutorService.service.interf.ChatService;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/chat")
@@ -72,7 +76,11 @@ public class ChatController {
                 dto.setUserId(chat.getStudentId());
                 dto.setName(studentService.getStudentNameFromId(chat.getStudentId()));
                 dto.setProfileImgLink(studentService.getStudentProfileImageFromId(chat.getStudentId()));
-                dto.setLastMessageContent(chatService.getLatestMessageForChatId(chat.getChatId()).getContent());
+                if(chatService.getLatestMessageForChatId(chat.getChatId()).isPresent()) {
+                    dto.setLastMessageContent(chatService.getLatestMessageForChatId(chat.getChatId()).get().getContent());
+                } else {
+                    dto.setLastMessageContent("");
+                }
                 dtos.add(dto);
             }
         } else {
@@ -86,7 +94,11 @@ public class ChatController {
                 dto.setUserId(chat.getTutorId());
                 dto.setName(tutorService.getTutorNameFromId(chat.getTutorId()));
                 dto.setProfileImgLink(tutorService.getTutorProfileImageFromId(chat.getStudentId()));
-                dto.setLastMessageContent(chatService.getLatestMessageForChatId(chat.getChatId()).getContent());
+                if(chatService.getLatestMessageForChatId(chat.getChatId()).isPresent()) {
+                    dto.setLastMessageContent(chatService.getLatestMessageForChatId(chat.getChatId()).get().getContent());
+                } else {
+                    dto.setLastMessageContent("");
+                }
                 dtos.add(dto);
             }
         }
@@ -97,34 +109,52 @@ public class ChatController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/id/{chatId}")
-    public ResponseEntity<String> deleteChatById(@PathVariable Integer chatId) {
-        String response = chatService.deleteChatById(chatId);
+    @GetMapping("/{chatId}")
+    public ResponseEntity<ChatResponseDto> getChatForChatId(@PathVariable Integer chatId,
+                                                            @RequestHeader("Authorization") String authorizationHeader,
+                                                            @RequestParam(required = false) String role) {
+
+        Chat chat = chatService.getChatById(chatId);
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String email = tokenProvider.getEmailFromToken(token);
+
+        if(role.equals("STUDENT")) {
+            Integer studentId = studentService.getStudentIdFromEmail(email);
+            if(chat.getStudentId() != studentId) {
+                throw new GenericException("Student with email: " + email
+                        + " is not related to this chat", HttpStatus.UNAUTHORIZED);
+            }
+        } else {
+            Integer tutorId = tutorService.getTutorIdFromEmail(email);
+            if(chat.getTutorId() != tutorId) {
+                throw new GenericException("Tutor with email: " + email
+                        + " is not related to this chat", HttpStatus.UNAUTHORIZED);
+            }
+        }
+
+        List<Message> messages = chatService.getMessagesForChatById(chatId);
+        List<ChatMessageResponseDto> chatMessages = messages.stream().map(message -> {
+            ChatMessageResponseDto chatMessage = new ChatMessageResponseDto();
+            chatMessage.setMessageId(message.getMessageId());
+            chatMessage.setContent(message.getContent());
+            chatMessage.setTimestamp(message.getTimestamp().toString());
+            chatMessage.setSenderId(message.getSenderId());
+            chatMessage.setSenderRole(message.getSenderRole());
+            if (message.getSenderRole().equals("TUTOR")) {
+                chatMessage.setSenderName(tutorService.getTutorNameFromId(message.getSenderId()));
+            } else {
+                chatMessage.setSenderName(studentService.getStudentNameFromId(message.getSenderId()));
+            }
+
+            return chatMessage;
+        }).collect(Collectors.toList());
+
+        ChatResponseDto response = new ChatResponseDto();
+        response.setChatId(chatId);
+        response.setMessages(chatMessages);
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-//    @GetMapping("/student/email/{studentEmail}")
-//    public ResponseEntity<List<Chat>> getChatsForStudentEmail(@PathVariable String studentEmail) {
-//        List<Chat> chatsForStudent = chatService.getChatsForStudent(studentEmail);
-//        return new ResponseEntity<>(chatsForStudent, HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/tutor/email/{tutorEmail}")
-//    public ResponseEntity<List<Chat>> getChatsForTutorEmail(@PathVariable String tutorEmail) {
-//        List<Chat> chatsForTutor = chatService.getChatsForTutor(tutorEmail);
-//        return new ResponseEntity<>(chatsForTutor, HttpStatus.OK);
-//    }
 
-    @PostMapping("/message/save")
-    public ResponseEntity<Message> saveMessage(@RequestBody SaveMessageRequestDto saveMessageRequestDto) {
-        Message message = chatService.saveMessage(saveMessageRequestDto);
-        return new ResponseEntity<>(message, HttpStatus.OK);
-
-    }
-
-    @GetMapping("/message/chatid/{chatId}")
-    public ResponseEntity<List<Message>> getMessagesForChatId(@PathVariable Integer chatId) {
-        List<Message> messagesForChatById = chatService.getMessagesForChatById(chatId);
-        return new ResponseEntity<>(messagesForChatById, HttpStatus.OK);
-    }
 }
