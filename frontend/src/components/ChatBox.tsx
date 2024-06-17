@@ -67,16 +67,16 @@ export function ChatBox() {
         </Flex>
       ) : isError ? (
         <Flex align='center' justify='center' pt={'sm'} className='h-full'>
-          <Text color='red'>Error loading conversations!</Text>
+          <Text c='red'>Error loading conversations!</Text>
         </Flex>
-      ) : !data?.messages?.length ? (
+      ) : !data?.messages?.length && !chatMessages.length ? (
         <Flex align='center' justify='center' pt={'sm'} className='h-full'>
-          <Text color='gray'>No messages found!</Text>
+          <Text c='gray'>No messages found!</Text>
         </Flex>
       ) : (
         <div className='flex-1 overflow-y-auto p-4'>
           {/* REST API messages */}
-          {data.messages.map((msg, index) => (
+          {(data?.messages || []).map((msg, index) => (
             <MessageCard key={`${msg.messageId}-${index}`} message={msg} />
           ))}
           {/* Socket Messages */}

@@ -33,7 +33,7 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
   const navigate = useNavigate();
 
   const sendMessage = useMutation({
-    mutationFn: chatService.sendMessage,
+    mutationFn: chatService.startChat,
     onSuccess: (data) => {
       const chatId = data.chatId;
       navigate(`/messages/${chatId}`);
@@ -45,11 +45,13 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
 
   const handleSendMessage = () => {
     if (message.trim().length > 0) {
-      const payload = {
-        tutorId: tutor.id,
-        content: message,
+      const params = {
+        id: tutor.id,
+        payload: {
+          message,
+        },
       };
-      sendMessage.mutate(payload);
+      sendMessage.mutate(params);
     }
   };
 

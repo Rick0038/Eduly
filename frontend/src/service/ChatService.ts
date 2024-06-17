@@ -1,6 +1,11 @@
 import { Chats, Conversations, Message } from '../model';
 import { httpService } from './HTTPService';
 
+interface StartChatParams {
+  id: string;
+  payload: Record<string, string>;
+}
+
 class ChatService {
   async getChatMessages(id: string) {
     const url = `/api/v1/chat/${id}`;
@@ -14,9 +19,9 @@ class ChatService {
     return response;
   }
 
-  async sendMessage(payload: Record<string, string>) {
-    const url = '/api/v1/chat/message';
-    const response = await httpService.post<Message>(url, payload);
+  async startChat(params: StartChatParams) {
+    const url = `/api/v1/chat/start/${params.id}`;
+    const response = await httpService.post<Message>(url, params.payload);
     return response;
   }
 }

@@ -49,9 +49,7 @@ export function MessagePage() {
           <ChatBox />
         ) : (
           <Flex justify='center' align='center' h='100%'>
-            <Text color='gray'>
-              Select a conversation to start messaging...
-            </Text>
+            <Text c='gray'>Select a conversation to start messaging...</Text>
           </Flex>
         )}
       </Box>
