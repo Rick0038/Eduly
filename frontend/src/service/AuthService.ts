@@ -1,6 +1,7 @@
+import { httpService } from './HTTPService';
+import { ROLE } from '../constant';
 import { UserInfo } from '../model';
 import { getUserInfoFromLocalStorage } from '../util/userInfo';
-import { httpService } from './HTTPService';
 
 export interface LoginInfo {
   email: string;
@@ -17,6 +18,30 @@ export interface RegisterInfo {
 }
 
 class AuthService {
+  get user() {
+    return getUserInfoFromLocalStorage();
+  }
+
+  get isTutor() {
+    return this.user?.role === ROLE.TUTOR;
+  }
+
+  get isStudent() {
+    return this.user?.role === ROLE.STUDENT;
+  }
+
+  get isAdmin() {
+    return this.user?.role === ROLE.ADMIN;
+  }
+
+  isLoggedIn() {
+    return localStorage.getItem('user') ? true : false;
+  }
+
+  logout() {
+    return localStorage.removeItem('user');
+  }
+
   async login(loginInfo: LoginInfo): Promise<UserInfo> {
     const response = await httpService.post<UserInfo>(
       '/auth/v1/login',
@@ -28,18 +53,6 @@ class AuthService {
   async register(registerInfo: RegisterInfo) {
     const response = await httpService.post('/auth/v1/register', registerInfo);
     return response;
-  }
-
-  isLoggedIn() {
-    return localStorage.getItem('user') ? true : false;
-  }
-
-  logout() {
-    localStorage.removeItem('user');
-  }
-
-  get user() {
-    return getUserInfoFromLocalStorage();
   }
 }
 

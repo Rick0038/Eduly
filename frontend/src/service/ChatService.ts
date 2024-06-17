@@ -1,4 +1,4 @@
-import { Chats, Conversations } from '../model';
+import { Chats, Conversations, Message } from '../model';
 import { httpService } from './HTTPService';
 
 class ChatService {
@@ -11,6 +11,12 @@ class ChatService {
   async getConversations() {
     const url = '/api/v1/chat/conversations';
     const response = await httpService.get<Conversations>(url);
+    return response;
+  }
+
+  async sendMessage(payload: Record<string, string>) {
+    const url = '/api/v1/chat/message';
+    const response = await httpService.post<Message>(url, payload);
     return response;
   }
 }

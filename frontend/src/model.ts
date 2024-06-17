@@ -49,4 +49,5 @@ export interface Message {
   senderName: string;
   senderId: number;
   senderRole: ROLE;
+  chatId: number;
 }
