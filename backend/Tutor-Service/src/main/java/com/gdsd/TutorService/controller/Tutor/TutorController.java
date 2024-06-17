@@ -44,15 +44,14 @@ public class TutorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/cv/{tutorId}")
+    @PutMapping("/cv")
     public ResponseEntity<TutorProfileResponseDto> updateTutorCV(
-//            @RequestHeader("Authorization") String authorizationHeader,
-            @PathVariable Integer tutorId,
+          @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam("file") MultipartFile file) {
 
-//        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
-//        String tutorEmail = tokenProvider.getEmailFromToken(token);
-//        Integer tutorId = tutorService.getTutorIdFromEmail(tutorEmail);
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String tutorEmail = tokenProvider.getEmailFromToken(token);
+        Integer tutorId = tutorService.getTutorIdFromEmail(tutorEmail);
 
         TutorProfileRequestDto requestDto = new TutorProfileRequestDto();
         requestDto.setFile(file);
@@ -64,15 +63,14 @@ public class TutorController {
         } else {
             return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }@PutMapping("/profileImage/{tutorId}")
+    }@PutMapping("/profileImage")
     public ResponseEntity<TutorProfileResponseDto> updateTutorProfileImage(
-//            @RequestHeader("Authorization") String authorizationHeader,
-            @PathVariable Integer tutorId,
+            @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam("file") MultipartFile file) {
 
- //       String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
-//        String tutorEmail = tokenProvider.getEmailFromToken(token);
-//        Integer tutorId = tutorService.getTutorIdFromEmail(tutorEmail);
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String tutorEmail = tokenProvider.getEmailFromToken(token);
+        Integer tutorId = tutorService.getTutorIdFromEmail(tutorEmail);
 
 
         TutorProfileRequestDto requestDto = new TutorProfileRequestDto();

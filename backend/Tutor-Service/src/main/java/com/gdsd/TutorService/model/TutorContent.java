@@ -3,7 +3,7 @@ package com.gdsd.TutorService.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tutor_content_det")
+@Table(name = "tutor_profile_content")
 public class TutorContent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,8 +13,6 @@ public class TutorContent {
     @Column(name = "tutorId")
     private Integer tutorId;
 
-    @Column(name = "contentFileName")
-    private String contentFileName;
     @Column(name = "contentLink")
     private String contentLink;
 
@@ -56,13 +54,6 @@ public class TutorContent {
         this.tutorId = tutorId;
     }
 
-    public String getContentFileName() {
-        return contentFileName;
-    }
-
-    public void setContentFileName(String contentFileName) {
-        this.contentFileName = contentFileName;
-    }
     public String getContentLink() {
         return contentLink;
     }

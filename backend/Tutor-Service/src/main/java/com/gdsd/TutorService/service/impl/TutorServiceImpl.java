@@ -148,7 +148,6 @@ public class TutorServiceImpl implements TutorService {
                 // Save new content record in database
                 TutorContent newContent = new TutorContent();
                 newContent.setTutorId(tutorId);
-                newContent.setContentFileName(requestDto.getFile().getOriginalFilename());
                 newContent.setContentLink(cvLink);
                 newContent.setStatus(String.valueOf(TutorContent.Status.PENDING_FOR_APPROVAL));
                 newContent.setContentType(String.valueOf(TutorContent.ContentType.cv));
@@ -202,7 +201,6 @@ public class TutorServiceImpl implements TutorService {
                 // Save new content record in database
                 TutorContent newContent = new TutorContent();
                 newContent.setTutorId(tutorId);
-                newContent.setContentFileName(requestDto.getFile().getOriginalFilename());
                 newContent.setContentLink(profileImgLink);
                 newContent.setStatus(String.valueOf(TutorContent.Status.PENDING_FOR_APPROVAL));
                 newContent.setContentType(String.valueOf(TutorContent.ContentType.profile_image));
