@@ -1,5 +1,5 @@
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://20.224.153.213:5001"/ws'
+    brokerURL: 'ws://20.224.153.213:5001/ws'
 });
 
 stompClient.onConnect = (frame) => {
