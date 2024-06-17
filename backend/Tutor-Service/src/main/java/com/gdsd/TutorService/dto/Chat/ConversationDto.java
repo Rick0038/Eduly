@@ -7,6 +7,8 @@ public class ConversationDto {
     private String profileImgLink;
     private String lastMessageContent;
 
+    private String timestamp;
+
     public ConversationDto() {
     }
 
@@ -48,5 +50,13 @@ public class ConversationDto {
 
     public void setLastMessageContent(String lastMessageContent) {
         this.lastMessageContent = lastMessageContent;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }
