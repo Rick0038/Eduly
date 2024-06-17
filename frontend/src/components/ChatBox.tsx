@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { useParams } from 'react-router';
 import { useWebSocket } from '../hooks';
-import { chatService } from '../service';
+import { authService, chatService } from '../service';
 import { MessageCard } from './MessageCard';
 
 export function ChatBox() {
@@ -50,9 +50,9 @@ export function ChatBox() {
   const handleSend = useCallback(() => {
     if (id && input) {
       const message = {
-        sender: 'sender1',
-        message: input,
-        chatId: id,
+        chatId: Number(id),
+        senderId: Number(authService.user?.id),
+        content: input,
       };
       sendMessage('/app/hello', message);
       setInput('');

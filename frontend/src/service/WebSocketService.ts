@@ -2,18 +2,19 @@ import { Client, StompSubscription } from '@stomp/stompjs';
 import { APP_WS_URL } from '../constant';
 import { formatDate } from '../util/helpers';
 import { Message } from '../model';
+import { authService } from './AuthService';
 
 export interface MessageOut {
-  chatId: string;
-  sender: string;
-  message: string;
+  chatId: number;
+  senderId: number;
+  content: string;
 }
 
 const WSS_URL = `${APP_WS_URL}/ws`;
 
 class WebSocketService {
   private client: Client;
-  private messages: Map<string, Message[]>;
+  private messages: Map<number, Message[]>;
   private subscriptions: Map<string, StompSubscription>;
   private subscriptionQueue: {
     topic: string;
@@ -30,7 +31,7 @@ class WebSocketService {
         console.log(`[${formattedDate}]`, str);
       },
     });
-    this.messages = new Map<string, Message[]>();
+    this.messages = new Map<number, Message[]>();
     this.subscriptions = new Map<string, StompSubscription>();
     this.subscriptionQueue = [];
   }
@@ -52,7 +53,7 @@ class WebSocketService {
     this.messages.set(chatId, chatMessages);
   }
 
-  getMessages(chatId: string) {
+  getMessages(chatId: number) {
     return this.messages.get(chatId) || [];
   }
 
@@ -123,11 +124,15 @@ class WebSocketService {
     this.client.deactivate();
   }
 
-  sendMessage(destination: string, message: MessageOut) {
+  sendMessage(destination: string, payload: MessageOut) {
+    const payloadWithRole = {
+      ...payload,
+      senderRole: authService.user?.role,
+    };
     if (this.client.connected) {
       this.client.publish({
         destination,
-        body: JSON.stringify(message),
+        body: JSON.stringify(payloadWithRole),
       });
     } else {
       console.error('Unable to send message: WebSocket is not connected.');
