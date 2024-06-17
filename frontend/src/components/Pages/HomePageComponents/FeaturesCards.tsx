@@ -16,7 +16,7 @@ import {
 } from '@tabler/icons-react';
 import classes from './FeaturesCards.module.css';
 
-const mockdata = [
+const featureData = [
   {
     title: 'Find Your Ideal Tutor',
     description:
@@ -39,7 +39,7 @@ const mockdata = [
 
 export function FeaturesCards() {
   const theme = useMantineTheme();
-  const features = mockdata.map((feature) => (
+  const features = featureData.map((feature) => (
     <Card
       key={feature.title}
       shadow='md'

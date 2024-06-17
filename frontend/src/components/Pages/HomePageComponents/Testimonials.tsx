@@ -15,7 +15,7 @@ import Marquee from 'react-fast-marquee';
 import { IconPlayerPlayFilled, IconPlayerPauseFilled } from '@tabler/icons-react';
 
 export function Testimonials() {
-  const data = [
+  const testimonialData = [
     {
       name: 'Emma Johnson',
       feedback:
@@ -96,7 +96,7 @@ export function Testimonials() {
 
   const [playTestimonials, setPlayTestimonials] = useState('play');
 
-  const testimonials = data.map((testimonial) => (
+  const testimonials = testimonialData.map((testimonial) => (
     <Card maw={300} shadow='sm' m={10} padding='lg' radius='md' withBorder>
       <Card.Section>
         <Image

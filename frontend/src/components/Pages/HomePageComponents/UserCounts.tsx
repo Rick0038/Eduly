@@ -4,7 +4,7 @@ import CountUp from 'react-countup';
 import classes from './UserCounts.module.css';
 import { useState } from 'react';
 
-const data = [
+const userCountData = [
   {
     title: 'Tutors',
     stats: 2175,
@@ -18,7 +18,7 @@ const data = [
 export function UserCounts() {
   const { ref, inViewport } = useInViewport();
   const [countFinished, setCountFinished] = useState(false);
-  const stats = data.map((stat) => (
+  const stats = userCountData.map((stat) => (
     <div key={stat.title} className={classes.stat}>
       <Text ta='center' className={classes.count}>
         {inViewport && !countFinished && (
