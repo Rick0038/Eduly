@@ -1,8 +1,6 @@
 package com.gdsd.TutorService.service.interf;
 
-import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
-import com.gdsd.TutorService.dto.Tutor.TutorResponseDto;
-import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
+import com.gdsd.TutorService.dto.Tutor.*;
 
 import java.util.List;
 
@@ -18,4 +16,6 @@ public interface TutorService {
                                                Double pricingMax, Double ratingsMin,
                                                String topic, String language,
                                                Integer experienceMin);
+    TutorProfileResponseDto updateTutorCV(TutorProfileRequestDto requestDto, Integer tutorId);
+    TutorProfileResponseDto updateTutorProfileImage(TutorProfileRequestDto requestDto, Integer tutorId);
 }
