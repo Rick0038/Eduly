@@ -1,10 +1,7 @@
 package com.gdsd.TutorService.controller.Chat;
 
 import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
-import com.gdsd.TutorService.dto.Chat.ChatMessageResponseDto;
-import com.gdsd.TutorService.dto.Chat.ChatResponseDto;
-import com.gdsd.TutorService.dto.Chat.ConversationDto;
-import com.gdsd.TutorService.dto.Chat.SaveMessageRequestDto;
+import com.gdsd.TutorService.dto.Chat.*;
 import com.gdsd.TutorService.exception.GenericException;
 import com.gdsd.TutorService.model.Chat;
 import com.gdsd.TutorService.model.Message;
@@ -40,7 +37,9 @@ public class ChatController {
 
     @PostMapping("/start/{tutorId}")
     public ResponseEntity<Map> startChat(@RequestHeader("Authorization") String authorizationHeader,
-                                          @PathVariable Integer tutorId) {
+                                         @PathVariable Integer tutorId,
+                                         @RequestBody StartChatRequestDto startChatRequestDto
+                                         ) {
 
         String jwt = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
         String studentEmail = tokenProvider.getEmailFromToken(jwt);
@@ -49,13 +48,24 @@ public class ChatController {
 
         //if chat between student and tutor already exists then just return the chat id otherwise create
         Map<String, Integer> response = new HashMap<>();
+        Integer chatId = null;
         if(chatService.chatExistsByStudentIdAndTutorId(studentId, tutorId)) {
-            Integer chatId =  chatService.getChatIdForStudentIdAndTutorId(studentId, tutorId);
+            chatId =  chatService.getChatIdForStudentIdAndTutorId(studentId, tutorId);
             response.put("chatId", chatId);
         } else {
-            Integer chatId = chatService.createChat(studentId, tutorId);
+            chatId = chatService.createChat(studentId, tutorId);
             response.put("chatId", chatId);
         }
+
+        //also save the message sent for the first time
+        SaveMessageRequestDto saveMessageRequestDto = new SaveMessageRequestDto();
+        saveMessageRequestDto.setMessageId(null);
+        saveMessageRequestDto.setChatId(chatId);
+        saveMessageRequestDto.setSenderId(studentId);
+        saveMessageRequestDto.setSenderRole("STUDENT");
+        saveMessageRequestDto.setContent(startChatRequestDto.getMessage());
+        saveMessageRequestDto.setTimestamp(null);
+        chatService.saveMessage(saveMessageRequestDto);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -70,37 +80,13 @@ public class ChatController {
             String tutorEmail = tokenProvider.getEmailFromToken(token);
             Integer tutorId = tutorService.getTutorIdFromEmail(tutorEmail);
             List<Chat> chatsForTutor = chatService.getChatsForTutor(tutorId);
-            for(Chat chat : chatsForTutor) {
-                ConversationDto dto = new ConversationDto();
-                dto.setChatId(chat.getChatId());
-                dto.setUserId(chat.getStudentId());
-                dto.setName(studentService.getStudentNameFromId(chat.getStudentId()));
-                dto.setProfileImgLink(studentService.getStudentProfileImageFromId(chat.getStudentId()));
-                if(chatService.getLatestMessageForChatId(chat.getChatId()).isPresent()) {
-                    dto.setLastMessageContent(chatService.getLatestMessageForChatId(chat.getChatId()).get().getContent());
-                } else {
-                    dto.setLastMessageContent("");
-                }
-                dtos.add(dto);
-            }
+            dtos = conversations(chatsForTutor, role);
         } else {
             String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
             String studentEmail = tokenProvider.getEmailFromToken(token);
             Integer studentId = studentService.getStudentIdFromEmail(studentEmail);
             List<Chat> chatsForStudent = chatService.getChatsForStudent(studentId);
-            for(Chat chat : chatsForStudent) {
-                ConversationDto dto = new ConversationDto();
-                dto.setChatId(chat.getChatId());
-                dto.setUserId(chat.getTutorId());
-                dto.setName(tutorService.getTutorNameFromId(chat.getTutorId()));
-                dto.setProfileImgLink(tutorService.getTutorProfileImageFromId(chat.getStudentId()));
-                if(chatService.getLatestMessageForChatId(chat.getChatId()).isPresent()) {
-                    dto.setLastMessageContent(chatService.getLatestMessageForChatId(chat.getChatId()).get().getContent());
-                } else {
-                    dto.setLastMessageContent("");
-                }
-                dtos.add(dto);
-            }
+            dtos = conversations(chatsForStudent, role);
         }
 
         Map<String, List<ConversationDto>> response = new HashMap<>();
@@ -108,6 +94,36 @@ public class ChatController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    public List<ConversationDto> conversations(List<Chat> chats, String role) {
+        List<ConversationDto> dtos = new ArrayList<>();
+            for(Chat chat : chats) {
+                ConversationDto dto = new ConversationDto();
+                dto.setChatId(chat.getChatId());
+                dto.setUserId(chat.getStudentId());
+                if (role.equals("TUTOR")) {
+                    dto.setName(studentService.getStudentNameFromId(chat.getStudentId()));
+                    dto.setProfileImgLink(studentService.getStudentProfileImageFromId(chat.getStudentId()));
+                } else {
+                    dto.setName(tutorService.getTutorNameFromId(chat.getTutorId()));
+                    dto.setProfileImgLink(tutorService.getTutorProfileImageFromId(chat.getStudentId()));
+                }
+
+                if(chatService.getLatestMessageForChatId(chat.getChatId()).isPresent()) {
+                    Message message = chatService.getLatestMessageForChatId(chat.getChatId()).get();
+                    dto.setLastMessageContent(message.getContent());
+                    dto.setTimestamp(message.getTimestamp().toString());
+                } else {
+                    dto.setLastMessageContent("");
+                    dto.setTimestamp("");
+                }
+                dtos.add(dto);
+            }
+
+            return dtos;
+        }
+
+
 
     @GetMapping("/{chatId}")
     public ResponseEntity<ChatResponseDto> getChatForChatId(@PathVariable Integer chatId,
