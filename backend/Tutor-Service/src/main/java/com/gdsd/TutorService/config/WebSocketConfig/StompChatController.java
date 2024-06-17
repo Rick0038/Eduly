@@ -21,8 +21,17 @@ public class StompChatController {
     private SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/hello")
-    public void sendMessage(TestStompMessage message) {
-        System.out.println("TestStomMessage: " + message);
-        messagingTemplate.convertAndSend("/topic/" + message.getChatId(), message);
+    public void sendMessage(WebSocketChatRequestDto webSocketChatRequestDto) {
+        System.out.println("Websocket message: " + webSocketChatRequestDto);
+        SaveMessageRequestDto saveMessageRequestDto = new SaveMessageRequestDto();
+        saveMessageRequestDto.setMessageId(null);
+        saveMessageRequestDto.setChatId(webSocketChatRequestDto.getChatId());
+        saveMessageRequestDto.setSenderId(webSocketChatRequestDto.getSenderId());
+        saveMessageRequestDto.setContent(webSocketChatRequestDto.getContent());
+        saveMessageRequestDto.setSenderRole(webSocketChatRequestDto.getSenderRole());
+        saveMessageRequestDto.setTimestamp(null);
+
+        Message message = chatService.saveMessage(saveMessageRequestDto);
+        messagingTemplate.convertAndSend("/topic/" + webSocketChatRequestDto.getChatId(), message);
     }
 }
