@@ -1,7 +1,18 @@
-import { Badge, Card, Group, Image, Text, Title, Paper } from '@mantine/core';
+import {
+  Badge,
+  Card,
+  Group,
+  Image,
+  Text,
+  Title,
+  Paper,
+  SegmentedControl,
+  Center,
+} from '@mantine/core';
 import { useIntersection } from '@mantine/hooks';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
+import { IconPlayerPlayFilled, IconPlayerPauseFilled } from '@tabler/icons-react';
 
 export function Testimonials() {
   const data = [
@@ -83,6 +94,8 @@ export function Testimonials() {
     threshold: 0.5,
   });
 
+  const [playTestimonials, setPlayTestimonials] = useState('play');
+
   const testimonials = data.map((testimonial) => (
     <Card maw={300} shadow='sm' m={10} padding='lg' radius='md' withBorder>
       <Card.Section>
@@ -109,9 +122,25 @@ export function Testimonials() {
       <Title order={1} ta='center' my={'md'}>
         Look at what our members have to say...
       </Title>
-      <Marquee pauseOnHover play={entry?.isIntersecting ? true : false}>
+      <Marquee
+        play={
+          playTestimonials === 'play' && entry?.isIntersecting ? true : false
+        }
+      >
         {testimonials}
       </Marquee>
+      <Center my={10}>
+        <SegmentedControl
+          size={'xs'}
+          radius={'xl'}
+          value={playTestimonials}
+          onChange={setPlayTestimonials}
+          data={[
+            { label: <IconPlayerPlayFilled />, value: 'play' },
+            { label: <IconPlayerPauseFilled />, value: 'pause' },
+          ]}
+        />
+      </Center>
     </Paper>
   );
 }
