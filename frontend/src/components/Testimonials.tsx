@@ -1,4 +1,4 @@
-import { Badge, Card, Group, Image, Text, Paper } from '@mantine/core';
+import { Badge, Card, Group, Image, Text, Title, Paper } from '@mantine/core';
 import { useIntersection } from '@mantine/hooks';
 import { useRef } from 'react';
 import Marquee from 'react-fast-marquee';
@@ -106,6 +106,9 @@ export function Testimonials() {
 
   return (
     <Paper ref={ref} mt={10} withBorder>
+      <Title order={1} ta='center' my={'md'}>
+        Look at what our members have to say...
+      </Title>
       <Marquee pauseOnHover play={entry?.isIntersecting ? true : false}>
         {testimonials}
       </Marquee>
