@@ -1,7 +1,7 @@
 import { Title, Text, Container, Button, Overlay, Paper } from '@mantine/core';
-import classes from './Tutorad.module.css';
+import classes from './TutorAd.module.css';
 
-export function Tutorad() {
+export function TutorAd() {
   return (
     <Paper mt={10}>
       <div className={classes.wrapper}>

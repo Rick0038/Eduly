@@ -14,7 +14,7 @@ import {
   IconDeviceLaptop,
   IconMessageCircle,
 } from '@tabler/icons-react';
-import classes from './FeaturesCards.module.css';
+import classes from './FeatureCards.module.css';
 
 const featureData = [
   {
@@ -37,7 +37,7 @@ const featureData = [
   },
 ];
 
-export function FeaturesCards() {
+export function FeatureCards() {
   const theme = useMantineTheme();
   const features = featureData.map((feature) => (
     <Card

@@ -1,17 +1,17 @@
 import { Hero } from './HomePageComponents/HomepageHero';
-import { FeaturesCards } from './HomePageComponents/FeaturesCards';
+import { FeatureCards } from './HomePageComponents/FeatureCards';
 import { UserCounts } from './HomePageComponents/UserCounts';
 import { Testimonials } from './HomePageComponents/Testimonials';
-import { Tutorad } from './HomePageComponents/Tutorad';
+import { TutorAd } from './HomePageComponents/TutorAd';
 
 export function HomePage() {
   return (
     <>
       <Hero />
-      <FeaturesCards />
+      <FeatureCards />
       <UserCounts />
       <Testimonials />
-      <Tutorad />
+      <TutorAd />
     </>
   );
 }
