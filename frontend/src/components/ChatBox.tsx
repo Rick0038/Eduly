@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { useParams } from 'react-router';
 import { useWebSocket } from '../hooks';
-import { chatService } from '../service';
+import { authService, chatService } from '../service';
 import { MessageCard } from './MessageCard';
 
 export function ChatBox() {
@@ -50,9 +50,9 @@ export function ChatBox() {
   const handleSend = useCallback(() => {
     if (id && input) {
       const message = {
-        sender: 'sender1',
-        message: input,
-        chatId: id,
+        chatId: Number(id),
+        senderId: Number(authService.user?.id),
+        content: input,
       };
       sendMessage('/app/hello', message);
       setInput('');
@@ -67,21 +67,21 @@ export function ChatBox() {
         </Flex>
       ) : isError ? (
         <Flex align='center' justify='center' pt={'sm'} className='h-full'>
-          <Text color='red'>Error loading conversations!</Text>
+          <Text c='red'>Error loading conversations!</Text>
         </Flex>
-      ) : !data?.messages?.length ? (
+      ) : !data?.messages?.length && !chatMessages.length ? (
         <Flex align='center' justify='center' pt={'sm'} className='h-full'>
-          <Text color='gray'>No messages found!</Text>
+          <Text c='gray'>No messages found!</Text>
         </Flex>
       ) : (
         <div className='flex-1 overflow-y-auto p-4'>
           {/* REST API messages */}
-          {data.messages.map((msg, index) => (
-            <MessageCard key={`${msg.id}-${index}`} message={msg} />
+          {(data?.messages || []).map((msg, index) => (
+            <MessageCard key={`${msg.messageId}-${index}`} message={msg} />
           ))}
           {/* Socket Messages */}
           {chatMessages.map((msg, index) => (
-            <MessageCard key={`${msg.id}-${index}`} message={msg} />
+            <MessageCard key={`${msg.messageId}-${index}`} message={msg} />
           ))}
           <div ref={messagesEndRef} />
         </div>

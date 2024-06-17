@@ -1,5 +1,7 @@
 import { Avatar, Card, Flex, Text } from '@mantine/core';
 import { Message } from '../model';
+import { formatDate } from '../util/helpers';
+import { authService } from '../service';
 
 interface MessageCardProps {
   message: Message;
@@ -13,16 +15,16 @@ export const MessageCard = (props: MessageCardProps) => {
       <Flex align='center' mb='xs'>
         <Avatar
           size='sm'
-          color={message.sender.toLowerCase() === 'you' ? 'green' : 'blue'}
+          color={message.senderId === authService.user?.id ? 'green' : 'blue'}
         />
         <div className='ml-2'>
-          <span className='font-bold'>{message.sender}</span>
+          <span className='font-bold'>{message.senderName}</span>
           <span className='text-gray-500 ml-2 text-sm'>
-            {message.timestamp}
+            {formatDate(new Date(message.timestamp), { skipSeconds: true })}
           </span>
         </div>
       </Flex>
-      <Text>{message.message}</Text>
+      <Text>{message.content}</Text>
     </Card>
   );
 };
