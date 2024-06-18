@@ -43,7 +43,7 @@ export function ChatBox() {
       // TODO: Should we unsubscribe?
       // return () => {
       //   unsubscribeFromTopic(`/topic/${id}`);
-      // };
+      // }
     }
   }, [id, subscribeToTopic, unsubscribeFromTopic]);
 
