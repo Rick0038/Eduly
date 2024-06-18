@@ -76,7 +76,7 @@ export function FeatureCards() {
       <Text c='dimmed' className={classes.description} ta='center' mt='md'>
         With Eduly's industry leading features, you can better utilize your
         time by learning new skills rather than wasting your time in shuffling
-        between bad tutors. We are here to connect you to the best tutors at Fulda.
+        between bad tutors. We are here to connect you to the best tutors at Fulda..
       </Text>
 
       <SimpleGrid cols={{ base: 1, md: 3 }} spacing='xl' mt={50}>
