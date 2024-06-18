@@ -52,8 +52,6 @@ public class StompChatController {
         responseDto.setSenderId(message.getSenderId());
         responseDto.setSenderRole(message.getSenderRole());
 
-        System.out.println("Response Message: " + responseDto);
-
         messagingTemplate.convertAndSend("/topic/" + webSocketChatRequestDto.getChatId(), responseDto);
     }
 }
