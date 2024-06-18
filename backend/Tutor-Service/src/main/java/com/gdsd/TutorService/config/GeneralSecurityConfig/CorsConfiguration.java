@@ -17,7 +17,7 @@ public class CorsConfiguration {
                         .allowedOriginPatterns("*") // Allow requests from the Azure VM's public IP(currently allows from anywhere)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Specify allowed HTTP methods
                         .allowedHeaders("*") // Allow all headers
-                        .allowCredentials(true); // Allow credentials (cookies, authorization headers, etc.)
+                        .allowCredentials(true); // Allow credentials (cookies, authorization headers, etc...)
             }
         };
     }
