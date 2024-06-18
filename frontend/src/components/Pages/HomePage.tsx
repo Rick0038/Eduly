@@ -1,4 +1,4 @@
-import { Hero } from '../HomePageComponents/HomepageHero';
+import { Hero } from '../HomePageComponents/Hero';
 import { FeatureCards } from '../HomePageComponents/FeatureCards';
 import { UserCounts } from '../HomePageComponents/UserCounts';
 import { Testimonials } from '../HomePageComponents/Testimonials';

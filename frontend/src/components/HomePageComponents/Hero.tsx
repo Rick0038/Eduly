@@ -1,5 +1,5 @@
 import { Container, Title, Text, Button } from '@mantine/core';
-import classes from './HomepageHero.module.css';
+import classes from './Hero.module.css';
 
 export function Hero() {
   return (
