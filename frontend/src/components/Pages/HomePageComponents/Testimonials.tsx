@@ -100,7 +100,7 @@ export function Testimonials() {
     <Card maw={300} shadow='sm' m={10} padding='lg' radius='md' withBorder>
       <Card.Section>
         <Image
-          src={'TestimonialImages/' + testimonial.portrait}
+          src={'HomepageImages/' + testimonial.portrait}
           height={160}
           alt='Testimonial Person Image'
         />
