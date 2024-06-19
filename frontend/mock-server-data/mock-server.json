@@ -25,10 +25,6 @@
         },
         {
           "type": "route",
-          "uuid": "afbe551a-5b1b-4ec0-87c5-ab3217051efc"
-        },
-        {
-          "type": "route",
           "uuid": "800c958e-db49-4d8e-b89d-8ad9275e196f"
         },
         {
@@ -54,6 +50,16 @@
         {
           "type": "route",
           "uuid": "ca8f30b5-df81-43bd-842d-8c40551c5c55"
+        }
+      ]
+    },
+    {
+      "uuid": "ac6d34b1-8776-4163-8ce7-5525fc5b2e57",
+      "name": "Student APIs (WIP)",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "afbe551a-5b1b-4ec0-87c5-ab3217051efc"
         }
       ]
     }
@@ -627,6 +633,10 @@
     {
       "type": "folder",
       "uuid": "4eb11b17-a556-41ad-b782-c58d402aba1c"
+    },
+    {
+      "type": "folder",
+      "uuid": "ac6d34b1-8776-4163-8ce7-5525fc5b2e57"
     }
   ],
   "proxyMode": false,
