@@ -6,7 +6,58 @@
   "latency": 200,
   "port": 3001,
   "hostname": "",
-  "folders": [],
+  "folders": [
+    {
+      "uuid": "4eb11b17-a556-41ad-b782-c58d402aba1c",
+      "name": "Tutor APIs",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "92102b63-bd0a-4b15-a485-c21bee0f6075"
+        },
+        {
+          "type": "route",
+          "uuid": "92ce7529-c372-4c73-aa38-b3a5778a212c"
+        },
+        {
+          "type": "route",
+          "uuid": "402cf23f-cc97-40a3-88d6-3e783c5a4cb1"
+        },
+        {
+          "type": "route",
+          "uuid": "afbe551a-5b1b-4ec0-87c5-ab3217051efc"
+        },
+        {
+          "type": "route",
+          "uuid": "800c958e-db49-4d8e-b89d-8ad9275e196f"
+        },
+        {
+          "type": "route",
+          "uuid": "7a8adac7-fa26-496d-87ae-aba4d4a2863a"
+        },
+        {
+          "type": "route",
+          "uuid": "bc600b29-6e4e-4fe7-b512-f430899718e6"
+        },
+        {
+          "type": "route",
+          "uuid": "7d38125a-a0f8-4a2e-9eac-f3ae00495ec8"
+        },
+        {
+          "type": "route",
+          "uuid": "20f84797-489f-41f6-9354-09e94248ac3e"
+        },
+        {
+          "type": "route",
+          "uuid": "82403dea-49a3-43bd-b760-6413c7ab947d"
+        },
+        {
+          "type": "route",
+          "uuid": "ca8f30b5-df81-43bd-842d-8c40551c5c55"
+        }
+      ]
+    }
+  ],
   "routes": [
     {
       "uuid": "9d8d3a85-df57-468b-b347-eb476a122b59",
@@ -227,6 +278,325 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "92102b63-bd0a-4b15-a485-c21bee0f6075",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "topics",
+      "responses": [
+        {
+          "uuid": "0c0bb577-2242-4b0d-8eb7-352187c95189",
+          "body": "{\n  \"topics\": [\n    \"Physics\",\n    \"C++\",\n    \"C#\",\n    \"Economics\"\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "92ce7529-c372-4c73-aa38-b3a5778a212c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "languages",
+      "responses": [
+        {
+          "uuid": "92c58a23-97f0-4eef-9858-11001dc9b365",
+          "body": "{\n  \"languages\": [\n    \"English\",\n    \"Spanish\",\n    \"Russian\"\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "402cf23f-cc97-40a3-88d6-3e783c5a4cb1",
+      "type": "http",
+      "documentation": "For tutor self view",
+      "method": "get",
+      "endpoint": "api/v1/tutor",
+      "responses": [
+        {
+          "uuid": "6cd64b2b-e36a-4688-9887-568843e39b02",
+          "body": "{\n  \"id\": \"12345\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"hello@hs-fulda.de\",\n  \"status\": \"APPROVED\",\n  \"pricing\": 40,\n  \"rating\": 4.7,\n  \"numberOfRatings\": 100,\n  \"topic\": \"Math\",\n  \"language\": \"English\",\n  \"introText\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n  \"numLessonsTaught\": 10,\n  \"profileImgLink\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"cv\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"video\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"schedule\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 129,\n          \"from\": \"19:00\",\n          \"to\": \"18:00\",\n          \"status\": \"BOOKED\"\n        }\n      ]\n    },\n    {\n      \"date\": \"2024-09-02\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 456,\n          \"from\": \"19:00\",\n          \"to\": \"20:00\",\n          \"status\": \"BOOKED\"\n        }\n      ]\n    }\n  ],\n  \"reviews\": [\n    {\n      \"id\": 123,\n      \"rating\": 4.5,\n      \"text\": \"amazing tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jame Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    },\n    {\n      \"id\": 345,\n      \"rating\": 3,\n      \"text\": \"average tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jack Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "afbe551a-5b1b-4ec0-87c5-ab3217051efc",
+      "type": "http",
+      "documentation": "Tutor details for students to view",
+      "method": "get",
+      "endpoint": "tutor/:tutorId",
+      "responses": [
+        {
+          "uuid": "8e20c14b-34d3-4c9d-b866-6f7edbf2bce0",
+          "body": "{\n  \"id\": \"12345\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"pricing\": 40,\n  \"rating\": 4.7,\n  \"numberOfRatings\": 100,\n  \"topic\": \"Math\",\n  \"language\": \"English\",\n  \"introText\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n  \"numLessonsTaught\": 10,\n  \"profileImgLink\": {\n    \"link\": \"http://cv.pdf\"\n  },\n  \"cv\": {\n    \"link\": \"http://cv.pdf\"\n  },\n  \"video\": {\n    \"link\": \"http://cv.pdf\"\n  },\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"schedule\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 129,\n          \"from\": \"19:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        }\n      ]\n    },\n    {\n      \"date\": \"2024-09-02\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 456,\n          \"from\": \"19:00\",\n          \"to\": \"20:00\",\n          \"status\": \"FREE\"\n        }\n      ]\n    }\n  ],\n  \"reviews\": [\n    {\n      \"id\": 123,\n      \"rating\": 4.5,\n      \"text\": \"amazing tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jame Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    },\n    {\n      \"id\": 345,\n      \"rating\": 3,\n      \"text\": \"average tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jack Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "800c958e-db49-4d8e-b89d-8ad9275e196f",
+      "type": "http",
+      "documentation": "Check notion for req body",
+      "method": "put",
+      "endpoint": "api/v1/tutor/profile",
+      "responses": [
+        {
+          "uuid": "20706821-0575-4e1f-87ec-88890f098ab8",
+          "body": "{}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "7a8adac7-fa26-496d-87ae-aba4d4a2863a",
+      "type": "http",
+      "documentation": "check notion for req body",
+      "method": "put",
+      "endpoint": "api/v1/tutor/schedule/session/:sessionId",
+      "responses": [
+        {
+          "uuid": "2d30e030-abdc-489e-b300-0d88d112548e",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "bc600b29-6e4e-4fe7-b512-f430899718e6",
+      "type": "http",
+      "documentation": "check notion for req body",
+      "method": "post",
+      "endpoint": "api/v1/tutor/schedule/session",
+      "responses": [
+        {
+          "uuid": "e86ee1aa-fd7b-4fbf-8c40-80eb98d7e00e",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "7d38125a-a0f8-4a2e-9eac-f3ae00495ec8",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/tutor/video",
+      "responses": [
+        {
+          "uuid": "f7b52c62-78c9-4e19-bc1c-7f2426dac5c0",
+          "body": "{\n\t\"videoLink\": \"blob.com\",\n\t\"status\": \"PENDING_APPROVAL\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "20f84797-489f-41f6-9354-09e94248ac3e",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/tutor/cv",
+      "responses": [
+        {
+          "uuid": "e209c0be-7cd6-43c6-9c77-7925df7f5b9e",
+          "body": "{\n  \"cvLink\": \"blob.com\",\n  \"status\": \"PENDING_APPROVAL\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "82403dea-49a3-43bd-b760-6413c7ab947d",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/tutor/profileImage",
+      "responses": [
+        {
+          "uuid": "ad4450d4-051a-4d9a-b599-d59776786185",
+          "body": "{\n\t\"profileImgLink\": \"blob.com\",\n\t\"status\": \"PENDING_APPROVAL\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "ca8f30b5-df81-43bd-842d-8c40551c5c55",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/tutor/upcoming-appointments",
+      "responses": [
+        {
+          "uuid": "e41874bb-5b34-445e-ace7-2fe894f91ea1",
+          "body": "{\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"appointments\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"timings\": [\n        {\n          \"sessionId\": 129,\n          \"from\": \"19:00\",\n          \"to\": \"18:00\",\n          \"status\": \"BOOKED\",\n          \"with\": {\n            \"id\": 234,\n            \"firstName\": \"\",\n            \"lastName\": \"\",\n            \"profileImgLink\": \"\"\n          },\n          \"type\": \"TRIAL\"\n        }\n      ]\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -253,6 +623,10 @@
     {
       "type": "route",
       "uuid": "6febb040-772d-484a-9159-0dcf26568298"
+    },
+    {
+      "type": "folder",
+      "uuid": "4eb11b17-a556-41ad-b782-c58d402aba1c"
     }
   ],
   "proxyMode": false,
