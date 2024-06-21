@@ -1,7 +1,9 @@
 package com.gdsd.TutorService.controller.Tutor;
 
+import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
 import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
 import com.gdsd.TutorService.dto.Tutor.TutorResponseDto;
+import com.gdsd.TutorService.dto.Tutor.TutorScheduleRequestDto;
 import com.gdsd.TutorService.service.interf.TutorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,12 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/tutor")
 public class TutorController {
 
+    @Autowired
     private TutorService tutorService;
 
     @Autowired
-    public TutorController(TutorService tutorService) {
-        this.tutorService = tutorService;
-    }
+    private JwtTokenProvider tokenProvider;
 
     @PostMapping("/create")
     public ResponseEntity<String> createTutor(@RequestBody TutorRequestDto tutorRequestDto) {
@@ -37,5 +38,27 @@ public class TutorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/schedule/session")
+    public ResponseEntity<String> addTutorSchedule(@RequestBody TutorScheduleRequestDto tutorScheduleRequestDto,
+                                                   @RequestHeader("Authorization") String authorizationHeader) {
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String email = tokenProvider.getEmailFromToken(token);
+        Integer tutorId = tutorService.getTutorIdFromEmail(email);
 
+        tutorService.addTutorSchedule(tutorScheduleRequestDto, tutorId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+
+    @PutMapping("/schedule/session/{sessionId}")
+    public ResponseEntity<String> updateTutorSchedule(@RequestBody TutorScheduleRequestDto tutorScheduleRequestDto,
+                                                      @RequestHeader("Authorization") String authorizationHeader,
+                                                      @PathVariable Integer sessionId) {
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String email = tokenProvider.getEmailFromToken(token);
+        Integer tutorId = tutorService.getTutorIdFromEmail(email);
+
+        tutorService.updateTutorSchedule(tutorScheduleRequestDto, tutorId, sessionId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
 }
