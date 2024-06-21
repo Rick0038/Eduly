@@ -33,26 +33,27 @@ export function ConversationList(props?: ConversationListProps) {
 
   return (
     <Group className='w-full'>
-      {data.conversations.map((conversation: Conversation) => (
-        <Button
-          key={conversation.id}
-          fullWidth
-          variant={selectedId === conversation.id ? 'filled' : 'subtle'}
-          color={selectedId === conversation.id ? '#7d3ec9' : 'black'}
-          justify='left'
-          size='xs'
-          className='p-0 border m-0'
-          onClick={() => onSelect?.(conversation)}
-          leftSection={
-            <Avatar
-              size='sm'
-              color={selectedId === conversation.id ? 'white' : '#7d3ec9'}
-            />
-          }
-        >
-          <Text>{conversation.user}</Text>
-        </Button>
-      ))}
+      {data.conversations.map((conversation: Conversation) => {
+        const isSelected =
+          selectedId?.toString() === conversation.chatId?.toString();
+        return (
+          <Button
+            key={conversation.chatId}
+            fullWidth
+            variant={isSelected ? 'filled' : 'subtle'}
+            color={isSelected ? '#7d3ec9' : 'black'}
+            justify='left'
+            size='xs'
+            className='p-0 border m-0'
+            onClick={() => onSelect?.(conversation)}
+            leftSection={
+              <Avatar size='sm' color={isSelected ? 'white' : '#7d3ec9'} />
+            }
+          >
+            <Text>{conversation.name}</Text>
+          </Button>
+        );
+      })}
     </Group>
   );
 }

@@ -14,9 +14,9 @@ export function MessagePage() {
   const handleSelect = (convo: Conversation) => {
     // Replace on bigger screen
     if (isSmallScreen) {
-      navigate(`/messages/${convo.id}`);
+      navigate(`/messages/${convo.chatId}`);
     } else {
-      navigate(`/messages/${convo.id}`, { replace: true });
+      navigate(`/messages/${convo.chatId}`, { replace: true });
     }
   };
 
@@ -49,9 +49,7 @@ export function MessagePage() {
           <ChatBox />
         ) : (
           <Flex justify='center' align='center' h='100%'>
-            <Text color='gray'>
-              Select a conversation to start messaging...
-            </Text>
+            <Text c='gray'>Select a conversation to start messaging...</Text>
           </Flex>
         )}
       </Box>

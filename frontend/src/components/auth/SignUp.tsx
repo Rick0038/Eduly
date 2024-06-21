@@ -9,11 +9,11 @@ import {
   Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { notifications } from '@mantine/notifications';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import { ROLE } from '../../constant';
 import { authService } from '../../service/AuthService';
+import { notificationService } from '../../service/NotificationService';
 
 export function SignUp() {
   const form = useForm({
@@ -47,8 +47,7 @@ export function SignUp() {
   const registerMutation = useMutation({
     mutationFn: authService.register,
     onSuccess: () => {
-      notifications.show({
-        title: 'Success',
+      notificationService.showSuccess({
         message: 'Account created successfully. Redirecting to login ...',
         autoClose: 1500,
       });
@@ -57,11 +56,7 @@ export function SignUp() {
       }, 1500);
     },
     onError: (err) => {
-      console.error(err);
-      notifications.show({
-        title: 'Error',
-        message: 'An error occurred when creating account.',
-      });
+      notificationService.showError({ err });
     },
   });
 

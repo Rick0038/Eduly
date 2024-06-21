@@ -1,14 +1,26 @@
-import { AppShell, Burger, Button, Flex, Group, Text } from '@mantine/core';
+import {
+  ActionIcon,
+  AppShell,
+  Avatar,
+  Badge,
+  Burger,
+  Button,
+  Flex,
+  Group,
+  Menu,
+  Text,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconPlant2 } from '@tabler/icons-react';
+import { IconMessage, IconPlant2 } from '@tabler/icons-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../service/AuthService';
-import { getUserInfoFromLocalStorage } from '../util/userInfo';
 import { SearchTutor } from './SearchTutor';
 
 interface HeaderProps {
   as?: React.ElementType;
 }
+
+const UNREAD_MESSAGE_COUNT = 3;
 
 export function Header(props: HeaderProps) {
   const { as: Component = AppShell.Header } = props;
@@ -52,15 +64,48 @@ export function Header(props: HeaderProps) {
 
             {authService.isLoggedIn() && (
               <>
-                <Text>{getUserInfoFromLocalStorage()?.name}</Text>
-                <Button
-                  onClick={() => {
-                    authService.logout();
-                    navigate('/');
-                  }}
+                <Group className='relative'>
+                  <ActionIcon
+                    onClick={() => navigate('/messages')}
+                    size='lg'
+                    variant='transparent'
+                  >
+                    <IconMessage size={24} />
+                  </ActionIcon>
+                  {UNREAD_MESSAGE_COUNT > 0 && (
+                    <Badge
+                      color='red'
+                      variant='filled'
+                      size='xs'
+                      className='absolute -top-1 -right-1'
+                    >
+                      {UNREAD_MESSAGE_COUNT}
+                    </Badge>
+                  )}
+                </Group>
+                <Menu
+                  width={200}
+                  shadow='md'
+                  openDelay={100}
+                  closeDelay={200}
+                  withinPortal
                 >
-                  Logout
-                </Button>
+                  <Menu.Target>
+                    <Avatar src={null} alt='Profile' color='#52228d' />
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Label>{authService.user?.name}</Menu.Label>
+                    <Menu.Item
+                      color='red'
+                      onClick={() => {
+                        authService.logout();
+                        navigate('/');
+                      }}
+                    >
+                      Logout
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
               </>
             )}
           </Group>

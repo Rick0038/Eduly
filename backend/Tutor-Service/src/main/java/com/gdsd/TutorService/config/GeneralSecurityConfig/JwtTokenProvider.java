@@ -23,10 +23,10 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication, String role) {
         String email = authentication.getName();
         String jwt = Jwts.builder()
-                .claim("email", authentication.getName())
+                .claim("role", role)
                 .setSubject(email)
                 .setIssuedAt(new Date()).setExpiration(new Date(new Date().getTime() + (1*60*60*1000)))
                 .signWith(key())
@@ -45,6 +45,18 @@ public class JwtTokenProvider {
         String email = claims.getSubject();
 
         return email;
+    }
+
+    public String getRoleFromToken(String jwt) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key())
+                .build()
+                .parseClaimsJws(jwt)
+                .getBody();
+
+        String role = claims.get("role", String.class);
+
+        return role;
     }
 
     public String getTokenFromAuthorizationHeader(String authorizationHeader) {

@@ -13,11 +13,14 @@ public class CorsConfiguration {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // Apply CORS settings to all paths
+
+                registry.addMapping("/**") // Apply CORS settings to all paths...
+
+
                         .allowedOriginPatterns("*") // Allow requests from the Azure VM's public IP(currently allows from anywhere)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Specify allowed HTTP methods
                         .allowedHeaders("*") // Allow all headers
-                        .allowCredentials(true); // Allow credentials (cookies, authorization headers, etc.)
+                        .allowCredentials(true); // Allow credentials (cookies, authorization headers, etc...)
             }
         };
     }
