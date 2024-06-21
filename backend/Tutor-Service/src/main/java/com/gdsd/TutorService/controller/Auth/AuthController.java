@@ -149,7 +149,7 @@ public class AuthController {
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenProvider.generateToken(authentication);
+        String token = jwtTokenProvider.generateToken(authentication, loginRequestDto.getRole());
         loginResponseDto.setToken(token);
 
         return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);

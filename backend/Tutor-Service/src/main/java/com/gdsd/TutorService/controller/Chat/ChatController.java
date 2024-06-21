@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,18 +72,17 @@ public class ChatController {
     }
 
     @GetMapping("/conversations")
-    public ResponseEntity<Map> getConversationsForUser(@RequestHeader("Authorization") String authorizationHeader,
-                                                                    @RequestParam String role
-                                                                    ) {
+    public ResponseEntity<Map> getConversationsForUser(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String role = tokenProvider.getRoleFromToken(token);
+
         List<ConversationDto> dtos = new ArrayList<>();
         if(role.equals("TUTOR")) {
-            String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
             String tutorEmail = tokenProvider.getEmailFromToken(token);
             Integer tutorId = tutorService.getTutorIdFromEmail(tutorEmail);
             List<Chat> chatsForTutor = chatService.getChatsForTutor(tutorId);
             dtos = conversations(chatsForTutor, role);
         } else {
-            String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
             String studentEmail = tokenProvider.getEmailFromToken(token);
             Integer studentId = studentService.getStudentIdFromEmail(studentEmail);
             List<Chat> chatsForStudent = chatService.getChatsForStudent(studentId);
@@ -127,12 +127,12 @@ public class ChatController {
 
     @GetMapping("/{chatId}")
     public ResponseEntity<ChatResponseDto> getChatForChatId(@PathVariable Integer chatId,
-                                                            @RequestHeader("Authorization") String authorizationHeader,
-                                                            @RequestParam(required = false) String role) {
+                                                            @RequestHeader("Authorization") String authorizationHeader) {
 
         Chat chat = chatService.getChatById(chatId);
         String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
         String email = tokenProvider.getEmailFromToken(token);
+        String role = tokenProvider.getRoleFromToken(token);
 
         if(role.equals("STUDENT")) {
             Integer studentId = studentService.getStudentIdFromEmail(email);
