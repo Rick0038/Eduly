@@ -1,6 +1,7 @@
 package com.gdsd.TutorService.controller.Tutor;
 
 import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
+import com.gdsd.TutorService.dto.Tutor.TutorProfileUpdateRequestDto;
 
 import com.gdsd.TutorService.dto.Tutor.*;
 import com.gdsd.TutorService.dto.Tutor.TutorProfileImageRespDto;
@@ -142,6 +143,18 @@ public class TutorController {
         Integer tutorId = tutorService.getTutorIdFromEmail(email);
 
         tutorService.updateTutorSchedule(tutorScheduleRequestDto, tutorId, sessionId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<String> updateTutorProfile(@RequestBody TutorProfileUpdateRequestDto tutorProfileUpdateRequestDto,
+                                                     @RequestHeader("Authorization") String authorizationHeader
+                                                     ) {
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String email = tokenProvider.getEmailFromToken(token);
+        Integer tutorId = tutorService.getTutorIdFromEmail(email);
+
+        tutorService.updateTutorProfile(tutorProfileUpdateRequestDto, tutorId);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 }

@@ -2,6 +2,8 @@ package com.gdsd.TutorService.service.interf;
 
 
 import com.gdsd.TutorService.dto.Tutor.*;
+
+import com.gdsd.TutorService.dto.Tutor.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
@@ -21,7 +23,7 @@ public interface TutorService {
     String getTutorProfileImageFromId(Integer tutorId);
     void addTutorSchedule(TutorScheduleRequestDto tutorScheduleRequestDto, Integer tutorId);
     void updateTutorSchedule(TutorScheduleRequestDto tutorScheduleRequestDto, Integer tutorId, Integer sessionId);
-
+    void updateTutorProfile(TutorProfileUpdateRequestDto tutorProfileUpdateRequestDto, Integer tutorId);
     List<TutorSearchResponseDto> search(Double pricingMin,
                                                Double pricingMax, Double ratingsMin,
                                                String topic, String language,
