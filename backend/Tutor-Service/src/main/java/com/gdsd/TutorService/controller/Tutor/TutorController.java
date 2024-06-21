@@ -28,7 +28,6 @@ public class TutorController {
     private TutorService tutorService;
 
     @Autowired
-    private JwtTokenProvider tokenProvider;
 
     @PostMapping("/create")
     public ResponseEntity<String> createTutor(@RequestBody TutorRequestDto tutorRequestDto) {
@@ -120,7 +119,7 @@ public class TutorController {
             return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    }
+
 
     @PostMapping("/schedule/session")
     public ResponseEntity<String> addTutorSchedule(@RequestBody TutorScheduleRequestDto tutorScheduleRequestDto,
