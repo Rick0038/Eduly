@@ -28,7 +28,6 @@ public class TutorController {
     @Autowired
     private TutorService tutorService;
 
-    @Autowired
 
     @PostMapping("/create")
     public ResponseEntity<String> createTutor(@RequestBody TutorRequestDto tutorRequestDto) {
