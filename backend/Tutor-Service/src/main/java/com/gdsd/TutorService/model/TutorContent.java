@@ -26,18 +26,6 @@ public class TutorContent {
     }
 
 
-
-    public enum Status {
-        APPROVED,
-        PENDING_FOR_APPROVAL,
-        REJECTED
-    }
-
-    public enum ContentType {
-        profile_image,
-        intro_video,
-        cv
-    }
     public Integer getContentId() {
         return contentId;
     }

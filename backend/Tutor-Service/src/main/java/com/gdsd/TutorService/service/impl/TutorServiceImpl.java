@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URI;
@@ -111,123 +112,82 @@ public class TutorServiceImpl implements TutorService {
         return tutorSearchResponseDtos;
     }
 
-    @Override
-    public TutorProfileResponseDto updateTutorCV(TutorProfileRequestDto requestDto, Integer tutorId) {
-        Optional<TutorContent> existContent = tutorContentRepository.findByTutorIdAndContentType(tutorId, String.valueOf(TutorContent.ContentType.cv));
-            if (existContent.isPresent()) {
-                TutorContent existingContent = existContent.get();
-                // Delete the existing CV blob
-                deleteBlob(existingContent.getContentLink());
-                tutorContentRepository.delete(existingContent);
-            }
-        // Generate a unique filename for the CV file
-        String fileName = "cv_" + tutorId + "_" + UUID.randomUUID().toString();
+
+    public Object updateTutorContent(TutorProfileRequestDto requestDto, Integer tutorId, String contentType) {
+        String fileName = generateFileName(contentType, tutorId);
 
         try {
-            // Upload new CV blob
-
+            // Upload new blob
             BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
             BlobHttpHeaders headers = new BlobHttpHeaders().setContentType(requestDto.getFile().getContentType());
             blobClient.upload(requestDto.getFile().getInputStream(), requestDto.getFile().getSize(), true);
             blobClient.setHttpHeaders(headers);
 
             URI blobUri = URI.create(blobClient.getBlobUrl());
-            String cvLink = blobUri.toString();
+            String contentLink = blobUri.toString();
 
-  //          Optional<TutorContent> existContent = tutorContentRepository.findByTutorIdAndContentType(tutorId, String.valueOf(TutorContent.ContentType.cv));
-//            if (existContent.isPresent()) {
-//                TutorContent existingContent = existContent.get();
-//                // Delete the existing CV blob
-//                deleteBlob(existingContent.getContentLink());
-//                // Delete the existing content record
-//                existingContent.setContentFileName(requestDto.getFile().getOriginalFilename());
-//                existingContent.setContentLink(cvLink);
-//                tutorContentRepository.save(existingContent);
-//
-//            }else {
-                // Save new content record in database
-                TutorContent newContent = new TutorContent();
-                newContent.setTutorId(tutorId);
-                newContent.setContentLink(cvLink);
-                newContent.setStatus(String.valueOf(TutorContent.Status.PENDING_FOR_APPROVAL));
-                newContent.setContentType(String.valueOf(TutorContent.ContentType.cv));
-                tutorContentRepository.save(newContent);
+            // Update TutorContent in database
+            updateTutorContent(tutorId, contentLink, contentType);
 
+            // Prepare appropriate response DTO based on contentType
+            Object responseDto = null;
+            switch (contentType) {
+                case "cv":
+                    TutorCVRespDTO cvResponseDto = new TutorCVRespDTO();
+                    cvResponseDto.setCvLink(contentLink);
+                    cvResponseDto.setStatus("PENDING_APPROVAL");
+                    responseDto = cvResponseDto;
+                    break;
+                case "profile_image":
+                    TutorProfileImageRespDto profileImageResponseDto = new TutorProfileImageRespDto();
+                    profileImageResponseDto.setProfileImgLink(contentLink);
+                    profileImageResponseDto.setStatus("PENDING_APPROVAL");
+                    responseDto = profileImageResponseDto;
+                    break;
+                case "intro_video":
+                    TutorIntroVideoRespDto introVideoResponseDto = new TutorIntroVideoRespDto();
+                    introVideoResponseDto.setVideoLink(contentLink);
+                    introVideoResponseDto.setStatus("PENDING_APPROVAL");
+                    responseDto = introVideoResponseDto;
+                    break;
+                default:
+                    // Handle unsupported content type if necessary
+                    throw new GenericException("Unsupported contentType: " +contentType,HttpStatus.INTERNAL_SERVER_ERROR);
+            }
 
-
-            TutorProfileResponseDto responseDto = new TutorProfileResponseDto();
-            responseDto.setLink(cvLink);
             return responseDto;
 
         } catch (IOException e) {
-//            // Handle exception appropriately ask aashay
-//            e.printStackTrace();
-            throw new RuntimeException("Failed to upload CV: " + e.getMessage());
+            throw new GenericException("Failed to upload content: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    public TutorProfileResponseDto updateTutorProfileImage(TutorProfileRequestDto requestDto, Integer tutorId) {
-        String fileName = "profile_" + tutorId + "_" + UUID.randomUUID().toString();
-        Optional<TutorContent> existingContentOptional = tutorContentRepository.findByTutorIdAndContentType(tutorId, TutorContent.ContentType.profile_image.name());
+    private String generateFileName(String contentType, Integer tutorId) {
+        return contentType + "_" + tutorId ;
+    }
+    public void updateTutorContent(Integer tutorId, String contentLink, String contentType) {
+        Optional<TutorContent> existingContentOptional = tutorContentRepository.findByTutorIdAndContentType(tutorId, contentType);
+
         if (existingContentOptional.isPresent()) {
             TutorContent existingContent = existingContentOptional.get();
-            // Delete the existing profile image blob
-            deleteBlob(existingContent.getContentLink());
             tutorContentRepository.delete(existingContent);
         }
-        try {
 
-            // Upload new profile image blob
-
-            BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
-            BlobHttpHeaders headers = new BlobHttpHeaders().setContentType(requestDto.getFile().getContentType());
-            blobClient.upload(requestDto.getFile().getInputStream(), requestDto.getFile().getSize(), true);
-            blobClient.setHttpHeaders(headers);
-
-
-            URI blobUri = URI.create(blobClient.getBlobUrl());
-            String profileImgLink = blobUri.toString();
-
-            // Check if there's already an existing profile image content for the tutor
-//            Optional<TutorContent> existingContentOptional = tutorContentRepository.findByTutorIdAndContentType(tutorId, TutorContent.ContentType.profile_image.name());
-//            if (existingContentOptional.isPresent()) {
-//                TutorContent existingContent = existingContentOptional.get();
-//                // Delete the existing profile image blob
-//                deleteBlob(existingContent.getContentLink());
-//                // Update the existing content record
-//                existingContent.setContentFileName(requestDto.getFile().getOriginalFilename());
-//                existingContent.setContentLink(profileImgLink);
-//                tutorContentRepository.save(existingContent);
-//            } else {
-                // Save new content record in database
-                TutorContent newContent = new TutorContent();
-                newContent.setTutorId(tutorId);
-                newContent.setContentLink(profileImgLink);
-                newContent.setStatus(String.valueOf(TutorContent.Status.PENDING_FOR_APPROVAL));
-                newContent.setContentType(String.valueOf(TutorContent.ContentType.profile_image));
-                tutorContentRepository.save(newContent);
-           // }
-           TutorProfileResponseDto responseDto = new TutorProfileResponseDto();
-            responseDto.setLink(profileImgLink);
-            return responseDto;
-        } catch (IOException e) {
-            // Handle exception appropriately
-            e.printStackTrace();
-            throw new RuntimeException("Failed to upload profile image: " + e.getMessage());
-        }
+        TutorContent newContent = new TutorContent();
+        newContent.setTutorId(tutorId);
+        newContent.setContentLink(contentLink);
+        newContent.setStatus("PENDING_APPROVAL");
+        newContent.setContentType(contentType);
+        tutorContentRepository.save(newContent);
     }
+
     private void deleteBlob(String blobLink) {
         if (!StringUtils.isEmpty(blobLink)) {
-            try {
                 int lastSlashIndex = blobLink.lastIndexOf('/');
                 String blobName =blobLink.substring(lastSlashIndex + 1);
                 BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(String.valueOf(blobName));
                 if (blobClient.exists()) {
                     blobClient.delete();
                 }
-            } catch (Exception e) {
-                // handle exception ashay
-                e.printStackTrace();
-            }
         }
     }
 }
