@@ -50,21 +50,4 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(SignatureException.class)
-    public ResponseEntity<Map> jwtSignatureFail(SignatureException ex) {
-        String message = "Provided JWT Token doesn't match. Authorization failed. Please log-in again.";
-        Map<String, String> apiResponse = new HashMap<>();
-        apiResponse.put("message", message);
-
-        return new ResponseEntity<>(apiResponse, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<Map> expiredJwt(ExpiredJwtException ex) {
-        String message = "Provided JWT Token has expired";
-        Map<String, String> apiResponse = new HashMap<>();
-        apiResponse.put("message", message);
-
-        return new ResponseEntity<>(apiResponse, HttpStatus.UNAUTHORIZED);
-    }
 }
