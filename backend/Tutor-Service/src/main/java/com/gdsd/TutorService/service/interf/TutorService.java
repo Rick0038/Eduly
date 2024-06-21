@@ -1,9 +1,6 @@
 package com.gdsd.TutorService.service.interf;
 
-import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
-import com.gdsd.TutorService.dto.Tutor.TutorResponseDto;
-import com.gdsd.TutorService.dto.Tutor.TutorScheduleRequestDto;
-import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
+import com.gdsd.TutorService.dto.Tutor.*;
 
 import java.util.List;
 
@@ -16,7 +13,7 @@ public interface TutorService {
     String getTutorProfileImageFromId(Integer tutorId);
     void addTutorSchedule(TutorScheduleRequestDto tutorScheduleRequestDto, Integer tutorId);
     void updateTutorSchedule(TutorScheduleRequestDto tutorScheduleRequestDto, Integer tutorId, Integer sessionId);
-
+    void updateTutorProfile(TutorProfileUpdateRequestDto tutorProfileUpdateRequestDto, Integer tutorId);
     List<TutorSearchResponseDto> search(Double pricingMin,
                                                Double pricingMax, Double ratingsMin,
                                                String topic, String language,

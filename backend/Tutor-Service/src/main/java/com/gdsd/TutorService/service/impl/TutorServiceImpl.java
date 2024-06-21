@@ -1,15 +1,14 @@
 package com.gdsd.TutorService.service.impl;
 
-import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
-import com.gdsd.TutorService.dto.Tutor.TutorResponseDto;
-import com.gdsd.TutorService.dto.Tutor.TutorScheduleRequestDto;
-import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
+import com.gdsd.TutorService.dto.Tutor.*;
 import com.gdsd.TutorService.exception.GenericException;
 import com.gdsd.TutorService.exception.ResourceNotFoundException;
 import com.gdsd.TutorService.model.Session;
+import com.gdsd.TutorService.model.Topic;
 import com.gdsd.TutorService.model.Tutor;
 import com.gdsd.TutorService.model.TutorContent;
 import com.gdsd.TutorService.repository.SessionRepository;
+import com.gdsd.TutorService.repository.TopicRepository;
 import com.gdsd.TutorService.repository.TutorContentRepository;
 import com.gdsd.TutorService.repository.TutorRepository;
 import com.gdsd.TutorService.service.interf.TutorService;
@@ -35,6 +34,10 @@ public class TutorServiceImpl implements TutorService {
 
     @Autowired
     private SessionRepository sessionRepository;
+
+    @Autowired
+    private TopicRepository topicRepository;
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -141,6 +144,32 @@ public class TutorServiceImpl implements TutorService {
         session.setDay(date.format(DateTimeFormatter.ofPattern("EEEE", Locale.ENGLISH)));
 
         sessionRepository.save(session);
+    }
+
+    @Override
+    public void updateTutorProfile(TutorProfileUpdateRequestDto tutorProfileUpdateRequestDto, Integer tutorId) {
+        Tutor tutor = tutorRepository.findById(tutorId).
+                orElseThrow(() -> new ResourceNotFoundException("Tutor", "tutorId", tutorId));
+
+        tutor.setFirstName(tutorProfileUpdateRequestDto.getFirstName());
+        tutor.setLastName(tutorProfileUpdateRequestDto.getLastName());
+        tutor.setLanguage(tutorProfileUpdateRequestDto.getLanguage());
+        tutor.setBbbLink(tutorProfileUpdateRequestDto.getBbbLink());
+        tutor.setIntro(tutorProfileUpdateRequestDto.getIntroText());
+        tutor.setPrice(tutorProfileUpdateRequestDto.getPricing());
+        tutorRepository.save(tutor);
+
+        tutorProfileUpdateRequestDto.getTopics()
+                .stream()
+                .filter(topic -> !topicRepository.existsByTutorIdAndTopicName(tutorId, topic))
+                .forEach(topic -> {
+                    Topic currentTopic = new Topic();
+                    currentTopic.setTopicId(null);
+                    currentTopic.setTopicName(topic);
+                    currentTopic.setTutorId(tutorId);
+
+                    topicRepository.save(currentTopic);
+                });
     }
 
     @Override
