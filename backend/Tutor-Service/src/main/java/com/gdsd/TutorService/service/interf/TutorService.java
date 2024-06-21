@@ -1,9 +1,14 @@
 package com.gdsd.TutorService.service.interf;
 
+
+import com.gdsd.TutorService.dto.Tutor.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
 import com.gdsd.TutorService.dto.Tutor.TutorResponseDto;
 import com.gdsd.TutorService.dto.Tutor.TutorScheduleRequestDto;
 import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
+
 
 import java.util.List;
 
@@ -21,4 +26,5 @@ public interface TutorService {
                                                Double pricingMax, Double ratingsMin,
                                                String topic, String language,
                                                Integer experienceMin);
+    Object updateTutorContent(TutorProfileRequestDto requestDto, Integer tutorId, String contentType);
 }
