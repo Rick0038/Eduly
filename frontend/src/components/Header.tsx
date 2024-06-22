@@ -57,7 +57,6 @@ export function Header(props: HeaderProps) {
                 <Button variant='outline' onClick={() => navigate('/register')}>
                   Register
                 </Button>
-
                 <Button onClick={() => navigate('/login')}>Login</Button>
               </>
             )}
@@ -95,6 +94,9 @@ export function Header(props: HeaderProps) {
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Label>{authService.user?.name}</Menu.Label>
+                    <Menu.Item onClick={() => navigate('/profile')}>
+                      Profile
+                    </Menu.Item>
                     <Menu.Item
                       color='red'
                       onClick={() => {

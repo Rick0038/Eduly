@@ -7,6 +7,12 @@ class TutorService {
     const response = await httpService.get<Tutors>(url);
     return response;
   }
+
+  async getProfile() {
+    const url = '/tutor';
+    const response = await httpService.get<Tutors>(url);
+    return response;
+  }
 }
 
 const tutorService = new TutorService();
