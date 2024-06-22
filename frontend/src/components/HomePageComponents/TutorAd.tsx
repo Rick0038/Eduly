@@ -1,10 +1,14 @@
 import { Title, Text, Container, Button, Overlay, Paper } from '@mantine/core';
 import classes from './TutorAd.module.css';
+import tutorAdImg from '/HomepageImages/homePageTutor.png';
 
 export function TutorAd() {
   return (
     <Paper mt={10}>
-      <div className={classes.wrapper}>
+      <div
+        className={classes.wrapper}
+        style={{ backgroundImage: `url(${tutorAdImg})` }}
+      >
         <Overlay color='#000' opacity={0.65} zIndex={1} />
 
         <div className={classes.inner}>
