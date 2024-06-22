@@ -13,19 +13,21 @@ import {
   Textarea,
   Title,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import {
   IconCalendarEvent,
+  IconFileCv,
   IconLanguage,
   IconMessage,
   IconUser,
 } from '@tabler/icons-react';
+import { useMutation } from '@tanstack/react-query';
 import { FC, Fragment, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Tutor } from '../model';
 import { authService, chatService } from '../service';
-import { useDisclosure } from '@mantine/hooks';
-import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router';
 import { notificationService } from '../service/NotificationService';
+import { VideoViewer } from './VideoViewer';
 
 const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
   const [message, setMessage] = useState('');
@@ -53,6 +55,10 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
       };
       sendMessage.mutate(params);
     }
+  };
+
+  const handleViewCV = (url: string) => {
+    window.open(url, '_blank');
   };
 
   const tutorName = `${tutor.firstName} ${tutor.lastName}`;
@@ -84,6 +90,16 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
               <div style={{ marginTop: '10px' }}>
                 <Text>{tutor.intro}</Text>
               </div>
+              <Group>
+                <VideoViewer url={tutor.videoLink} />
+                <Button
+                  onClick={() => handleViewCV(tutor.cvLink)}
+                  variant='light'
+                  leftSection={<IconFileCv />}
+                >
+                  View CV
+                </Button>
+              </Group>
             </Stack>
           </Grid.Col>
           <Grid.Col
