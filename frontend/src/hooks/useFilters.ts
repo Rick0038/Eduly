@@ -6,6 +6,7 @@ interface FiltersState {
   topic: string;
   location: string;
   ratingsMin: number;
+  pricingMin: number;
   pricingMax: number;
   availabilityDays: string[];
   language: string;
@@ -42,6 +43,7 @@ const getInitialFilters = (locationSearch: string): FiltersState => {
     topic: params.get('topic') || '',
     location: params.get('location') || '',
     ratingsMin: parseInt(params.get('ratingsMin') || '0', 10),
+    pricingMin: parseInt(params.get('pricingMin') || '0', 10),
     pricingMax: parseInt(params.get('pricingMax') || '0', 10),
     availabilityDays: params.get('availabilityDays')
       ? params.get('availabilityDays')!.split(',')
@@ -67,6 +69,8 @@ export const useFilters = () => {
       if (filters.location) params.set('location', filters.location);
       if (filters.ratingsMin)
         params.set('ratingsMin', filters.ratingsMin.toString());
+      if (filters.pricingMin)
+        params.set('pricingMin', filters.pricingMin.toString());
       if (filters.pricingMax)
         params.set('pricingMax', filters.pricingMax.toString());
       if (filters.availabilityDays.length > 0)

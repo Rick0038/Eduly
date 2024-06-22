@@ -3,6 +3,7 @@ import {
   Flex,
   Group,
   MultiSelect,
+  RangeSlider,
   Select,
   Slider,
   Text,
@@ -82,14 +83,18 @@ export function Filters(props: FiltersProps) {
           <Text className='text-sm'>Max Price</Text>
           <IconCurrencyEuro size={14} />
         </Flex>
-        <Slider
-          name='pricingMax'
-          marks={priceMarks}
+        <RangeSlider
+          name='pricing'
+          minRange={10}
           min={12}
           max={100}
           className='w-full'
-          value={filters.pricingMax}
-          onChange={handleChange('pricingMax')}
+          value={[filters.pricingMin, filters.pricingMax]}
+          marks={priceMarks}
+          onChange={(value) => {
+            handleChange('pricingMin')(value[0]);
+            handleChange('pricingMax')(value[1]);
+          }}
         />
       </Group>
 
