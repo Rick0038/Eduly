@@ -52,10 +52,10 @@ export function Header(props: HeaderProps) {
           <Button
             variant='outline'
             onClick={() => navigate('/search')}
-            rightSection={<IconSearch size={16} />}
+            leftSection={<IconSearch size={16} />}
             className='text-gray-400 hover:text-gray-400 font-normal border-gray-300'
           >
-            Search tutors
+            Search tutors by topic
           </Button>
           <Group visibleFrom='sm'>
             <Button variant='outline'>Forum</Button>
