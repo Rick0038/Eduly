@@ -50,7 +50,7 @@ export function FeatureCards() {
       <feature.icon
         style={{ width: rem(50), height: rem(50) }}
         stroke={2}
-        color={theme.colors.blue[6]}
+        color={theme.colors.violet[6]}
       />
       <Text fz='lg' fw={500} className={classes.cardTitle} mt='md'>
         {feature.title}
@@ -74,9 +74,10 @@ export function FeatureCards() {
       </Title>
 
       <Text c='dimmed' className={classes.description} ta='center' mt='md'>
-        With Eduly's industry leading features, you can better utilize your
-        time by learning new skills rather than wasting your time in shuffling
-        between bad tutors. We are here to connect you to the best tutors at Fulda..
+        With Eduly's industry leading features, you can better utilize your time
+        by learning new skills rather than wasting your time in shuffling
+        between bad tutors. We are here to connect you to the best tutors at
+        Fulda..
       </Text>
 
       <SimpleGrid cols={{ base: 1, md: 3 }} spacing='xl' mt={50}>
