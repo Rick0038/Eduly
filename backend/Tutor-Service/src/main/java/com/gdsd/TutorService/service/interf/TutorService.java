@@ -29,4 +29,6 @@ public interface TutorService {
                                                String topic, String language,
                                                Integer experienceMin);
     Object updateTutorContent(TutorProfileRequestDto requestDto, Integer tutorId, String contentType);
+
+    TutorUpcomingAppointmentsResponseDto getTutorUpcomingAppointments(Integer tutorId);
 }

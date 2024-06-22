@@ -2,15 +2,10 @@ package com.gdsd.TutorService.controller.Tutor;
 
 import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
 import com.gdsd.TutorService.dto.Tutor.TutorProfileUpdateRequestDto;
-
 import com.gdsd.TutorService.dto.Tutor.*;
-import com.gdsd.TutorService.dto.Tutor.TutorProfileImageRespDto;
-import com.gdsd.TutorService.exception.GenericException;
-
 import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
 import com.gdsd.TutorService.dto.Tutor.TutorResponseDto;
 import com.gdsd.TutorService.dto.Tutor.TutorScheduleRequestDto;
-
 import com.gdsd.TutorService.service.interf.TutorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,10 +19,8 @@ public class TutorController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-
     @Autowired
     private TutorService tutorService;
-
 
     @PostMapping("/create")
     public ResponseEntity<String> createTutor(@RequestBody TutorRequestDto tutorRequestDto) {
@@ -47,7 +40,6 @@ public class TutorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
     @PutMapping("/cv")
     public ResponseEntity<Object> updateTutorCV(
           @RequestHeader("Authorization") String authorizationHeader,
@@ -57,10 +49,7 @@ public class TutorController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
-        String tutorEmail = tokenProvider.getEmailFromToken(token);
-        Integer tutorId = tutorService.getTutorIdFromEmail(tutorEmail);
-
+        Integer tutorId = getTutorIdFromAuthHeader(authorizationHeader);
         TutorProfileRequestDto requestDto = new TutorProfileRequestDto();
         requestDto.setFile(file);
 
@@ -73,7 +62,6 @@ public class TutorController {
         }
     }
 
-
     @PutMapping("/profileImage")
     public ResponseEntity<Object> updateTutorProfileImage(
             @RequestHeader("Authorization") String authorizationHeader,
@@ -83,11 +71,7 @@ public class TutorController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
-        String tutorEmail = tokenProvider.getEmailFromToken(token);
-        Integer tutorId = tutorService.getTutorIdFromEmail(tutorEmail);
-
-
+        Integer tutorId = getTutorIdFromAuthHeader(authorizationHeader);
         TutorProfileRequestDto requestDto = new TutorProfileRequestDto();
         requestDto.setFile(file);
 
@@ -104,10 +88,7 @@ public class TutorController {
             @RequestHeader("Authorization") String authorizationHeader,
             @RequestParam("file") MultipartFile file) {
 
-        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
-        String tutorEmail = tokenProvider.getEmailFromToken(token);
-        Integer tutorId = tutorService.getTutorIdFromEmail(tutorEmail);
-
+        Integer tutorId = getTutorIdFromAuthHeader(authorizationHeader);
 
         TutorProfileRequestDto requestDto = new TutorProfileRequestDto();
         requestDto.setFile(file);
@@ -124,10 +105,7 @@ public class TutorController {
     @PostMapping("/schedule/session")
     public ResponseEntity<String> addTutorSchedule(@RequestBody TutorScheduleRequestDto tutorScheduleRequestDto,
                                                    @RequestHeader("Authorization") String authorizationHeader) {
-        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
-        String email = tokenProvider.getEmailFromToken(token);
-        Integer tutorId = tutorService.getTutorIdFromEmail(email);
-
+        Integer tutorId = getTutorIdFromAuthHeader(authorizationHeader);
         tutorService.addTutorSchedule(tutorScheduleRequestDto, tutorId);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
@@ -137,10 +115,7 @@ public class TutorController {
     public ResponseEntity<String> updateTutorSchedule(@RequestBody TutorScheduleRequestDto tutorScheduleRequestDto,
                                                       @RequestHeader("Authorization") String authorizationHeader,
                                                       @PathVariable Integer sessionId) {
-        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
-        String email = tokenProvider.getEmailFromToken(token);
-        Integer tutorId = tutorService.getTutorIdFromEmail(email);
-
+        Integer tutorId = getTutorIdFromAuthHeader(authorizationHeader);
         tutorService.updateTutorSchedule(tutorScheduleRequestDto, tutorId, sessionId);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
@@ -149,12 +124,24 @@ public class TutorController {
     public ResponseEntity<String> updateTutorProfile(@RequestBody TutorProfileUpdateRequestDto tutorProfileUpdateRequestDto,
                                                      @RequestHeader("Authorization") String authorizationHeader
                                                      ) {
+        Integer tutorId = getTutorIdFromAuthHeader(authorizationHeader);
+        tutorService.updateTutorProfile(tutorProfileUpdateRequestDto, tutorId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @GetMapping("/upcoming-appointments")
+    public ResponseEntity<TutorUpcomingAppointmentsResponseDto> getTutorUpcomingAppointments(@RequestHeader("Authorization") String authorizationHeader) {
+        Integer tutorId = getTutorIdFromAuthHeader(authorizationHeader);
+        TutorUpcomingAppointmentsResponseDto response = tutorService.getTutorUpcomingAppointments(tutorId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    public Integer getTutorIdFromAuthHeader(String authorizationHeader) {
         String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
         String email = tokenProvider.getEmailFromToken(token);
         Integer tutorId = tutorService.getTutorIdFromEmail(email);
 
-        tutorService.updateTutorProfile(tutorProfileUpdateRequestDto, tutorId);
-        return new ResponseEntity<>("", HttpStatus.OK);
+        return tutorId;
     }
 }
 

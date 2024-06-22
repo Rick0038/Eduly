@@ -3,45 +3,28 @@ package com.gdsd.TutorService.service.impl;
 import com.gdsd.TutorService.dto.Tutor.*;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.models.BlobHttpHeaders;
-import com.gdsd.TutorService.dto.Tutor.*;
 import com.gdsd.TutorService.config.AzureBlob.AzureBlobStorageConfig;
 import com.gdsd.TutorService.exception.GenericException;
 import com.gdsd.TutorService.exception.ResourceNotFoundException;
-
 import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
 import com.gdsd.TutorService.dto.Tutor.TutorResponseDto;
 import com.gdsd.TutorService.dto.Tutor.TutorScheduleRequestDto;
 import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
-import com.gdsd.TutorService.exception.GenericException;
-import com.gdsd.TutorService.exception.ResourceNotFoundException;
-import com.gdsd.TutorService.model.Session;
-import com.gdsd.TutorService.model.Topic;
-import com.gdsd.TutorService.model.Tutor;
-import com.gdsd.TutorService.model.TutorContent;
-import com.gdsd.TutorService.repository.SessionRepository;
-import com.gdsd.TutorService.repository.TopicRepository;
-import com.gdsd.TutorService.repository.TutorContentRepository;
-import com.gdsd.TutorService.repository.TutorRepository;
+import com.gdsd.TutorService.model.*;
+import com.gdsd.TutorService.repository.*;
 import com.gdsd.TutorService.service.interf.TutorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.net.URI;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.*;
-
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TutorServiceImpl implements TutorService {
@@ -53,10 +36,16 @@ public class TutorServiceImpl implements TutorService {
     private TutorContentRepository tutorContentRepository;
 
     @Autowired
+    private StudentContentRepository studentContentRepository;
+
+    @Autowired
     private SessionRepository sessionRepository;
 
     @Autowired
     private TopicRepository topicRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -283,5 +272,96 @@ public class TutorServiceImpl implements TutorService {
                     blobClient.delete();
                 }
         }
+    }
+
+    @Override
+    public TutorUpcomingAppointmentsResponseDto getTutorUpcomingAppointments(Integer tutorId) {
+
+        Tutor tutor = tutorRepository.findById(tutorId).
+                orElseThrow(() -> new ResourceNotFoundException("Tutor", "tutorId", tutorId));
+
+        TutorUpcomingAppointmentsResponseDto response = new TutorUpcomingAppointmentsResponseDto();
+        response.setBbbLink(tutor.getBbbLink());
+
+
+        Optional<List<Session>> tutorSessions = sessionRepository
+                .findByTutorIdAndStatusOrderByDateAscStartTimeAsc(tutorId,
+                        Session.Status.BOOKED.toString());
+
+        if(tutorSessions.get().isEmpty() || !tutorSessions.isPresent()) {
+            response.setAppointments(new ArrayList<>());
+            return response;
+        }
+
+        // Get the list of sessions
+        List<Session> sessions = tutorSessions.get();
+
+        // Group by date in a LinkedHashMap for better time complexity
+        Map<LocalDate, List<TutorUpcomingAppointmentsResponseDto.Appointment.Timing>> groupedTimings
+                = new LinkedHashMap<>();
+
+        // Loop over each session already sorted by Date then Start Time
+        for(Session session : sessions) {
+            LocalDate date = session.getDate();
+            TutorUpcomingAppointmentsResponseDto.Appointment.Timing timing = new
+                    TutorUpcomingAppointmentsResponseDto.Appointment.Timing();
+
+            // Set the timing
+            timing.setSessionId(session.getSessionId());
+            timing.setFrom(session.getStartTime().toString());
+            timing.setTo(session.getEndTime().toString());
+            timing.setStatus(session.getStatus());
+            timing.setType(session.getSessionType());
+
+            // Set with Student
+            TutorUpcomingAppointmentsResponseDto.Appointment.Timing.With student =
+                    new TutorUpcomingAppointmentsResponseDto.Appointment.Timing.With();
+
+            student.setId(session.getStudentId());
+
+            Student currentStudent = studentRepository
+                    .findById(session.getStudentId())
+                    .orElseThrow(() -> new GenericException("Student with id: "
+                            + session.getStudentId()
+                    + " doesn't exist", HttpStatus.NOT_FOUND));
+            student.setFirstName(currentStudent.getFirstName());
+            student.setLastName(currentStudent.getLastName());
+
+            Optional<StudentContent> content = studentContentRepository
+                    .findByStudentIdAndContentType(session.getStudentId(), "profile_image");
+            if(content.isPresent()) {
+                student.setProfileImgLink(content.get().getContentLink());
+            } else  {
+                student.setProfileImgLink("");
+            }
+
+            timing.setWith(student);
+            timing.setType(session.getSessionType());
+
+            // Add timing to the HashMap with Date as the key
+            List<TutorUpcomingAppointmentsResponseDto.Appointment.Timing> timingList
+                    = groupedTimings.getOrDefault(date, new ArrayList<>());
+
+            timingList.add(timing);
+
+            groupedTimings.put(date, timingList);
+        }
+
+        List<TutorUpcomingAppointmentsResponseDto.Appointment> appointments =
+                groupedTimings
+                        .entrySet()
+                        .stream()
+                        .map(entry -> {
+                            TutorUpcomingAppointmentsResponseDto.Appointment appointment
+                                    = new TutorUpcomingAppointmentsResponseDto.Appointment();
+
+                            appointment.setDate(entry.getKey().toString());
+                            appointment.setTimings(entry.getValue());
+                            return appointment;
+                        }).collect(Collectors.toList());
+
+        response.setAppointments(appointments);
+
+        return response;
     }
 }
