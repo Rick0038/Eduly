@@ -2,15 +2,10 @@ package com.gdsd.TutorService.controller.Tutor;
 
 import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
 import com.gdsd.TutorService.dto.Tutor.TutorProfileUpdateRequestDto;
-
 import com.gdsd.TutorService.dto.Tutor.*;
-import com.gdsd.TutorService.dto.Tutor.TutorProfileImageRespDto;
-import com.gdsd.TutorService.exception.GenericException;
-
 import com.gdsd.TutorService.dto.Tutor.TutorRequestDto;
 import com.gdsd.TutorService.dto.Tutor.TutorResponseDto;
 import com.gdsd.TutorService.dto.Tutor.TutorScheduleRequestDto;
-
 import com.gdsd.TutorService.service.interf.TutorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -132,6 +127,13 @@ public class TutorController {
         Integer tutorId = getTutorIdFromAuthHeader(authorizationHeader);
         tutorService.updateTutorProfile(tutorProfileUpdateRequestDto, tutorId);
         return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @GetMapping("/upcoming-appointments")
+    public ResponseEntity<TutorUpcomingAppointmentsResponseDto> getTutorUpcomingAppointments(@RequestHeader("Authorization") String authorizationHeader) {
+        Integer tutorId = getTutorIdFromAuthHeader(authorizationHeader);
+        TutorUpcomingAppointmentsResponseDto response = tutorService.getTutorUpcomingAppointments(tutorId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     public Integer getTutorIdFromAuthHeader(String authorizationHeader) {
