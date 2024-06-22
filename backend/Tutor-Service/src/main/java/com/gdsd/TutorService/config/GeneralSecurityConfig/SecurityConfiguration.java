@@ -26,8 +26,7 @@ public class SecurityConfiguration {
                 .addFilterBefore(tokenValidator, UsernamePasswordAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults())
-                // Todo change it to /api to secure requests in the future..
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/testsec/**")
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/**")
                         .authenticated()
                         .anyRequest().permitAll()
                 );
