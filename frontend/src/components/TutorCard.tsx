@@ -131,7 +131,7 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
             {authService.isStudent && (
               <Stack justify='center'>
                 <Button leftSection={<IconCalendarEvent />}>
-                  Book Trial Session
+                  Book Session
                 </Button>
                 <Button
                   leftSection={<IconMessage />}
