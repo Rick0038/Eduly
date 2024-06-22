@@ -29,9 +29,6 @@ class HTTPService {
     const user = getUserInfoFromLocalStorage();
     if (user) {
       config.headers.Authorization = `Bearer ${user.token}`;
-      const params = config.params || {};
-      params.role = user.role;
-      config.params = params;
     }
     return config;
   }
