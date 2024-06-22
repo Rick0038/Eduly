@@ -1,6 +1,6 @@
 import { Badge, Button, MultiSelect, Table, Text } from '@mantine/core';
-import { Tutor } from '../model';
-import { formatDate } from '../util/helpers';
+import { Tutor } from '../../model';
+import { formatDate } from '../../util/helpers';
 import { IconCheck } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 

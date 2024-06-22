@@ -1,13 +1,5 @@
 import { useState } from 'react';
-import {
-  Button,
-  Card,
-  Avatar,
-  Group,
-  Title,
-  Rating,
-  Tabs,
-} from '@mantine/core';
+import { Button, Card, Avatar, Title, Rating, Tabs } from '@mantine/core';
 import {
   IconUser,
   IconCalendar,
@@ -15,9 +7,10 @@ import {
   IconEdit,
   IconX,
 } from '@tabler/icons-react';
-import { PersonalInfo } from '../PersonalInfo';
+import { PersonalInfo } from '../Profile/PersonalInfo';
+import { TutorSchedule } from '../Profile/TutorSchedule';
 import { Tutor } from '../../model';
-import { TutorSchedule } from '../TutorSchedule';
+import { Reviews } from '../Profile/Reviews';
 
 const user: Tutor = {
   id: '12345',
@@ -159,25 +152,8 @@ export function ProfilePage() {
           <Tabs.Panel value='schedule' pt='md'>
             <TutorSchedule isEditing={isEditing} tutor={user} />
           </Tabs.Panel>
-          <Tabs.Panel value='reviews' pt='xs'>
-            <div className='reviews mt-6'>
-              <Title order={3}>Reviews</Title>
-              {user.reviews.map((review) => (
-                <Card key={review.id} shadow='sm' padding='lg' className='mt-4'>
-                  <Group>
-                    <Avatar
-                      src={review.reviewBy.profileImgLink}
-                      alt={review.reviewBy.name}
-                    />
-                    <div>
-                      <Title order={5}>{review.reviewBy.name}</Title>
-                      <Rating value={review.rating} readOnly />
-                      <p>{review.text}</p>
-                    </div>
-                  </Group>
-                </Card>
-              ))}
-            </div>
+          <Tabs.Panel value='reviews' pt='md'>
+            <Reviews user={user} />
           </Tabs.Panel>
         </Tabs>
       </Card>

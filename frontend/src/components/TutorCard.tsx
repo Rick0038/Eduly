@@ -63,7 +63,7 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
         <Grid h={'100%'}>
           <Grid.Col span={'auto'}>
             <Center>
-              <Avatar size={'150'} src={tutor.profileImgLink}></Avatar>
+              <Avatar size={'150'} src={tutor.profileImgLink.link}></Avatar>
             </Center>
           </Grid.Col>
           <Grid.Col span={6}>

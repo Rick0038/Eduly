@@ -6,9 +6,9 @@ import {
   TextInput,
   Textarea,
 } from '@mantine/core';
-import { Tutor } from '../model';
+import { Tutor } from '../../model';
 import { IconCheck, IconFileCv, IconVideo } from '@tabler/icons-react';
-import { languages, topics } from '../util/constants';
+import { languages, topics } from '../../util/constants';
 import { useForm } from '@mantine/form';
 
 interface PersonalInfoProps {
