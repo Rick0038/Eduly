@@ -103,7 +103,7 @@
       "responses": [
         {
           "uuid": "3a784ea1-67cc-454b-8ab4-7719300d019c",
-          "body": "{\n  \"tutors\": [\n    {\n      \"id\": \"12345\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"pricing\": 40,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 100,\n      \"topic\": \"Math\",\n      \"language\": \"English\",\n      \"experience\": 5,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 10,\n      \"profileImgLink\": \"https://www.wyzant.com/images/tutor/silhouette.png\"\n    },\n    {\n      \"id\": \"67890\",\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Smith\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 27,\n      \"topic\": \"Physics\",\n      \"language\": \"English\",\n      \"experience\": 3,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 20,\n      \"profileImgLink\": \"https://www.wyzant.com/images/tutor/silhouette.png\"\n    }\n  ]\n}\n",
+          "body": "{\n  \"tutors\": [\n    {\n      \"id\": \"12345\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"pricing\": 40,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 100,\n      \"topic\": \"Math\",\n      \"language\": \"English\",\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 10,\n      \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\",\n      \"cvLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/cv_20\",\n      \"videoLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/intro_video_20\"\n    },\n    {\n      \"id\": \"67890\",\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Smith\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 27,\n      \"topic\": \"Physics\",\n      \"language\": \"English\",\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 20,\n      \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\",\n      \"cvLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/cv_20\",\n      \"videoLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/intro_video_20\"\n    }\n  ]\n}",
           "latency": 1500,
           "statusCode": 200,
           "label": "",
@@ -116,7 +116,7 @@
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": false,
+          "default": true,
           "crudKey": "id",
           "callbacks": []
         },
@@ -135,7 +135,7 @@
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": true,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         }
@@ -179,15 +179,7 @@
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
-          "rules": [
-            {
-              "target": "body",
-              "modifier": "role",
-              "value": "STUDENT",
-              "invert": false,
-              "operator": "equals"
-            }
-          ],
+          "rules": [],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,

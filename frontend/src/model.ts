@@ -17,6 +17,8 @@ export interface Tutor {
   intro: string;
   numLessonsTaught: number;
   profileImgLink: string;
+  cvLink: string;
+  videoLink: string;
 }
 
 export interface UserInfo {
