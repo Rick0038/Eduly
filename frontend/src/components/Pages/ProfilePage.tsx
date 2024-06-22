@@ -6,22 +6,20 @@ import {
   Group,
   Title,
   Rating,
-  Select,
   Tabs,
 } from '@mantine/core';
-import { TimeInput } from '@mantine/dates';
 import {
   IconUser,
   IconCalendar,
   IconStar,
   IconEdit,
   IconX,
-  IconCheck,
 } from '@tabler/icons-react';
 import { PersonalInfo } from '../PersonalInfo';
 import { Tutor } from '../../model';
+import { TutorSchedule } from '../TutorSchedule';
 
-const initialUser: Tutor = {
+const user: Tutor = {
   id: '12345',
   firstName: 'John',
   lastName: 'Doe',
@@ -36,7 +34,7 @@ const initialUser: Tutor = {
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales.',
   numLessonsTaught: 10,
   profileImgLink: {
-    link: 'http://cv.pdf',
+    link: 'https://cdn.pixabay.com/photo/2016/11/29/13/14/attractive-1869761_1280.jpg',
     status: 'PENDING_APPROVAL',
   },
   cv: {
@@ -109,45 +107,15 @@ const initialUser: Tutor = {
 };
 
 export function ProfilePage() {
-  const [user, setUser] = useState<Tutor>(initialUser);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
-  const handleScheduleChange = (
-    dateIndex: number,
-    timingIndex: number,
-    field: keyof (typeof initialUser.schedule)[0]['timings'][0],
-    value: string
-  ) => {
-    const updatedSchedule = user.schedule.map((day, dIdx) => {
-      if (dIdx === dateIndex) {
-        return {
-          ...day,
-          timings: day.timings.map((timing, tIdx) => {
-            if (tIdx === timingIndex) {
-              return {
-                ...timing,
-                [field]: value,
-              };
-            }
-            return timing;
-          }),
-        };
-      }
-      return day;
-    });
-    setUser((prevUser) => ({
-      ...prevUser,
-      schedule: updatedSchedule,
-    }));
-  };
 
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
   };
 
   return (
-    <div className='container mx-auto p-4'>
-      <Card shadow='sm' padding='lg'>
+    <div className='mx-auto sm:p-4'>
+      <Card shadow='sm' className='border px-1 xs:p-auto'>
         <div className='profile-header flex items-center mb-4'>
           <Avatar
             src={user.profileImgLink?.link || ''}
@@ -165,8 +133,12 @@ export function ProfilePage() {
             leftSection={
               isEditing ? <IconX size={16} /> : <IconEdit size={16} />
             }
+            visibleFrom='sm'
           >
             {isEditing ? 'Cancel' : 'Edit Profile'}
+          </Button>
+          <Button onClick={handleEditToggle} hiddenFrom='sm' variant='subtle'>
+            {isEditing ? <IconX size={16} /> : <IconEdit size={16} />}
           </Button>
         </div>
         <Tabs defaultValue='personalInfo'>
@@ -181,71 +153,11 @@ export function ProfilePage() {
               Reviews
             </Tabs.Tab>
           </Tabs.List>
-          <Tabs.Panel value='personalInfo' pt='xs'>
+          <Tabs.Panel value='personalInfo' pt='md'>
             <PersonalInfo isEditing={isEditing} user={user} />
           </Tabs.Panel>
-          <Tabs.Panel value='schedule' pt='xs'>
-            <div className='schedule mt-6'>
-              <Title order={3}>Schedule</Title>
-              {user.schedule.map((day, dateIndex) => (
-                <Card key={day.date} shadow='sm' padding='lg' className='mt-4'>
-                  <Title order={4}>{day.date}</Title>
-                  {day.timings.map((session, timingIndex) => (
-                    <div key={session.sessionId} className='grid gap-2 mt-2'>
-                      <TimeInput
-                        label='From'
-                        value={session.from}
-                        onChange={(value) =>
-                          handleScheduleChange(
-                            dateIndex,
-                            timingIndex,
-                            'from',
-                            value
-                          )
-                        }
-                      />
-                      <TimeInput
-                        label='To'
-                        value={session.to}
-                        onChange={(value) =>
-                          handleScheduleChange(
-                            dateIndex,
-                            timingIndex,
-                            'to',
-                            value
-                          )
-                        }
-                      />
-                      <Select
-                        label='Status'
-                        value={session.status}
-                        onChange={(value) =>
-                          handleScheduleChange(
-                            dateIndex,
-                            timingIndex,
-                            'status',
-                            value!
-                          )
-                        }
-                        data={[
-                          { value: 'FREE', label: 'Free' },
-                          { value: 'BOOKED', label: 'Booked' },
-                        ]}
-                      />
-                    </div>
-                  ))}
-                </Card>
-              ))}
-            </div>
-            {isEditing && (
-              <Button
-                className='mt-4'
-                leftSection={<IconCheck size={16} />}
-                onClick={() => console.log('Update Schedule', user)}
-              >
-                Update Schedule
-              </Button>
-            )}
+          <Tabs.Panel value='schedule' pt='md'>
+            <TutorSchedule isEditing={isEditing} tutor={user} />
           </Tabs.Panel>
           <Tabs.Panel value='reviews' pt='xs'>
             <div className='reviews mt-6'>

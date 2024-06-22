@@ -12,7 +12,7 @@ import { languages, topics } from '../util/constants';
 import { useForm } from '@mantine/form';
 
 interface PersonalInfoProps {
-  isEditing?: boolean;
+  isEditing: boolean;
   user: Tutor;
 }
 
@@ -24,7 +24,7 @@ export function PersonalInfo(props: PersonalInfoProps) {
   }
 
   return (
-    <div className='profile-details grid gap-4'>
+    <div className='grid gap-4'>
       <div>
         <strong>First Name: </strong>
         {user.firstName}
@@ -67,13 +67,8 @@ export function PersonalInfo(props: PersonalInfoProps) {
   );
 }
 
-interface EditPersonalInfoProps {
-  user: Tutor;
-}
-
-export function EditPersonalInfo(props: EditPersonalInfoProps) {
+export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
   const { user } = props;
-  console.log('>> user', user);
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -93,7 +88,7 @@ export function EditPersonalInfo(props: EditPersonalInfoProps) {
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
-      <div className='profile-details grid gap-4'>
+      <div className='grid gap-4'>
         <TextInput
           label='First Name'
           name='firstName'
@@ -170,6 +165,7 @@ export function EditPersonalInfo(props: EditPersonalInfoProps) {
           rightSection={<IconFileCv stroke={1.5} />}
           rightSectionPointerEvents='none'
           accept='application/pdf'
+          required
           key={form.key('cv')}
           {...form.getInputProps('cv')}
         />
@@ -180,6 +176,7 @@ export function EditPersonalInfo(props: EditPersonalInfoProps) {
           rightSection={<IconVideo stroke={1.5} />}
           rightSectionPointerEvents='none'
           accept='video/*'
+          required
           key={form.key('video')}
           {...form.getInputProps('video')}
         />
