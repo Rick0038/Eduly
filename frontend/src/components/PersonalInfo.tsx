@@ -84,6 +84,7 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
 
   const handleSubmit = (values: Tutor) => {
     console.log('values', values);
+    // TODO: Hit the API
   };
 
   return (

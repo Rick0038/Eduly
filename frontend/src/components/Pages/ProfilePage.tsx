@@ -115,7 +115,7 @@ export function ProfilePage() {
 
   return (
     <div className='mx-auto sm:p-4'>
-      <Card shadow='sm' className='border px-1 xs:p-auto'>
+      <Card shadow='sm' className='px-2 sm:px-4'>
         <div className='profile-header flex items-center mb-4'>
           <Avatar
             src={user.profileImgLink?.link || ''}
