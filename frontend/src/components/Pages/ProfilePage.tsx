@@ -1,16 +1,11 @@
 import { useState } from 'react';
-import { Button, Card, Avatar, Title, Rating, Tabs } from '@mantine/core';
-import {
-  IconUser,
-  IconCalendar,
-  IconStar,
-  IconEdit,
-  IconX,
-} from '@tabler/icons-react';
+import { Card, Tabs } from '@mantine/core';
+import { IconUser, IconCalendar, IconStar } from '@tabler/icons-react';
 import { PersonalInfo } from '../Profile/PersonalInfo';
 import { TutorSchedule } from '../Profile/TutorSchedule';
 import { Tutor } from '../../model';
 import { Reviews } from '../Profile/Reviews';
+import { ProfileHead } from './ProfileHead';
 
 const user: Tutor = {
   id: '12345',
@@ -109,31 +104,11 @@ export function ProfilePage() {
   return (
     <div className='mx-auto sm:p-4'>
       <Card shadow='sm' className='px-2 sm:px-4'>
-        <div className='profile-header flex items-center mb-4'>
-          <Avatar
-            src={user.profileImgLink?.link || ''}
-            alt={`${user.firstName} ${user.lastName}`}
-            size='xl'
-            className='mr-4'
-          />
-          <div className='flex-grow'>
-            <Title order={2}>{`${user.firstName} ${user.lastName}`}</Title>
-            <Rating value={user.rating} readOnly />
-            <p>{`${user.numLessonsTaught} lessons taught`}</p>
-          </div>
-          <Button
-            onClick={handleEditToggle}
-            leftSection={
-              isEditing ? <IconX size={16} /> : <IconEdit size={16} />
-            }
-            visibleFrom='sm'
-          >
-            {isEditing ? 'Cancel' : 'Edit Profile'}
-          </Button>
-          <Button onClick={handleEditToggle} hiddenFrom='sm' variant='subtle'>
-            {isEditing ? <IconX size={16} /> : <IconEdit size={16} />}
-          </Button>
-        </div>
+        <ProfileHead
+          isEditing={isEditing}
+          user={user}
+          handleEditToggle={handleEditToggle}
+        />
         <Tabs defaultValue='personalInfo'>
           <Tabs.List>
             <Tabs.Tab value='personalInfo' leftSection={<IconUser size={16} />}>
