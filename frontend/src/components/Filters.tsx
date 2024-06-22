@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import {
   Button,
   Flex,
@@ -17,12 +18,14 @@ import {
 } from '../hooks';
 import {
   IconAdjustments,
+  IconBook2,
   IconCalendar,
   IconCurrencyEuro,
   IconLanguage,
   // IconLocation,
   IconStar,
 } from '@tabler/icons-react';
+import { tutorService } from '../service';
 
 interface FiltersProps {
   onSubmit?: () => void;
@@ -30,6 +33,10 @@ interface FiltersProps {
 
 export function Filters(props: FiltersProps) {
   const { onSubmit } = props;
+  const { data: { topics } = {} } = useQuery({
+    queryKey: ['getTopics'],
+    queryFn: tutorService.getTopics,
+  });
   const { filters, handleChange } = useFilters();
 
   return (
@@ -42,6 +49,24 @@ export function Filters(props: FiltersProps) {
           <IconAdjustments size={20} stroke={1} />
         </Group>
       </Flex>
+
+      <Group className='mb-1'>
+        <Select
+          name='topic'
+          label={
+            <Flex justify='center' align='center'>
+              <Text className='text-sm'>Topic</Text>
+              <IconBook2 size={14} />
+            </Flex>
+          }
+          placeholder='Select topic'
+          className='w-full'
+          data={topics}
+          value={filters.topic}
+          onChange={handleChange('topic')}
+          searchable
+        />
+      </Group>
 
       {/* <Group>
         <TextInput
@@ -80,7 +105,7 @@ export function Filters(props: FiltersProps) {
 
       <Group className='w-full mb-4 mr-1'>
         <Flex justify='center' align='center'>
-          <Text className='text-sm'>Max Price</Text>
+          <Text className='text-sm'>Price range</Text>
           <IconCurrencyEuro size={14} />
         </Flex>
         <RangeSlider
@@ -118,10 +143,12 @@ export function Filters(props: FiltersProps) {
       <Group className='mb-1'>
         <Select
           name='language'
-          label=<Flex justify='center' align='center'>
-            <Text className='text-sm'>Langauge</Text>
-            <IconLanguage size={14} />
-          </Flex>
+          label={
+            <Flex justify='center' align='center'>
+              <Text className='text-sm'>Langauge</Text>
+              <IconLanguage size={14} />
+            </Flex>
+          }
           placeholder='Select language'
           className='w-full'
           data={languages}

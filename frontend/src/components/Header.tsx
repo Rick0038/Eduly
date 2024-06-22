@@ -11,10 +11,10 @@ import {
   Text,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconMessage, IconPlant2 } from '@tabler/icons-react';
+import { IconMessage, IconPlant2, IconSearch } from '@tabler/icons-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../service/AuthService';
-import { SearchTutor } from './SearchTutor';
+// import { SearchTutor } from './SearchTutor';
 
 interface HeaderProps {
   as?: React.ElementType;
@@ -48,7 +48,15 @@ export function Header(props: HeaderProps) {
         </Flex>
 
         <Flex justify='flex-end' align='center' gap={10}>
-          <SearchTutor />
+          {/* <SearchTutor /> */}
+          <Button
+            variant='outline'
+            onClick={() => navigate('/search')}
+            rightSection={<IconSearch size={16} />}
+            className='text-gray-400 hover:text-gray-400 font-normal border-gray-300'
+          >
+            Search tutors
+          </Button>
           <Group visibleFrom='sm'>
             <Button variant='outline'>Forum</Button>
 
@@ -57,7 +65,6 @@ export function Header(props: HeaderProps) {
                 <Button variant='outline' onClick={() => navigate('/register')}>
                   Register
                 </Button>
-
                 <Button onClick={() => navigate('/login')}>Login</Button>
               </>
             )}

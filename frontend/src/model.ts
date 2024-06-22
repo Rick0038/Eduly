@@ -53,3 +53,7 @@ export interface Message {
   senderRole: ROLE;
   chatId: number;
 }
+
+export interface Topic {
+  topics: string[];
+}
