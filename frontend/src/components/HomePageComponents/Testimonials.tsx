@@ -100,7 +100,15 @@ export function Testimonials() {
   const [playTestimonials, setPlayTestimonials] = useState('play');
 
   const testimonials = testimonialData.map((testimonial) => (
-    <Card maw={300} shadow='sm' m={10} padding='lg' radius='md' withBorder>
+    <Card
+      key={testimonial.name}
+      maw={300}
+      shadow='sm'
+      m={10}
+      padding='lg'
+      radius='md'
+      withBorder
+    >
       <Card.Section>
         <Image
           src={'HomepageImages/' + testimonial.portrait}
