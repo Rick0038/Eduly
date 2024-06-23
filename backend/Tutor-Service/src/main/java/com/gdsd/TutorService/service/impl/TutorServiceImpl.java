@@ -463,7 +463,7 @@ public class TutorServiceImpl implements TutorService {
         responseDto.setBbbLink(tutor.getBbbLink());
 
         // Setting of Schedule
-        Optional<List<Session>> tutorSessions = sessionRepository.findByTutorId(tutorId);
+        Optional<List<Session>> tutorSessions = sessionRepository.findByTutorIdOrderByDateAscStartTimeAsc(tutorId);
         if(tutorSessions.isEmpty() || tutorSessions.get().isEmpty()) {
             responseDto.setSchedule(new ArrayList<>());
         } else {
@@ -536,6 +536,113 @@ public class TutorServiceImpl implements TutorService {
             responseDto.setStatus("APPROVED");
         } else {
             responseDto.setStatus("PENDING_APPROVAL");
+        }
+
+        return responseDto;
+    }
+
+    @Override
+    public TutorDetailsForStudentResponseDto getTutorProfileForStudent(Integer tutorId) {
+        Tutor tutor = tutorRepository.findById(tutorId).
+                orElseThrow(() -> new ResourceNotFoundException("Tutor", "tutorId", tutorId));
+
+        TutorDetailsForStudentResponseDto responseDto = new TutorDetailsForStudentResponseDto();
+        responseDto.setId(tutor.getTutorId());
+        responseDto.setFirstName(tutor.getFirstName());
+        responseDto.setLastName(tutor.getLastName());
+        responseDto.setPricing(tutor.getPrice());
+        responseDto.setRating(tutor.getRating());
+        responseDto.setNumberOfRatings(tutor.getNumberOfRatings());
+
+        // Setting of Topics
+        List<Topic> topicsForTutor = topicRepository.findByTutorId(tutorId);
+        Set<String> topics = new LinkedHashSet<>();
+        topicsForTutor.forEach(topic -> topics.add(topic.getTopicName()));
+        responseDto.setTopic(topics);
+
+        responseDto.setLanguage(tutor.getLanguage());
+        responseDto.setIntroText(tutor.getIntro());
+        responseDto.setNumLessonsTaught(tutor.getNumLessonsTaught());
+
+        // Setting of profile image, cv and video
+        Optional<TutorContent> tutorProfileImage = tutorContentRepository.findByTutorIdAndContentType(tutorId, "profile_image");
+        if(tutorProfileImage.isEmpty()) { responseDto.setProfileImgLink(""); }
+        else { responseDto.setProfileImgLink(tutorProfileImage.get().getContentLink());}
+
+        Optional<TutorContent> tutorCv = tutorContentRepository.findByTutorIdAndContentType(tutorId, "cv");
+        if(tutorCv.isEmpty()) { responseDto.setCvLink(""); }
+        else { responseDto.setCvLink(tutorCv.get().getContentLink());}
+
+        Optional<TutorContent> tutorVideo = tutorContentRepository.findByTutorIdAndContentType(tutorId, "intro_video");
+        if(tutorVideo.isEmpty()) { responseDto.setVideoLink(""); }
+        else { responseDto.setVideoLink(tutorVideo.get().getContentLink());}
+
+        responseDto.setBbbLink(tutor.getBbbLink());
+
+        // Setting of Schedule
+        Optional<List<Session>> tutorSessions = sessionRepository.findByTutorIdAndStatusOrderByDateAscStartTimeAsc(tutorId, "FREE");
+        if(tutorSessions.isEmpty() || tutorSessions.get().isEmpty()) {
+            responseDto.setSchedule(new ArrayList<>());
+        } else {
+            List<Session> sessions = tutorSessions.get();
+            // Group by date in a LinkedHashMap for better time complexity
+            Map<LocalDate, List<TutorDetailsForStudentResponseDto.Timing>> groupedTimings
+                    = new LinkedHashMap<>();
+            // Loop over each returned session sorted by date then startTime
+            for(Session session : sessions) {
+                LocalDate date = session.getDate();
+                TutorDetailsForStudentResponseDto.Timing timing = new TutorDetailsForStudentResponseDto.Timing();
+
+                // Set the timing
+                timing.setSessionId(session.getSessionId());
+                timing.setFrom(session.getStartTime().toString());
+                timing.setTo(session.getEndTime().toString());
+                timing.setStatus(session.getStatus());
+
+                // Add timing to the HashMap with Date as the key
+                List<TutorDetailsForStudentResponseDto.Timing> timingList
+                        = groupedTimings.getOrDefault(date, new ArrayList<>());
+                timingList.add(timing);
+                groupedTimings.put(date, timingList);
+            }
+
+            // Set to responseDto.schedule
+            List<TutorDetailsForStudentResponseDto.Session> schedule =
+                    groupedTimings
+                            .entrySet()
+                            .stream()
+                            .map(entry -> {
+                                TutorDetailsForStudentResponseDto.Session session = new TutorDetailsForStudentResponseDto.Session();
+                                session.setDate(entry.getKey().toString());
+                                session.setTimings(entry.getValue());
+
+                                return session;
+                            }).collect(Collectors.toList());
+            responseDto.setSchedule(schedule);
+        }
+
+        // Set Reviews
+        Optional<List<Review>> tutorReviews = reviewRepository.findByTutorId(tutorId);
+        if(tutorReviews.isEmpty()) {
+            responseDto.setReviews(new ArrayList<>());
+        } else {
+            List<Review> reviews = tutorReviews.get();
+
+            List<TutorDetailsForStudentResponseDto.Review> reviewDtos = reviews
+                    .stream()
+                    .map(review -> {
+                        TutorDetailsForStudentResponseDto.Review tutorReview = new TutorDetailsForStudentResponseDto.Review();
+                        tutorReview.setId(review.getReviewId());
+                        tutorReview.setRating(review.getRating());
+                        tutorReview.setText(review.getText());
+
+                        TutorDetailsForStudentResponseDto.By student = new TutorDetailsForStudentResponseDto.By();
+                        student.setName(studentService.getStudentNameFromId(review.getStudentId()));
+                        student.setProfileImgLink(studentService.getStudentProfileImageFromId(review.getStudentId()));
+                        tutorReview.setReviewBy(student);
+                        return tutorReview;
+                    }).collect(Collectors.toList());
+            responseDto.setReviews(reviewDtos);
         }
 
         return responseDto;

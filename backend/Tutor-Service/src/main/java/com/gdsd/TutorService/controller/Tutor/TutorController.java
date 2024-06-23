@@ -144,6 +144,12 @@ public class TutorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/{tutorId}")
+    public ResponseEntity<TutorDetailsForStudentResponseDto> getTutorProfileForStudent(@PathVariable Integer tutorId) {
+        TutorDetailsForStudentResponseDto response = tutorService.getTutorProfileForStudent(tutorId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     public Integer getTutorIdFromAuthHeader(String authorizationHeader) {
         String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
         String email = tokenProvider.getEmailFromToken(token);
