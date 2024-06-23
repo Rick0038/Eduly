@@ -70,6 +70,7 @@ public class AuthController {
                     , HttpStatus.BAD_REQUEST);
         }
 
+        // By default langauge will be set to English. Tutor can update this in his profile.
         if(registerRequestDto.getRole().equals("TUTOR")) {
             Tutor tutor = new Tutor();
             tutor.setTutorId(null);
@@ -82,6 +83,7 @@ public class AuthController {
             tutor.setPassword(passwordEncoder.encode(password));
             tutor.setFirstName(firstName);
             tutor.setLastName(lastName);
+            tutor.setLanguage("English");
 
             tutorRepository.save(tutor);
         } else if (registerRequestDto.getRole().equals("STUDENT")) {

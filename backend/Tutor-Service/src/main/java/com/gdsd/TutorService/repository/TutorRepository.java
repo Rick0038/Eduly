@@ -2,12 +2,16 @@ package com.gdsd.TutorService.repository;
 
 import com.gdsd.TutorService.model.Tutor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface TutorRepository extends JpaRepository<Tutor, Integer>, TutorSearchRepository {
     Optional<Tutor> findByEmail(String email);
     Boolean existsByEmail(String email);
+    @Query("SELECT DISTINCT t.language FROM Tutor t")
+    List<String> findDistinctLanguages();
 }
