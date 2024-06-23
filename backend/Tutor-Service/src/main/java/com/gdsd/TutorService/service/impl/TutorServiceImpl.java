@@ -25,6 +25,7 @@ import java.time.LocalTime;
 import java.time.format.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class TutorServiceImpl implements TutorService {
@@ -193,6 +194,40 @@ public class TutorServiceImpl implements TutorService {
                 pricingMax, ratingsMin, topic, language);
 
         return tutorSearchResponseDtos;
+    }
+
+    @Override
+    public List<TutorSearchResponseDto> filterTutorDtosByDays(List<TutorSearchResponseDto> tutorDtos, List<String> availabilityDays) {
+
+        return tutorDtos.stream()
+                .filter(tutorDto ->
+                        // Check if there exists at least one session with status 'FREE' for each day
+                        availabilityDays.stream()
+                                .allMatch(day ->
+                                        sessionRepository.existsByTutorIdAndStatusAndDay(
+                                                tutorDto.getId(), Session.Status.FREE.toString(), day)))
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<TutorSearchResponseDto> filterTutorDtosByStartTime(List<TutorSearchResponseDto> tutorDtos, String startTime) {
+        return tutorDtos.stream()
+                .filter(tutorDto ->
+                        sessionRepository
+                                .existsByTutorIdAndStatusAndStartTimeGreaterThanEqual(tutorDto.getId(),
+                                        LocalTime.parse(startTime)))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TutorSearchResponseDto> filterTutorDtosByEndTime(List<TutorSearchResponseDto> tutorDtos, String endTime) {
+        return  tutorDtos.stream()
+                .filter(tutorDto ->
+                        sessionRepository
+                                .existsByTutorIdAndStatusAndEndTimeLessThanEqual(tutorDto.getId(),
+                                LocalTime.parse(endTime)))
+                .collect(Collectors.toList());
     }
 
 

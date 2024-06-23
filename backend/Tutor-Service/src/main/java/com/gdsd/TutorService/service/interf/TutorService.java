@@ -28,6 +28,9 @@ public interface TutorService {
                                                Double pricingMax, Double ratingsMin,
                                                String topic, String language,
                                                Integer experienceMin);
+    List<TutorSearchResponseDto> filterTutorDtosByDays(List<TutorSearchResponseDto> tutorDtos, List<String> availabilityDays);
+    List<TutorSearchResponseDto> filterTutorDtosByStartTime(List<TutorSearchResponseDto> tutorDtos, String startTime);
+    List<TutorSearchResponseDto> filterTutorDtosByEndTime(List<TutorSearchResponseDto> tutorDtos, String endTime);
     Object updateTutorContent(TutorProfileRequestDto requestDto, Integer tutorId, String contentType);
 
     TutorUpcomingAppointmentsResponseDto getTutorUpcomingAppointments(Integer tutorId);
