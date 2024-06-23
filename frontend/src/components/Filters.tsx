@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
 import {
   Button,
   Flex,
@@ -18,14 +17,12 @@ import {
 } from '../hooks';
 import {
   IconAdjustments,
-  IconBook2,
   IconCalendar,
   IconCurrencyEuro,
   IconLanguage,
   // IconLocation,
   IconStar,
 } from '@tabler/icons-react';
-import { tutorService } from '../service';
 
 interface FiltersProps {
   onSubmit?: () => void;
@@ -33,40 +30,25 @@ interface FiltersProps {
 
 export function Filters(props: FiltersProps) {
   const { onSubmit } = props;
-  const { data: { topics } = {} } = useQuery({
-    queryKey: ['getTopics'],
-    queryFn: tutorService.getTopics,
-  });
-  const { filters, handleChange } = useFilters();
+  const { filters, handleChange, handleReset } = useFilters();
 
   return (
     <Group>
-      <Flex justify='center' align='center' gap={1}>
-        <Text size='lg' fw={500} visibleFrom='sm'>
-          Filters
-        </Text>
+      <Flex justify='space-between' className='w-full'>
+        <Flex justify='center' align='center' gap={1}>
+          <Text size='lg' fw={500} visibleFrom='sm'>
+            Filters
+          </Text>
+          <Group visibleFrom='sm'>
+            <IconAdjustments size={20} stroke={1} />
+          </Group>
+        </Flex>
         <Group visibleFrom='sm'>
-          <IconAdjustments size={20} stroke={1} />
+          <Button size='xs' variant='transparent' onClick={handleReset}>
+            Reset all
+          </Button>
         </Group>
       </Flex>
-
-      <Group className='mb-1'>
-        <Select
-          name='topic'
-          label={
-            <Flex justify='center' align='center'>
-              <Text className='text-sm'>Topic</Text>
-              <IconBook2 size={14} />
-            </Flex>
-          }
-          placeholder='Select topic'
-          className='w-full'
-          data={topics}
-          value={filters.topic}
-          onChange={handleChange('topic')}
-          searchable
-        />
-      </Group>
 
       {/* <Group>
         <TextInput
@@ -157,9 +139,18 @@ export function Filters(props: FiltersProps) {
         />
       </Group>
 
-      <Group className='w-full mb-4 mr-1' hiddenFrom='sm'>
+      <Flex className='w-full mb-4 mr-1' gap='sm' hiddenFrom='sm'>
         <Button onClick={onSubmit}>Apply Filters</Button>
-      </Group>
+        <Button
+          onClick={() => {
+            handleReset();
+            onSubmit?.();
+          }}
+          variant='outline'
+        >
+          Reset All
+        </Button>
+      </Flex>
     </Group>
   );
 }
