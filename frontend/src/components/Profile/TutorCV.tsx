@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FileInput, Button, Anchor, Text } from '@mantine/core';
-import { IconFileCv, IconUpload } from '@tabler/icons-react';
+import { IconEye, IconFileCv, IconUpload } from '@tabler/icons-react';
 import { useMutation } from '@tanstack/react-query';
 import { tutorService } from '../../service';
 import { Tutor } from '../../model';
@@ -34,27 +34,31 @@ export function TutorCV(props: TutorCVProps) {
     updateCV.mutate(formData);
   };
 
-  const getFileNameFromURL = (url: string) => {
-    return url.split('/').pop();
-  };
-
   return (
     <div className='grid gap-4'>
       {tutor.cv && tutor.cv.link ? (
-        <div className='flex gap-2'>
+        <div className='flex flex-col gap-2 justify-start content-start text-left'>
           <Text>Your CV:</Text>
-          <Anchor
-            href={tutor.cv.link}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            {getFileNameFromURL(tutor.cv.link)}
-          </Anchor>
+          <div className='relative group max-w-[400px]'>
+            <Anchor
+              href={tutor.cv.link}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='block'
+            >
+              <img
+                src='/pdf-thumbnail.jpg'
+                alt='CV Thumbnail'
+                className='w-full h-auto'
+              />
+              <div className='absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center'>
+                <IconEye size={48} color='white' />
+              </div>
+            </Anchor>
+          </div>
         </div>
       ) : (
-        <Text className='text-center' c='red'>
-          No CV found!
-        </Text>
+        <Text className='text-center text-red-500'>No CV found!</Text>
       )}
 
       {isEditing && (
