@@ -103,8 +103,14 @@ export const useFilters = () => {
     []
   );
 
+  const handleReset = useCallback(() => {
+    setFilters(getInitialFilters(''));
+    navigate({ search: '' }, { replace: true });
+  }, [navigate]);
+
   return {
     filters,
     handleChange,
+    handleReset,
   };
 };

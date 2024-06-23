@@ -30,16 +30,23 @@ interface FiltersProps {
 
 export function Filters(props: FiltersProps) {
   const { onSubmit } = props;
-  const { filters, handleChange } = useFilters();
+  const { filters, handleChange, handleReset } = useFilters();
 
   return (
     <Group>
-      <Flex justify='center' align='center' gap={1}>
-        <Text size='lg' fw={500} visibleFrom='sm'>
-          Filters
-        </Text>
+      <Flex justify='space-between' className='w-full'>
+        <Flex justify='center' align='center' gap={1}>
+          <Text size='lg' fw={500} visibleFrom='sm'>
+            Filters
+          </Text>
+          <Group visibleFrom='sm'>
+            <IconAdjustments size={20} stroke={1} />
+          </Group>
+        </Flex>
         <Group visibleFrom='sm'>
-          <IconAdjustments size={20} stroke={1} />
+          <Button size='xs' variant='transparent' onClick={handleReset}>
+            Reset all
+          </Button>
         </Group>
       </Flex>
 
@@ -80,7 +87,7 @@ export function Filters(props: FiltersProps) {
 
       <Group className='w-full mb-4 mr-1'>
         <Flex justify='center' align='center'>
-          <Text className='text-sm'>Max Price</Text>
+          <Text className='text-sm'>Price range</Text>
           <IconCurrencyEuro size={14} />
         </Flex>
         <RangeSlider
@@ -118,10 +125,12 @@ export function Filters(props: FiltersProps) {
       <Group className='mb-1'>
         <Select
           name='language'
-          label=<Flex justify='center' align='center'>
-            <Text className='text-sm'>Langauge</Text>
-            <IconLanguage size={14} />
-          </Flex>
+          label={
+            <Flex justify='center' align='center'>
+              <Text className='text-sm'>Langauge</Text>
+              <IconLanguage size={14} />
+            </Flex>
+          }
           placeholder='Select language'
           className='w-full'
           data={languages}
@@ -130,9 +139,18 @@ export function Filters(props: FiltersProps) {
         />
       </Group>
 
-      <Group className='w-full mb-4 mr-1' hiddenFrom='sm'>
+      <Flex className='w-full mb-4 mr-1' gap='sm' hiddenFrom='sm'>
         <Button onClick={onSubmit}>Apply Filters</Button>
-      </Group>
+        <Button
+          onClick={() => {
+            handleReset();
+            onSubmit?.();
+          }}
+          variant='outline'
+        >
+          Reset All
+        </Button>
+      </Flex>
     </Group>
   );
 }

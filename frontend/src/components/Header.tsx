@@ -57,7 +57,6 @@ export function Header(props: HeaderProps) {
                 <Button variant='outline' onClick={() => navigate('/register')}>
                   Register
                 </Button>
-
                 <Button onClick={() => navigate('/login')}>Login</Button>
               </>
             )}
