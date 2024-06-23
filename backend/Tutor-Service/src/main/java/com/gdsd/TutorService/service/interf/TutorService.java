@@ -34,4 +34,5 @@ public interface TutorService {
     Object updateTutorContent(TutorProfileRequestDto requestDto, Integer tutorId, String contentType);
 
     TutorUpcomingAppointmentsResponseDto getTutorUpcomingAppointments(Integer tutorId);
+    TutorDetailsResponseDto getTutorProfileForSelf(Integer tutorId);
 }

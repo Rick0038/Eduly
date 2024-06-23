@@ -12,6 +12,7 @@ import com.gdsd.TutorService.dto.Tutor.TutorScheduleRequestDto;
 import com.gdsd.TutorService.dto.Tutor.TutorSearchResponseDto;
 import com.gdsd.TutorService.model.*;
 import com.gdsd.TutorService.repository.*;
+import com.gdsd.TutorService.service.interf.StudentService;
 import com.gdsd.TutorService.service.interf.TutorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,25 +33,22 @@ public class TutorServiceImpl implements TutorService {
 
     @Autowired
     private TutorRepository tutorRepository;
-
     @Autowired
     private TutorContentRepository tutorContentRepository;
-
     @Autowired
     private StudentContentRepository studentContentRepository;
-
     @Autowired
     private SessionRepository sessionRepository;
-
     @Autowired
     private TopicRepository topicRepository;
-
     @Autowired
     private StudentRepository studentRepository;
-
+    @Autowired
+    private ReviewRepository reviewRepository;
+    @Autowired
+    private StudentService studentService;
     @Autowired
     private ModelMapper modelMapper;
-
     @Autowired
     private AzureBlobStorageConfig azureBlobStorageConfig;
 
@@ -398,5 +396,148 @@ public class TutorServiceImpl implements TutorService {
         response.setAppointments(appointments);
 
         return response;
+    }
+
+    @Override
+    public TutorDetailsResponseDto getTutorProfileForSelf(Integer tutorId) {
+
+        Tutor tutor = tutorRepository.findById(tutorId).
+                orElseThrow(() -> new ResourceNotFoundException("Tutor", "tutorId", tutorId));
+
+        TutorDetailsResponseDto responseDto = new TutorDetailsResponseDto();
+        responseDto.setId(tutor.getTutorId());
+        responseDto.setFirstName(tutor.getFirstName());
+        responseDto.setLastName(tutor.getLastName());
+        responseDto.setEmail(tutor.getEmail());
+        responseDto.setPricing(tutor.getPrice());
+        responseDto.setRating(tutor.getRating());
+        responseDto.setNumberOfRatings(tutor.getNumberOfRatings());
+
+        // Setting of Topics
+        List<Topic> topicsForTutor = topicRepository.findByTutorId(tutorId);
+        Set<String> topics = new LinkedHashSet<>();
+        topicsForTutor.forEach(topic -> topics.add(topic.getTopicName()));
+        responseDto.setTopic(topics);
+
+        responseDto.setLanguage(tutor.getLanguage());
+        responseDto.setIntroText(tutor.getIntro());
+        responseDto.setNumLessonsTaught(tutor.getNumLessonsTaught());
+
+        // Setting of profile image, cv and video
+        TutorDetailsResponseDto.Content profileImage = new TutorDetailsResponseDto.Content();
+        Optional<TutorContent> tutorProfileImage = tutorContentRepository
+                .findByTutorIdAndContentType(tutorId, "profile_image");
+        if(tutorProfileImage.isEmpty()) {
+            profileImage.setLink("");
+            profileImage.setStatus("PENDING_APPROVAL");
+        } else {
+            profileImage.setLink(tutorProfileImage.get().getContentLink());
+            profileImage.setStatus(tutorProfileImage.get().getStatus());
+        }
+        responseDto.setProfileImgLink(profileImage);
+
+        TutorDetailsResponseDto.Content cv = new TutorDetailsResponseDto.Content();
+        Optional<TutorContent> tutorCv = tutorContentRepository
+                .findByTutorIdAndContentType(tutorId, "cv");
+        if(tutorCv.isEmpty()) {
+            cv.setLink("");
+            cv.setStatus("PENDING_APPROVAL");
+        } else {
+            cv.setLink(tutorProfileImage.get().getContentLink());
+            cv.setStatus(tutorProfileImage.get().getStatus());
+        }
+        responseDto.setCv(cv);
+
+        TutorDetailsResponseDto.Content video = new TutorDetailsResponseDto.Content();
+        Optional<TutorContent> tutorVideo = tutorContentRepository
+                .findByTutorIdAndContentType(tutorId, "intro_video");
+        if(tutorVideo.isEmpty()) {
+            video.setLink("");
+            video.setStatus("PENDING_APPROVAL");
+        } else {
+            video.setLink(tutorProfileImage.get().getContentLink());
+            video.setStatus(tutorProfileImage.get().getStatus());
+        }
+        responseDto.setVideo(video);
+
+        responseDto.setBbbLink(tutor.getBbbLink());
+
+        // Setting of Schedule
+        Optional<List<Session>> tutorSessions = sessionRepository.findByTutorId(tutorId);
+        if(tutorSessions.isEmpty() || tutorSessions.get().isEmpty()) {
+            responseDto.setSchedule(new ArrayList<>());
+        } else {
+            List<Session> sessions = tutorSessions.get();
+            // Group by date in a LinkedHashMap for better time complexity
+            Map<LocalDate, List<TutorDetailsResponseDto.Timing>> groupedTimings
+                    = new LinkedHashMap<>();
+            // Loop over each returned session sorted by date then startTime
+            for(Session session : sessions) {
+                LocalDate date = session.getDate();
+                TutorDetailsResponseDto.Timing timing = new TutorDetailsResponseDto.Timing();
+
+                // Set the timing
+                timing.setSessionId(session.getSessionId());
+                timing.setFrom(session.getStartTime().toString());
+                timing.setTo(session.getEndTime().toString());
+                timing.setStatus(session.getStatus());
+
+                // Add timing to the HashMap with Date as the key
+                List<TutorDetailsResponseDto.Timing> timingList
+                        = groupedTimings.getOrDefault(date, new ArrayList<>());
+                timingList.add(timing);
+                groupedTimings.put(date, timingList);
+            }
+
+            // Set to responseDto.schedule
+            List<TutorDetailsResponseDto.Session> schedule =
+                    groupedTimings
+                    .entrySet()
+                    .stream()
+                    .map(entry -> {
+                        TutorDetailsResponseDto.Session session = new TutorDetailsResponseDto.Session();
+                        session.setDate(entry.getKey().toString());
+                        session.setTimings(entry.getValue());
+
+                        return session;
+                    }).collect(Collectors.toList());
+            responseDto.setSchedule(schedule);
+        }
+
+        // Set Reviews
+        Optional<List<Review>> tutorReviews = reviewRepository.findByTutorId(tutorId);
+        if(tutorReviews.isEmpty()) {
+            responseDto.setReviews(new ArrayList<>());
+        } else {
+            List<Review> reviews = tutorReviews.get();
+
+            List<TutorDetailsResponseDto.Review> reviewDtos = reviews
+                    .stream()
+                    .map(review -> {
+                        TutorDetailsResponseDto.Review tutorReview = new TutorDetailsResponseDto.Review();
+                        tutorReview.setId(review.getReviewId());
+                        tutorReview.setRating(review.getRating());
+                        tutorReview.setText(review.getText());
+
+                        TutorDetailsResponseDto.By student = new TutorDetailsResponseDto.By();
+                        student.setName(studentService.getStudentNameFromId(review.getStudentId()));
+                        student.setProfileImgLink(studentService.getStudentProfileImageFromId(review.getStudentId()));
+                        tutorReview.setReviewBy(student);
+                        return tutorReview;
+                    }).collect(Collectors.toList());
+            responseDto.setReviews(reviewDtos);
+        }
+
+
+        // set responseDto.status to APPROVED if all contents are approved.
+        if(responseDto.getProfileImgLink().getStatus().equals("APPROVED") &&
+                responseDto.getCv().getStatus().equals("APPROVED") &&
+                responseDto.getVideo().getStatus().equals("APPROVED")) {
+            responseDto.setStatus("APPROVED");
+        } else {
+            responseDto.setStatus("PENDING_APPROVAL");
+        }
+
+        return responseDto;
     }
 }
