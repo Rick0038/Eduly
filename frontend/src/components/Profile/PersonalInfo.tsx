@@ -1,7 +1,6 @@
 import {
   Anchor,
   Button,
-  // FileInput,
   NumberInput,
   Select,
   Text,
@@ -9,11 +8,7 @@ import {
   Textarea,
 } from '@mantine/core';
 import { Tutor } from '../../model';
-import {
-  IconCheck,
-  // IconFileCv,
-  // IconVideo
-} from '@tabler/icons-react';
+import { IconCheck } from '@tabler/icons-react';
 import { languages, topics } from '../../util/constants';
 import { useForm } from '@mantine/form';
 import { useMutation } from '@tanstack/react-query';
@@ -188,33 +183,12 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
           key={form.key('bbbLink')}
           {...form.getInputProps('bbbLink')}
         />
-        {/* <FileInput
-          label='Attach your CV'
-          name='cv'
-          placeholder='Upload your CV'
-          rightSection={<IconFileCv stroke={1.5} />}
-          rightSectionPointerEvents='none'
-          accept='application/pdf'
-          required
-          key={form.key('cv')}
-          {...form.getInputProps('cv')}
-        />
-        <FileInput
-          label='Video Upload'
-          name='video'
-          placeholder='Upload your introduction video'
-          rightSection={<IconVideo stroke={1.5} />}
-          rightSectionPointerEvents='none'
-          accept='video/*'
-          required
-          key={form.key('video')}
-          {...form.getInputProps('video')}
-        /> */}
       </div>
       <Button
         className='mt-4'
         leftSection={<IconCheck size={16} />}
         type='submit'
+        fullWidth
       >
         Update Profile
       </Button>

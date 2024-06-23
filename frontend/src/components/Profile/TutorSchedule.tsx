@@ -134,6 +134,7 @@ export function EditTutorSchedule() {
         className='mt-4'
         leftSection={<IconCheck size={16} />}
         type='submit'
+        fullWidth
       >
         Save Availability
       </Button>

@@ -1,12 +1,20 @@
 import { useCallback, useState } from 'react';
 import { Card, Skeleton, Tabs, Text } from '@mantine/core';
-import { IconUser, IconCalendar, IconStar } from '@tabler/icons-react';
+import {
+  IconUser,
+  IconCalendar,
+  IconStar,
+  IconFileCv,
+  IconVideo,
+} from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { tutorService } from '../../service';
 import { PersonalInfo } from '../Profile/PersonalInfo';
 import { TutorSchedule } from '../Profile/TutorSchedule';
 import { Reviews } from '../Profile/Reviews';
 import { ProfileHead } from '../Profile/ProfileHead';
+import { TutorCV } from '../Profile/TutorCV';
+import { TutorVideo } from '../Profile/TutorVideo';
 
 export function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -52,6 +60,12 @@ export function ProfilePage() {
                 >
                   Schedule
                 </Tabs.Tab>
+                <Tabs.Tab value='cv' leftSection={<IconFileCv size={16} />}>
+                  Your CV
+                </Tabs.Tab>
+                <Tabs.Tab value='video' leftSection={<IconVideo size={16} />}>
+                  Intro Video
+                </Tabs.Tab>
                 <Tabs.Tab value='reviews' leftSection={<IconStar size={16} />}>
                   Reviews
                 </Tabs.Tab>
@@ -61,6 +75,20 @@ export function ProfilePage() {
               </Tabs.Panel>
               <Tabs.Panel value='schedule' pt='md'>
                 <TutorSchedule isEditing={isEditing} tutor={data} />
+              </Tabs.Panel>
+              <Tabs.Panel value='cv' pt='md'>
+                <TutorCV
+                  isEditing={isEditing}
+                  tutor={data}
+                  handleEditToggle={handleEditToggle}
+                />
+              </Tabs.Panel>
+              <Tabs.Panel value='video' pt='md'>
+                <TutorVideo
+                  isEditing={isEditing}
+                  tutor={data}
+                  handleEditToggle={handleEditToggle}
+                />
               </Tabs.Panel>
               <Tabs.Panel value='reviews' pt='md'>
                 <Reviews user={data} />

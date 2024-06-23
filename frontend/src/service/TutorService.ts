@@ -22,15 +22,27 @@ class TutorService {
     return response;
   }
 
+  async updateProfile(data: Record<string, unknown>) {
+    const url = '/api/v1/tutor/profile';
+    const response = await httpService.put<Tutor>(url, data);
+    return response;
+  }
+
   async updateProfileImage(data: FormData) {
     const url = '/api/v1/tutor/profileImage';
     const response = await httpService.put<Record<string, string>>(url, data);
     return response;
   }
 
-  async updateProfile(data: Record<string, unknown>) {
-    const url = '/api/v1/tutor/profile';
-    const response = await httpService.put<Tutor>(url, data);
+  async updateCV(data: FormData) {
+    const url = '/api/v1/tutor/cv';
+    const response = await httpService.put<Record<string, string>>(url, data);
+    return response;
+  }
+
+  async updateVideo(data: FormData) {
+    const url = '/api/v1/tutor/video';
+    const response = await httpService.put<Record<string, string>>(url, data);
     return response;
   }
 }
