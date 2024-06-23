@@ -179,5 +179,150 @@ public class TutorDetailsResponseDto {
         }
     }
 
+    public TutorDetailsResponseDto() {
+    }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Double getPricing() {
+        return pricing;
+    }
+
+    public void setPricing(Double pricing) {
+        this.pricing = pricing;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public Integer getNumberOfRatings() {
+        return numberOfRatings;
+    }
+
+    public void setNumberOfRatings(Integer numberOfRatings) {
+        this.numberOfRatings = numberOfRatings;
+    }
+
+    public Set<String> getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Set<String> topic) {
+        this.topic = topic;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getIntroText() {
+        return introText;
+    }
+
+    public void setIntroText(String introText) {
+        this.introText = introText;
+    }
+
+    public Integer getNumLessonsTaught() {
+        return numLessonsTaught;
+    }
+
+    public void setNumLessonsTaught(Integer numLessonsTaught) {
+        this.numLessonsTaught = numLessonsTaught;
+    }
+
+    public Content getProfileImgLink() {
+        return profileImgLink;
+    }
+
+    public void setProfileImgLink(Content profileImgLink) {
+        this.profileImgLink = profileImgLink;
+    }
+
+    public Content getCv() {
+        return cv;
+    }
+
+    public void setCv(Content cv) {
+        this.cv = cv;
+    }
+
+    public Content getVideo() {
+        return video;
+    }
+
+    public void setVideo(Content video) {
+        this.video = video;
+    }
+
+    public String getBbbLink() {
+        return bbbLink;
+    }
+
+    public void setBbbLink(String bbbLink) {
+        this.bbbLink = bbbLink;
+    }
+
+    public List<Session> getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(List<Session> schedule) {
+        this.schedule = schedule;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 }
