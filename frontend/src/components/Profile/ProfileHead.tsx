@@ -8,7 +8,10 @@ import {
   Title,
 } from '@mantine/core';
 import { IconEdit, IconPencil, IconX } from '@tabler/icons-react';
+import { useMutation } from '@tanstack/react-query';
 import { Tutor } from '../../model';
+import { tutorService } from '../../service';
+import { notificationService } from '../../service/NotificationService';
 
 interface ProfileHeadProps {
   isEditing: boolean;
@@ -18,15 +21,22 @@ interface ProfileHeadProps {
 
 export function ProfileHead(props: ProfileHeadProps) {
   const { isEditing, user, handleEditToggle } = props;
+  const updateProfileImage = useMutation({
+    mutationFn: tutorService.updateProfileImage,
+    onSuccess: () => {
+      notificationService.showSuccess({ message: 'Image sent for approval!' });
+      handleEditToggle();
+    },
+    onError: (err) => {
+      notificationService.showError({ err });
+    },
+  });
 
   const handleAvatarChange = (file: File | null) => {
     if (!file) return;
-    console.log('>> file', file);
-    // const reader = new FileReader();
-    // reader.onload = () => {
-    //   console.log('>> reader', reader.result, file);
-    // };
-    // reader.readAsDataURL(file);
+    const formData = new FormData();
+    formData.append('file', file);
+    updateProfileImage.mutate(formData);
   };
 
   return (
@@ -39,7 +49,10 @@ export function ProfileHead(props: ProfileHeadProps) {
           className='mr-4'
         />
         {isEditing && (
-          <FileButton onChange={handleAvatarChange} accept='image/*'>
+          <FileButton
+            onChange={handleAvatarChange}
+            accept='image/png,image/jpeg'
+          >
             {(props) => (
               <ActionIcon
                 {...props}

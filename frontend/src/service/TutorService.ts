@@ -21,6 +21,12 @@ class TutorService {
     const response = await httpService.get<Topic>(url);
     return response;
   }
+
+  async updateProfileImage(data: FormData) {
+    const url = '/api/v1/tutor/profileImage';
+    const response = await httpService.put<Topic>(url, data);
+    return response;
+  }
 }
 
 const tutorService = new TutorService();

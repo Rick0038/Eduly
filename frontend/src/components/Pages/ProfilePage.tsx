@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Card, Skeleton, Tabs, Text } from '@mantine/core';
 import { IconUser, IconCalendar, IconStar } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
@@ -15,9 +15,9 @@ export function ProfilePage() {
     queryFn: tutorService.getProfile,
   });
 
-  const handleEditToggle = () => {
+  const handleEditToggle = useCallback(() => {
     setIsEditing((prev) => !prev);
-  };
+  }, []);
 
   return (
     <div className='mx-auto sm:p-4'>
