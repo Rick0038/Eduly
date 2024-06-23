@@ -12,6 +12,7 @@ import { GuardedRoute } from '../components/auth/GuardedRoute';
 import { Login } from '../components/auth/Login';
 import { SignUp } from '../components/auth/SignUp';
 import { ROLE } from '../constant';
+import { ProfilePage } from '../components/Pages/ProfilePage';
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +39,14 @@ export const router = createBrowserRouter([
         element: (
           <GuardedRoute allowedRoles={[ROLE.STUDENT]}>
             <p>I am guarded!!</p>
+          </GuardedRoute>
+        ),
+      },
+      {
+        path: '/profile',
+        element: (
+          <GuardedRoute allowedRoles={[ROLE.STUDENT, ROLE.TUTOR]}>
+            <ProfilePage />
           </GuardedRoute>
         ),
       },

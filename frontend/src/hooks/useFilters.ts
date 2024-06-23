@@ -35,8 +35,6 @@ export const weekDays = [
   'Sunday',
 ];
 
-export const languages = ['English', 'Spanish', 'French', 'German', 'Chinese'];
-
 const getInitialFilters = (locationSearch: string): FiltersState => {
   const params = new URLSearchParams(locationSearch);
   return {

@@ -1,7 +1,19 @@
 export const formatDate = (
-  date: Date,
+  date: Date | string,
   options?: Record<string, boolean>
 ): string => {
+  if (typeof date === 'string') {
+    date = new Date(date);
+  }
+
+  if (options?.useIntl) {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }).format(date);
+  }
+
   const day = date.getDate().toString().padStart(2, '0');
   const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
   const year = date.getFullYear();

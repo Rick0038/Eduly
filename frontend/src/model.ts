@@ -8,6 +8,8 @@ export interface Tutor {
   id: string;
   firstName: string;
   lastName: string;
+  email: string;
+  status: string;
   pricing: number;
   rating: number;
   numberOfRatings: number;
@@ -16,9 +18,22 @@ export interface Tutor {
   experience: number;
   intro: string;
   numLessonsTaught: number;
-  profileImgLink: string;
-  cvLink: string;
-  videoLink: string;
+  introText: string;
+  profileImgLink: {
+    link: string;
+    status: string;
+  };
+  cv: {
+    link: string;
+    status: string;
+  };
+  video: {
+    link: string;
+    status: string;
+  };
+  bbbLink: string;
+  schedule: Schedule[];
+  reviews: Review[];
 }
 
 export interface UserInfo {
@@ -52,6 +67,34 @@ export interface Message {
   senderId: number;
   senderRole: ROLE;
   chatId: number;
+}
+
+export interface Review {
+  id: number;
+  rating: number;
+  text: string;
+  reviewBy: {
+    name: string;
+    profileImgLink: string;
+  };
+}
+
+export interface Schedule {
+  date: string;
+  timings: {
+    sessionId: number;
+    from: string;
+    to: string;
+    status: string;
+  }[];
+}
+
+export interface Student {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  profileImgLink: string;
 }
 
 export interface Topic {

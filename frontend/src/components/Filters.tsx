@@ -8,13 +8,7 @@ import {
   Slider,
   Text,
 } from '@mantine/core';
-import {
-  languages,
-  priceMarks,
-  ratingMarks,
-  useFilters,
-  weekDays,
-} from '../hooks';
+import { priceMarks, ratingMarks, useFilters, weekDays } from '../hooks';
 import {
   IconAdjustments,
   IconCalendar,
@@ -23,6 +17,7 @@ import {
   // IconLocation,
   IconStar,
 } from '@tabler/icons-react';
+import { languages } from '../util/constants';
 
 interface FiltersProps {
   onSubmit?: () => void;

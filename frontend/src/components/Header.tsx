@@ -94,6 +94,9 @@ export function Header(props: HeaderProps) {
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Label>{authService.user?.name}</Menu.Label>
+                    <Menu.Item onClick={() => navigate('/profile')}>
+                      Profile
+                    </Menu.Item>
                     <Menu.Item
                       color='red'
                       onClick={() => {
