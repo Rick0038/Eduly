@@ -1,4 +1,4 @@
-import { Topic, Tutors } from '../model';
+import { Topic, Tutor, Tutors } from '../model';
 import { httpService } from './HTTPService';
 
 class TutorService {
@@ -11,8 +11,8 @@ class TutorService {
   }
 
   async getProfile() {
-    const url = '/tutor';
-    const response = await httpService.get<Tutors>(url);
+    const url = '/tutor/profile';
+    const response = await httpService.get<Tutor>(url);
     return response;
   }
 

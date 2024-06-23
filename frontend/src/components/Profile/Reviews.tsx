@@ -1,4 +1,4 @@
-import { Avatar, Card, Group, Rating, Text } from '@mantine/core';
+import { Avatar, Card, Flex, Group, Rating, Text } from '@mantine/core';
 import { Tutor } from '../../model';
 
 interface ReviewsProps {
@@ -12,10 +12,12 @@ export function Reviews(props: ReviewsProps) {
     <Group className='flex-col content-start mt-2'>
       <div className='sm:ml-2 w-full'>
         <Text>Overall rating:</Text>
-        <Rating value={user.rating} fractions={2} readOnly size='lg' />
-        <Text className='mt-2' size='lg' w={500}>
-          {user.rating.toFixed(1)} / 5
-        </Text>
+        <Flex align='center' gap='xs'>
+          <Rating value={user.rating} fractions={2} readOnly size='lg' />
+          <Text size='lg' w={500}>
+            {user.rating.toFixed(1)} / 5
+          </Text>
+        </Flex>
         <Text size='sm' c='dimmed'>
           Based on {user.numberOfRatings} reviews
         </Text>

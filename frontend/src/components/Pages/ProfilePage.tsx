@@ -1,101 +1,19 @@
 import { useState } from 'react';
-import { Card, Tabs } from '@mantine/core';
+import { Card, Skeleton, Tabs, Text } from '@mantine/core';
 import { IconUser, IconCalendar, IconStar } from '@tabler/icons-react';
+import { useQuery } from '@tanstack/react-query';
+import { tutorService } from '../../service';
 import { PersonalInfo } from '../Profile/PersonalInfo';
 import { TutorSchedule } from '../Profile/TutorSchedule';
-import { Tutor } from '../../model';
 import { Reviews } from '../Profile/Reviews';
-import { ProfileHead } from './ProfileHead';
-
-const user: Tutor = {
-  id: '12345',
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'hello@hs-fulda.de',
-  status: 'APPROVED',
-  pricing: 40,
-  rating: 4.7,
-  numberOfRatings: 100,
-  topic: 'Math',
-  language: 'English',
-  introText:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales.',
-  numLessonsTaught: 10,
-  profileImgLink: {
-    link: 'https://cdn.pixabay.com/photo/2016/11/29/13/14/attractive-1869761_1280.jpg',
-    status: 'PENDING_APPROVAL',
-  },
-  cv: {
-    link: 'http://cv.pdf',
-    status: 'PENDING_APPROVAL',
-  },
-  video: {
-    link: 'http://cv.pdf',
-    status: 'PENDING_APPROVAL',
-  },
-  bbbLink: 'https://webconf.hs-fulda.de/b/ale-5zr-osl-go2',
-  schedule: [
-    {
-      date: '2024-09-01',
-      timings: [
-        {
-          sessionId: 123,
-          from: '17:00',
-          to: '18:00',
-          status: 'FREE',
-        },
-        {
-          sessionId: 129,
-          from: '19:00',
-          to: '20:00',
-          status: 'BOOKED',
-        },
-      ],
-    },
-    {
-      date: '2024-09-02',
-      timings: [
-        {
-          sessionId: 123,
-          from: '17:00',
-          to: '18:00',
-          status: 'FREE',
-        },
-        {
-          sessionId: 456,
-          from: '19:00',
-          to: '20:00',
-          status: 'BOOKED',
-        },
-      ],
-    },
-  ],
-  reviews: [
-    {
-      id: 123,
-      rating: 4.5,
-      text: 'amazing tutor',
-      reviewBy: {
-        name: 'Jame Adams',
-        profileImgLink: 'blah.com/pic',
-      },
-    },
-    {
-      id: 345,
-      rating: 3,
-      text: 'average tutor',
-      reviewBy: {
-        name: 'Jack Adams',
-        profileImgLink: 'blah.com/pic',
-      },
-    },
-  ],
-  experience: 0,
-  intro: '',
-};
+import { ProfileHead } from '../Profile/ProfileHead';
 
 export function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['getProfile'],
+    queryFn: tutorService.getProfile,
+  });
 
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
@@ -104,33 +22,52 @@ export function ProfilePage() {
   return (
     <div className='mx-auto sm:p-4'>
       <Card shadow='sm' className='px-2 sm:px-4'>
-        <ProfileHead
-          isEditing={isEditing}
-          user={user}
-          handleEditToggle={handleEditToggle}
-        />
-        <Tabs defaultValue='personalInfo'>
-          <Tabs.List>
-            <Tabs.Tab value='personalInfo' leftSection={<IconUser size={16} />}>
-              Personal Information
-            </Tabs.Tab>
-            <Tabs.Tab value='schedule' leftSection={<IconCalendar size={16} />}>
-              Schedule
-            </Tabs.Tab>
-            <Tabs.Tab value='reviews' leftSection={<IconStar size={16} />}>
-              Reviews
-            </Tabs.Tab>
-          </Tabs.List>
-          <Tabs.Panel value='personalInfo' pt='md'>
-            <PersonalInfo isEditing={isEditing} user={user} />
-          </Tabs.Panel>
-          <Tabs.Panel value='schedule' pt='md'>
-            <TutorSchedule isEditing={isEditing} tutor={user} />
-          </Tabs.Panel>
-          <Tabs.Panel value='reviews' pt='md'>
-            <Reviews user={user} />
-          </Tabs.Panel>
-        </Tabs>
+        {isLoading ? (
+          <>
+            <Skeleton height={100} radius='sm' />
+            <Skeleton height={400} mt='md' radius='sm' />
+          </>
+        ) : isError || !data ? (
+          <Text className='text-center' c='red'>
+            Unable to fetch profile details!
+          </Text>
+        ) : (
+          <>
+            <ProfileHead
+              isEditing={isEditing}
+              user={data}
+              handleEditToggle={handleEditToggle}
+            />
+            <Tabs defaultValue='personalInfo'>
+              <Tabs.List>
+                <Tabs.Tab
+                  value='personalInfo'
+                  leftSection={<IconUser size={16} />}
+                >
+                  Personal Information
+                </Tabs.Tab>
+                <Tabs.Tab
+                  value='schedule'
+                  leftSection={<IconCalendar size={16} />}
+                >
+                  Schedule
+                </Tabs.Tab>
+                <Tabs.Tab value='reviews' leftSection={<IconStar size={16} />}>
+                  Reviews
+                </Tabs.Tab>
+              </Tabs.List>
+              <Tabs.Panel value='personalInfo' pt='md'>
+                <PersonalInfo isEditing={isEditing} user={data} />
+              </Tabs.Panel>
+              <Tabs.Panel value='schedule' pt='md'>
+                <TutorSchedule isEditing={isEditing} tutor={data} />
+              </Tabs.Panel>
+              <Tabs.Panel value='reviews' pt='md'>
+                <Reviews user={data} />
+              </Tabs.Panel>
+            </Tabs>
+          </>
+        )}
       </Card>
     </div>
   );
