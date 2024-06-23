@@ -54,7 +54,7 @@ export function TutorVideo(props: TutorVideoProps) {
           label='Attach your Video'
           placeholder='Upload your Video'
           rightSection={<IconVideo />}
-          accept='application/pdf'
+          accept='video/mp4'
           onChange={setVideoFile}
         />
       )}
