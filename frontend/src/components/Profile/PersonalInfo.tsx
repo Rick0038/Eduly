@@ -58,7 +58,7 @@ export function PersonalInfo(props: PersonalInfoProps) {
         {user.introText}
       </div>
       <div>
-        <strong>BigBlueButton Link: </strong>
+        <strong>BBB Link: </strong>
         <a href={user.bbbLink} target='_blank' rel='noopener noreferrer'>
           {user.bbbLink}
         </a>

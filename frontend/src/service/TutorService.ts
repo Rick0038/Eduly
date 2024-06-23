@@ -11,7 +11,7 @@ class TutorService {
   }
 
   async getProfile() {
-    const url = '/tutor/profile';
+    const url = '/api/v1/tutor';
     const response = await httpService.get<Tutor>(url);
     return response;
   }
