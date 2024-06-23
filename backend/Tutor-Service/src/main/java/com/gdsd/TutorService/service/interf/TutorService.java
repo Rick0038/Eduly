@@ -35,4 +35,5 @@ public interface TutorService {
 
     TutorUpcomingAppointmentsResponseDto getTutorUpcomingAppointments(Integer tutorId);
     TutorDetailsResponseDto getTutorProfileForSelf(Integer tutorId);
+    TutorDetailsForStudentResponseDto getTutorProfileForStudent(Integer tutorId);
 }
