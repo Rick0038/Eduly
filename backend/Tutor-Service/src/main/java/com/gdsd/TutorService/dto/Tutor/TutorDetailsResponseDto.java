@@ -3,7 +3,7 @@ package com.gdsd.TutorService.dto.Tutor;
 import java.util.List;
 import java.util.Set;
 
-public class TutorDetailedProfileResponseDto {
+public class TutorDetailsResponseDto {
     private Integer id;
     private String firstName;
     private String lastName;
