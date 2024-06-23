@@ -1,8 +1,10 @@
 import {
+  Anchor,
   Button,
   FileInput,
   NumberInput,
   Select,
+  Text,
   TextInput,
   Textarea,
 } from '@mantine/core';
@@ -25,43 +27,44 @@ export function PersonalInfo(props: PersonalInfoProps) {
 
   return (
     <div className='grid gap-4'>
-      <div>
+      <div className='flex gap-1'>
         <strong>First Name: </strong>
-        {user.firstName}
+        <Text>{user.firstName}</Text>
       </div>
-      <div>
+      <div className='flex gap-1'>
         <strong>Last Name: </strong>
-        {user.lastName}
+        <Text>{user.lastName}</Text>
       </div>
-      <div>
+      <div className='flex gap-1'>
         <strong>Email: </strong>
-        {user.email}
+        <Text>{user.email}</Text>
       </div>
-      <div>
-        <strong>Status: </strong>
-        {user.status}
-      </div>
-      <div>
+      <div className='flex gap-1'>
         <strong>Pricing: </strong>
-        {user.pricing}
+        <Text>{user.pricing}</Text>
       </div>
-      <div>
+      <div className='flex gap-1'>
         <strong>Topic: </strong>
-        {user.topic}
+        <Text>{user.topic}</Text>
       </div>
-      <div>
+      <div className='flex gap-1'>
         <strong>Language: </strong>
-        {user.language}
+        <Text>{user.language}</Text>
       </div>
       <div>
         <strong>Introduction: </strong>
         {user.introText}
       </div>
-      <div>
-        <strong>BBB Link: </strong>
-        <a href={user.bbbLink} target='_blank' rel='noopener noreferrer'>
+      <div className='flex gap-1'>
+        <strong>Meeting Link: </strong>
+        <Anchor
+          href={user.bbbLink}
+          target='_blank'
+          rel='noopener noreferrer'
+          ml={4}
+        >
           {user.bbbLink}
-        </a>
+        </Anchor>
       </div>
     </div>
   );
