@@ -1,7 +1,7 @@
 import {
   Anchor,
   Button,
-  FileInput,
+  // FileInput,
   NumberInput,
   Select,
   Text,
@@ -9,9 +9,16 @@ import {
   Textarea,
 } from '@mantine/core';
 import { Tutor } from '../../model';
-import { IconCheck, IconFileCv, IconVideo } from '@tabler/icons-react';
+import {
+  IconCheck,
+  // IconFileCv,
+  // IconVideo
+} from '@tabler/icons-react';
 import { languages, topics } from '../../util/constants';
 import { useForm } from '@mantine/form';
+import { useMutation } from '@tanstack/react-query';
+import { notificationService } from '../../service/NotificationService';
+import { tutorService } from '../../service';
 
 interface PersonalInfoProps {
   isEditing: boolean;
@@ -72,6 +79,16 @@ export function PersonalInfo(props: PersonalInfoProps) {
 
 export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
   const { user } = props;
+  const updateProfile = useMutation({
+    mutationFn: tutorService.updateProfile,
+    onSuccess: () => {
+      notificationService.showSuccess({ message: 'Profile data updated!' });
+    },
+    onError: (err) => {
+      notificationService.showError({ err });
+    },
+  });
+
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -87,7 +104,16 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
 
   const handleSubmit = (values: Tutor) => {
     console.log('values', values);
-    // TODO: Hit the API
+    const data = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      topic: values.topic,
+      language: values.language,
+      bbbLink: values.bbbLink,
+      introText: values.intro,
+      pricing: values.pricing,
+    };
+    updateProfile.mutate(data);
   };
 
   return (
@@ -162,7 +188,7 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
           key={form.key('bbbLink')}
           {...form.getInputProps('bbbLink')}
         />
-        <FileInput
+        {/* <FileInput
           label='Attach your CV'
           name='cv'
           placeholder='Upload your CV'
@@ -183,7 +209,7 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
           required
           key={form.key('video')}
           {...form.getInputProps('video')}
-        />
+        /> */}
       </div>
       <Button
         className='mt-4'

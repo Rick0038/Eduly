@@ -402,7 +402,7 @@
       "responses": [
         {
           "uuid": "20706821-0575-4e1f-87ec-88890f098ab8",
-          "body": "{}\n",
+          "body": "{}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

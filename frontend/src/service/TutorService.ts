@@ -24,7 +24,13 @@ class TutorService {
 
   async updateProfileImage(data: FormData) {
     const url = '/api/v1/tutor/profileImage';
-    const response = await httpService.put<Topic>(url, data);
+    const response = await httpService.put<Record<string, string>>(url, data);
+    return response;
+  }
+
+  async updateProfile(data: Record<string, unknown>) {
+    const url = '/api/v1/tutor/profile';
+    const response = await httpService.put<Tutor>(url, data);
     return response;
   }
 }
