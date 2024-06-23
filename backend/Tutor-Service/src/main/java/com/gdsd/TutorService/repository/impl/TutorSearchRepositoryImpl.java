@@ -6,8 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TutorSearchRepositoryImpl implements TutorSearchRepository {
 
@@ -30,11 +29,12 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
                         "tut.language AS language, " +
                         "tut.numLessonsTaught AS numLessonsTaught, " +
                         "tut.intro AS intro, " +
-                        "content.contentLink AS profileImgLink " +
+                        "content.contentType AS contentType, " +
+                        "content.contentLink AS contentLink " +
                         "FROM tutor_user_det tut " +
                         "JOIN tutor_topic_det top ON tut.tutorId = top.tutorId " +
                         "JOIN tutor_profile_content content ON tut.tutorId = content.tutorId " +  // Join with tutor_course_det table
-                        "WHERE 1=1 AND content.contentType= 'profile_image' AND tut.status='APPROVED'");
+                        "WHERE 1=1 AND content.status = 'APPROVED'");
 
 
         if (pricingMin != null) {
@@ -74,23 +74,53 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
 
 
         List<Object[]> results = query.getResultList();
-        List<TutorSearchResponseDto> dtos = new ArrayList<>();
+        Map<Integer, TutorSearchResponseDto> tutorMap = new HashMap<>();
 
         for (Object[] result : results) {
-            TutorSearchResponseDto dto = new TutorSearchResponseDto();
+            Integer tutorId = ((Number) result[0]).intValue();
+            String contentType = (String) result[10];
+            String contentLink = (String) result[11];
+            String currentTopic = (String) result[6];
 
-            dto.setId(((Number) result[0]).intValue());
-            dto.setFirstName((String) result[1]);
-            dto.setLastName((String) result[2]);
-            dto.setPricing(((Number) result[3]).doubleValue());
-            dto.setRating(((Number) result[4]).doubleValue());
-            dto.setNumberOfRatings(((Number) result[5]).intValue());
-            dto.setTopic((String) result[6]);
-            dto.setLanguage((String) result[7]);
-            dto.setNumLessonsTaught(((Number) result[8]).intValue());
-            dto.setIntro((String) result[9]);
-            dto.setProfileImgLink((String) result[10]);
-            dtos.add(dto);
+            TutorSearchResponseDto dto = tutorMap.getOrDefault(tutorId, new TutorSearchResponseDto());
+
+            if(tutorMap.get(tutorId) == null) {
+                dto.setId(((Number) result[0]).intValue());
+                dto.setFirstName((String) result[1]);
+                dto.setLastName((String) result[2]);
+                dto.setPricing(((Number) result[3]).doubleValue());
+                dto.setRating(((Number) result[4]).doubleValue());
+                dto.setNumberOfRatings(((Number) result[5]).intValue());
+
+                Set<String> topics = new HashSet<>();
+                topics.add(currentTopic);
+                dto.setTopic(topics);
+
+                dto.setLanguage((String) result[7]);
+                dto.setNumLessonsTaught(((Number) result[8]).intValue());
+                dto.setIntro((String) result[9]);
+                tutorMap.put(tutorId, dto);
+            }
+
+            dto.getTopic().add(currentTopic);
+            switch (contentType) {
+                case "profile_image":
+                    dto.setProfileImgLink(contentLink);
+                    break;
+                case "cv":
+                    dto.setCvLink(contentLink);
+                    break;
+                case "intro_video":
+                    dto.setVideoLink(contentLink);
+                    break;
+            }
+        }
+
+        List<TutorSearchResponseDto> dtos = new ArrayList<>();
+        for (TutorSearchResponseDto dto : tutorMap.values()) {
+            if (dto.getProfileImgLink() != null && dto.getCvLink() != null && dto.getVideoLink() != null) {
+                dtos.add(dto);
+            }
         }
 
         return dtos;

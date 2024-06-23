@@ -96,3 +96,7 @@ export interface Student {
   email: string;
   profileImgLink: string;
 }
+
+export interface Topic {
+  topics: string[];
+}

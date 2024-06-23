@@ -1,13 +1,18 @@
-import { Autocomplete } from '@mantine/core';
-import { IconSearch } from '@tabler/icons-react';
+import { ActionIcon, Autocomplete } from '@mantine/core';
+import { IconSearch, IconX } from '@tabler/icons-react';
+import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { topics } from '../util/constants';
+import { tutorService } from '../service';
 
 export function SearchTutor() {
   const [value, setValue] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const { data: { topics } = {} } = useQuery({
+    queryKey: ['getTopics'],
+    queryFn: tutorService.getTopics,
+  });
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -19,25 +24,56 @@ export function SearchTutor() {
     }
   }, [location]);
 
-  const handleSubmit = useCallback(
-    (value: string | null) => {
-      if (!value) {
-        return;
+  const handleChange = useCallback((v: string) => {
+    setValue(v);
+  }, []);
+
+  const handleNavigate = useCallback(
+    (v?: string) => {
+      const searchParams = new URLSearchParams(location.search);
+
+      if (v && topics?.includes(v)) {
+        searchParams.set('topic', v);
+      } else {
+        searchParams.delete('topic');
       }
-      navigate(`/search?topic=${value}`);
+
+      navigate({
+        pathname: '/search',
+        search: searchParams.toString(),
+      });
     },
-    [navigate]
+    [location.search, navigate, topics]
   );
 
-  const handleChange = useCallback((value: string) => {
-    setValue(value);
-  }, []);
+  const handleSubmit = useCallback(
+    (v: string | null) => {
+      if (!v) {
+        return;
+      }
+      handleNavigate(v);
+    },
+    [handleNavigate]
+  );
+
+  const handleClear = useCallback(() => {
+    setValue('');
+    handleNavigate();
+  }, [handleNavigate]);
 
   return (
     <Autocomplete
       placeholder='Search tutors by topic'
-      leftSection={
-        <IconSearch className='w-3 h-3 sm:w-4 sm:h-4' stroke={1.5} />
+      rightSection={
+        value.length ? (
+          <ActionIcon variant='light' onClick={handleClear}>
+            <IconX className='w-3 h-3 sm:w-4 sm:h-4' stroke={1.5} />
+          </ActionIcon>
+        ) : (
+          <ActionIcon variant='light' onClick={() => handleNavigate()}>
+            <IconSearch className='w-3 h-3 sm:w-4 sm:h-4' stroke={1.5} />
+          </ActionIcon>
+        )
       }
       data={topics}
       onChange={handleChange}

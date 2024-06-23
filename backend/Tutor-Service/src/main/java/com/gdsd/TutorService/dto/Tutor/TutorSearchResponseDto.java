@@ -1,5 +1,7 @@
 package com.gdsd.TutorService.dto.Tutor;
 
+import java.util.Set;
+
 public class TutorSearchResponseDto {
     private Integer id;
     private String firstName;
@@ -7,11 +9,13 @@ public class TutorSearchResponseDto {
     private Double pricing;
     private Double rating;
     private Integer numberOfRatings;
-    private String topic;
+    private Set<String> topic;
     private String language;
     private Integer numLessonsTaught;
     private String intro;
     private String profileImgLink;
+    private String cvLink;
+    private String videoLink;
 
     public TutorSearchResponseDto() {
     }
@@ -64,12 +68,12 @@ public class TutorSearchResponseDto {
         this.numberOfRatings = numberOfRatings;
     }
 
-    public String getTopic() {
+    public Set<String> getTopic() {
         return topic;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
+    public void setTopic(Set<String> topics) {
+        this.topic = topics;
     }
 
     public String getLanguage() {
@@ -102,5 +106,21 @@ public class TutorSearchResponseDto {
 
     public void setProfileImgLink(String profileImgLink) {
         this.profileImgLink = profileImgLink;
+    }
+
+    public String getCvLink() {
+        return cvLink;
+    }
+
+    public void setCvLink(String cvLink) {
+        this.cvLink = cvLink;
+    }
+
+    public String getVideoLink() {
+        return videoLink;
+    }
+
+    public void setVideoLink(String videoLink) {
+        this.videoLink = videoLink;
     }
 }

@@ -7,11 +7,11 @@ import { useState } from 'react';
 const userCountData = [
   {
     title: 'Tutors',
-    stats: 2175,
+    stats: 142,
   },
   {
     title: 'Students',
-    stats: 456133,
+    stats: 2169,
   },
 ];
 
@@ -24,7 +24,7 @@ export function UserCounts() {
         {inViewport && !countFinished && (
           <CountUp
             end={stat.stats}
-            duration={4}
+            duration={2}
             separator=''
             onEnd={() => setCountFinished(true)}
           />
