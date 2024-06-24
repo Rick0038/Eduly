@@ -1,8 +1,10 @@
-import { Group, Indicator } from '@mantine/core';
+import { Button, Center, Group, Indicator, Radio, Stack } from '@mantine/core';
 import { DatePicker, DatePickerProps } from '@mantine/dates';
 import dayjs from 'dayjs';
-import { FC, useState } from 'react';
-import { Schedule } from '../../service/StudentService';
+import { filter, isEmpty } from 'lodash';
+import { FC, useEffect, useState } from 'react';
+import { notificationService } from '../../service/NotificationService';
+import { Schedule, Timing } from '../../service/StudentService';
 
 export const ScheduleDetail: FC<{ scheduleList: Schedule[] }> = ({
   scheduleList,
@@ -10,8 +12,22 @@ export const ScheduleDetail: FC<{ scheduleList: Schedule[] }> = ({
   const dateList = scheduleList.map((schedule) => schedule.date);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [timings, setTimings] = useState([]);
-  const [selectedTime, setSelectedTime] = useState(null);
+  const [timings, setTimings] = useState<Timing[]>([]);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (scheduleList && selectedDate) {
+      const filteredScheduleList =
+        filter(scheduleList, {
+          date: dayjs(selectedDate).format('YYYY-MM-DD'),
+        }) || [];
+      if (!isEmpty(filteredScheduleList)) {
+        setTimings(filteredScheduleList[0].timings);
+      } else {
+        setTimings([]);
+      }
+    }
+  }, [scheduleList, selectedDate]);
 
   const dayRenderer: DatePickerProps['renderDay'] = (date: Date) => {
     const day = date.getDate();
@@ -27,15 +43,52 @@ export const ScheduleDetail: FC<{ scheduleList: Schedule[] }> = ({
 
   return (
     <>
-      <Group>
-        <DatePicker
-          minDate={new Date()}
-          value={selectedDate}
-          onChange={setSelectedDate}
-          renderDay={(date) => dayRenderer(date)}
-        />
-        {/* <p>{scheduleList}</p> */}
-      </Group>
+      <Center style={{ padding: '10px' }}>
+        <Stack>
+          <Group>
+            <DatePicker
+              hideOutsideDates
+              minDate={new Date()}
+              value={selectedDate}
+              onChange={setSelectedDate}
+              renderDay={(date) => dayRenderer(date)}
+            />
+            {!isEmpty(timings) && (
+              <Radio.Group
+                label='Select the meeting time'
+                value={sessionId}
+                onChange={setSessionId}
+                style={{
+                  overflowY: 'scroll',
+                  maxHeight: '12rem',
+                  overflowX: 'hidden',
+                }}
+              >
+                <Stack mt='xs'>
+                  {timings.map((t) => (
+                    <Radio
+                      key={t.sessionId.toString()} // needs to be string since radio group value is only string
+                      value={t.sessionId.toString()}
+                      label={`${t.from} - ${t.to}`}
+                    ></Radio>
+                  ))}
+                </Stack>
+              </Radio.Group>
+            )}
+          </Group>
+          <Button
+            disabled={!sessionId}
+            onClick={() =>
+              notificationService.showSuccess({
+                title: 'Success',
+                message: 'Meeting booked successfully!',
+              })
+            }
+          >
+            Book Meeting
+          </Button>
+        </Stack>
+      </Center>
     </>
   );
 };
