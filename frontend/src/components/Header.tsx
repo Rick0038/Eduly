@@ -90,10 +90,17 @@ export function Header(props: HeaderProps) {
                   withinPortal
                 >
                   <Menu.Target>
-                    <Avatar src={null} alt='Profile' color='#52228d' />
+                    <Avatar
+                      src={authService.user?.profileImgLink}
+                      alt='Profile'
+                      color='#52228d'
+                    />
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <Menu.Label>{authService.user?.name}</Menu.Label>
+                    <Menu.Label>
+                      <Text size='sm'>{authService.user?.name}</Text>
+                      <Badge size='xs'>{authService.user?.role}</Badge>
+                    </Menu.Label>
                     <Menu.Item onClick={() => navigate('/profile')}>
                       Profile
                     </Menu.Item>
