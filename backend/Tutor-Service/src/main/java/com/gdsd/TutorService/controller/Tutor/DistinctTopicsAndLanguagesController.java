@@ -23,7 +23,7 @@ public class DistinctTopicsAndLanguagesController {
     private TutorRepository tutorRepository;
 
     @GetMapping("/topics")
-    public ResponseEntity<Map> getTopics(@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<Map> getTopics() {
         List<String> distinctTopicNames = topicRepository.findDistinctTopicNames();
         Map<String, List> response = new HashMap<>();
         response.put("topics", distinctTopicNames);
