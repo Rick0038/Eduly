@@ -8,7 +8,7 @@ public class TutorProfileUpdateRequestDto {
     private List<String> topics;
     private String language;
     private String bbbLink;
-    private String introText;
+    private String intro;
     private Double pricing;
 
     public TutorProfileUpdateRequestDto() {
@@ -54,12 +54,12 @@ public class TutorProfileUpdateRequestDto {
         this.bbbLink = bbbLink;
     }
 
-    public String getIntroText() {
-        return introText;
+    public String getIntro() {
+        return intro;
     }
 
-    public void setIntroText(String introText) {
-        this.introText = introText;
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 
     public Double getPricing() {
