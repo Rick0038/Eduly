@@ -1,13 +1,13 @@
 package com.gdsd.TutorService.service.impl;
 
-import com.gdsd.TutorService.dto.TopicRequestDto;
-import com.gdsd.TutorService.dto.TopicResponseDto;
+import com.gdsd.TutorService.dto.Topic.TopicRequestDto;
+import com.gdsd.TutorService.dto.Topic.TopicResponseDto;
 import com.gdsd.TutorService.exception.ResourceNotFoundException;
 import com.gdsd.TutorService.model.Topic;
 import com.gdsd.TutorService.model.Tutor;
 import com.gdsd.TutorService.repository.TopicRepository;
 import com.gdsd.TutorService.repository.TutorRepository;
-import com.gdsd.TutorService.service.TopicService;
+import com.gdsd.TutorService.service.interf.TopicService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

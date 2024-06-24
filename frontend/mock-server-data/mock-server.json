@@ -3,10 +3,67 @@
   "lastMigration": 32,
   "name": "Tutor App Mock API",
   "endpointPrefix": "",
-  "latency": 0,
+  "latency": 200,
   "port": 3001,
   "hostname": "",
-  "folders": [],
+  "folders": [
+    {
+      "uuid": "4eb11b17-a556-41ad-b782-c58d402aba1c",
+      "name": "Tutor APIs",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "92102b63-bd0a-4b15-a485-c21bee0f6075"
+        },
+        {
+          "type": "route",
+          "uuid": "92ce7529-c372-4c73-aa38-b3a5778a212c"
+        },
+        {
+          "type": "route",
+          "uuid": "402cf23f-cc97-40a3-88d6-3e783c5a4cb1"
+        },
+        {
+          "type": "route",
+          "uuid": "800c958e-db49-4d8e-b89d-8ad9275e196f"
+        },
+        {
+          "type": "route",
+          "uuid": "7a8adac7-fa26-496d-87ae-aba4d4a2863a"
+        },
+        {
+          "type": "route",
+          "uuid": "bc600b29-6e4e-4fe7-b512-f430899718e6"
+        },
+        {
+          "type": "route",
+          "uuid": "7d38125a-a0f8-4a2e-9eac-f3ae00495ec8"
+        },
+        {
+          "type": "route",
+          "uuid": "20f84797-489f-41f6-9354-09e94248ac3e"
+        },
+        {
+          "type": "route",
+          "uuid": "82403dea-49a3-43bd-b760-6413c7ab947d"
+        },
+        {
+          "type": "route",
+          "uuid": "ca8f30b5-df81-43bd-842d-8c40551c5c55"
+        }
+      ]
+    },
+    {
+      "uuid": "ac6d34b1-8776-4163-8ce7-5525fc5b2e57",
+      "name": "Student APIs (WIP)",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "afbe551a-5b1b-4ec0-87c5-ab3217051efc"
+        }
+      ]
+    }
+  ],
   "routes": [
     {
       "uuid": "9d8d3a85-df57-468b-b347-eb476a122b59",
@@ -33,10 +90,39 @@
           "default": true,
           "crudKey": "id",
           "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "09db5e2a-8503-4689-8311-3815ac8efe8c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tutor/search",
+      "responses": [
+        {
+          "uuid": "3a784ea1-67cc-454b-8ab4-7719300d019c",
+          "body": "{\n  \"tutors\": [\n    {\n      \"id\": \"12345\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"pricing\": 40,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 100,\n      \"topic\": [\"Math\", \"Physics\"],\n      \"language\": \"English\",\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 10,\n      \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\",\n      \"cvLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/cv_20\",\n      \"videoLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/intro_video_20\"\n    },\n    {\n      \"id\": \"67890\",\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Smith\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 27,\n      \"topic\": [\"Physics\"],\n      \"language\": \"English\",\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 20,\n      \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\",\n      \"cvLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/cv_20\",\n      \"videoLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/intro_video_20\"\n    }\n  ]\n}",
+          "latency": 1500,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
         },
         {
-          "uuid": "f328f2cc-f392-4f70-968e-ccf1d78d0b07",
-          "body": "{}",
+          "uuid": "d9ec8ad1-e8ad-4d5f-8196-f64b45f0ff96",
+          "body": "{\n  \"tutors\": [\n    {\n      \"id\": \"12345\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"pricing\": 40,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 100,\n      \"topic\": \"Math\",\n      \"language\": \"English\",\n      \"experience\": 5,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 10,\n      \"profileImgLink\": \"https://www.wyzant.com/images/tutor/silhouette.png\"\n    },\n    {\n      \"id\": \"67890\",\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Smith\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 27,\n      \"topic\": \"Physics\",\n      \"language\": \"English\",\n      \"experience\": 3,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 20,\n      \"profileImgLink\": \"https://www.wyzant.com/images/tutor/silhouette.png\"\n    },\n    {\n      \"id\": \"12346\",\n      \"firstName\": \"Jonathan\",\n      \"lastName\": \"Woe\",\n      \"pricing\": 40,\n      \"rating\": 4.8,\n      \"numberOfRatings\": 35,\n      \"topic\": \"Mathematics\",\n      \"language\": \"English\",\n      \"experience\": 5,\n      \"intro\": \"John has a knack for making complex topics simple and understandable. With years of experience, he's helped many students excel in mathematics.\",\n      \"numLessonsTaught\": 50,\n      \"profileImgLink\": \"john.png\"\n    },\n    {\n      \"id\": \"23456\",\n      \"firstName\": \"Alice\",\n      \"lastName\": \"Johnson\",\n      \"pricing\": 30,\n      \"rating\": 4.5,\n      \"numberOfRatings\": 45,\n      \"topic\": \"Chemistry\",\n      \"language\": \"Spanish\",\n      \"experience\": 4,\n      \"intro\": \"Alice is passionate about chemistry and enjoys sharing her knowledge with students of all ages.\",\n      \"numLessonsTaught\": 60,\n      \"profileImgLink\": \"alice.png\"\n    },\n    {\n      \"id\": \"34567\",\n      \"firstName\": \"Michael\",\n      \"lastName\": \"Brown\",\n      \"pricing\": 45,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 50,\n      \"topic\": \"Biology\",\n      \"language\": \"English\",\n      \"experience\": 6,\n      \"intro\": \"Michael's enthusiasm for biology is contagious. He has a talent for making lessons engaging and informative.\",\n      \"numLessonsTaught\": 80,\n      \"profileImgLink\": \"michael.png\"\n    },\n    {\n      \"id\": \"45678\",\n      \"firstName\": \"Sarah\",\n      \"lastName\": \"Davis\",\n      \"pricing\": 25,\n      \"rating\": 4.4,\n      \"numberOfRatings\": 30,\n      \"topic\": \"History\",\n      \"language\": \"French\",\n      \"experience\": 2,\n      \"intro\": \"Sarah brings history to life with her captivating storytelling and deep knowledge of historical events.\",\n      \"numLessonsTaught\": 40,\n      \"profileImgLink\": \"sarah.png\"\n    },\n    {\n      \"id\": \"56789\",\n      \"firstName\": \"Robert\",\n      \"lastName\": \"Wilson\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 40,\n      \"topic\": \"Geography\",\n      \"language\": \"German\",\n      \"experience\": 3,\n      \"intro\": \"Robert's lessons are a journey around the world, filled with fascinating facts and insights.\",\n      \"numLessonsTaught\": 55,\n      \"profileImgLink\": \"robert.png\"\n    },\n    {\n      \"id\": \"67891\",\n      \"firstName\": \"Emily\",\n      \"lastName\": \"Martinez\",\n      \"pricing\": 28,\n      \"rating\": 4.3,\n      \"numberOfRatings\": 25,\n      \"topic\": \"Literature\",\n      \"language\": \"English\",\n      \"experience\": 4,\n      \"intro\": \"Emily's passion for literature shines through in every lesson. She loves helping students develop a love for reading.\",\n      \"numLessonsTaught\": 45,\n      \"profileImgLink\": \"emily.png\"\n    },\n    {\n      \"id\": \"78901\",\n      \"firstName\": \"David\",\n      \"lastName\": \"Lee\",\n      \"pricing\": 50,\n      \"rating\": 4.9,\n      \"numberOfRatings\": 60,\n      \"topic\": \"Physics\",\n      \"language\": \"English\",\n      \"experience\": 7,\n      \"intro\": \"David has a deep understanding of physics and a gift for explaining difficult concepts in an easy-to-understand way.\",\n      \"numLessonsTaught\": 100,\n      \"profileImgLink\": \"david.png\"\n    },\n    {\n      \"id\": \"89012\",\n      \"firstName\": \"Linda\",\n      \"lastName\": \"Taylor\",\n      \"pricing\": 32,\n      \"rating\": 4.5,\n      \"numberOfRatings\": 33,\n      \"topic\": \"Chemistry\",\n      \"language\": \"French\",\n      \"experience\": 5,\n      \"intro\": \"Linda's enthusiasm for chemistry is evident in every lesson. She enjoys helping students discover the wonders of the subject.\",\n      \"numLessonsTaught\": 70,\n      \"profileImgLink\": \"linda.png\"\n    },\n    {\n      \"id\": \"90123\",\n      \"firstName\": \"Daniel\",\n      \"lastName\": \"Anderson\",\n      \"pricing\": 38,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 48,\n      \"topic\": \"Mathematics\",\n      \"language\": \"English\",\n      \"experience\": 6,\n      \"intro\": \"Daniel is dedicated to helping students achieve their academic goals. His lessons are always well-organized and clear.\",\n      \"numLessonsTaught\": 85,\n      \"profileImgLink\": \"daniel.png\"\n    },\n    {\n      \"id\": \"01234\",\n      \"firstName\": \"Sophia\",\n      \"lastName\": \"Hernandez\",\n      \"pricing\": 29,\n      \"rating\": 4.4,\n      \"numberOfRatings\": 22,\n      \"topic\": \"History\",\n      \"language\": \"Spanish\",\n      \"experience\": 3,\n      \"intro\": \"Sophia makes history lessons fun and engaging. Her students appreciate her ability to connect past events to the present.\",\n      \"numLessonsTaught\": 35,\n      \"profileImgLink\": \"sophia.png\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -57,16 +143,441 @@
       "responseMode": null
     },
     {
-      "uuid": "09db5e2a-8503-4689-8311-3815ac8efe8c",
+      "uuid": "c676a739-27a5-4466-a9d5-ca57fec7ab89",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/v1/login",
+      "responses": [
+        {
+          "uuid": "e8d30084-7809-4699-a587-5bf931295b0e",
+          "body": "{\n  \"id\": 123,\n  \"name\": \"John Adams\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTUyYjJkNzk1ZDNkZTU0MWZmNDlhODYiLCJpYXQiOjE1ODI0NzgwNTd9.VQ6kqsSCYuQ7f5OHRJkwDvN5_QLgdMeK5jKfk_BZczc\",\n  \"role\": \"STUDENT\",\n  \"profileImgLink\": \"blah.com\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a9986ce2-40c1-4b49-8825-221f241f1e30",
+          "body": "{\n  \"message\": \"Wrong credentials\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "0b7441ef-0521-4755-aba0-e8b0e90c3cac",
       "type": "http",
       "documentation": "",
       "method": "get",
-      "endpoint": "api/v1/tutor/search",
+      "endpoint": "api/v1/chat/conversations",
       "responses": [
         {
-          "uuid": "3a784ea1-67cc-454b-8ab4-7719300d019c",
-          "body": "{\n  \"tutors\": [\n    {\n      \"id\": \"12345\",\n      \"name\": \"John Doe\",\n      \"pricing\": 40,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 100,\n      \"topic\": \"Math\",\n      \"language\": \"English\",\n      \"experience\": 5,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 10,\n      \"profileImgLink\": \"https://avatars.preply.com/i/logos/i/logos/avatar_ngykk0ma7y.jpg\"\n    },\n    {\n      \"id\": \"67890\",\n      \"name\": \"Jane Smith\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 27,\n      \"topic\": \"Physics\",\n      \"language\": \"English\",\n      \"experience\": 3,\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 20,\n      \"profileImgLink\": \"img.png\"\n    }\n  ]\n}\n",
-          "latency": 1500,
+          "uuid": "4db6b4fc-c984-4545-b506-dece0071506c",
+          "body": "{\n  \"conversations\": [\n    {\n      \"id\": \"1\",\n      \"user\": \"John Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"2\",\n      \"user\": \"Jane Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"3\",\n      \"user\": \"James Doe\",\n      \"timestamp\": \"21323321\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "6865a90d-dc80-4f8e-8730-0b044323295b",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/chat/:chatId",
+      "responses": [
+        {
+          "uuid": "df409cab-56dd-44ff-9244-b8d51777197e",
+          "body": "{\n  \"messages\": [\n    {\n      \"id\": \"1\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"Hey Smith!\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"2\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"How are you?\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"3\",\n      \"receiver\": \"John Doe\",\n      \"sender\": \"You\",\n      \"message\": \"I am doing well, and you?\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"4\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"All good, have a good one!\",\n      \"timestamp\": \"21323321\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "6febb040-772d-484a-9159-0dcf26568298",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/v1/register",
+      "responses": [
+        {
+          "uuid": "f271a056-cdd2-4052-8497-7c093e47a39f",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "92102b63-bd0a-4b15-a485-c21bee0f6075",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "topics",
+      "responses": [
+        {
+          "uuid": "0c0bb577-2242-4b0d-8eb7-352187c95189",
+          "body": "{\n  \"topics\": [\n    \"Physics\",\n    \"C++\",\n    \"C#\",\n    \"Economics\"\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "92ce7529-c372-4c73-aa38-b3a5778a212c",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "languages",
+      "responses": [
+        {
+          "uuid": "92c58a23-97f0-4eef-9858-11001dc9b365",
+          "body": "{\n  \"languages\": [\n    \"English\",\n    \"Spanish\",\n    \"Russian\"\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "402cf23f-cc97-40a3-88d6-3e783c5a4cb1",
+      "type": "http",
+      "documentation": "For tutor self view",
+      "method": "get",
+      "endpoint": "api/v1/tutor",
+      "responses": [
+        {
+          "uuid": "6cd64b2b-e36a-4688-9887-568843e39b02",
+          "body": "{\n  \"id\": \"12345\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"hello@hs-fulda.de\",\n  \"status\": \"APPROVED\",\n  \"pricing\": 40,\n  \"rating\": 4.7,\n  \"numberOfRatings\": 100,\n  \"topic\": \"Math\",\n  \"language\": \"English\",\n  \"introText\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n  \"numLessonsTaught\": 10,\n  \"profileImgLink\": {\n    \"link\": \"https://cdn.pixabay.com/photo/2016/11/29/13/14/attractive-1869761_1280.jpg\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"cv\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"video\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"schedule\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 129,\n          \"from\": \"19:00\",\n          \"to\": \"18:00\",\n          \"status\": \"BOOKED\"\n        }\n      ]\n    },\n    {\n      \"date\": \"2024-09-02\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 456,\n          \"from\": \"19:00\",\n          \"to\": \"20:00\",\n          \"status\": \"BOOKED\"\n        }\n      ]\n    }\n  ],\n  \"reviews\": [\n    {\n      \"id\": 123,\n      \"rating\": 4.5,\n      \"text\": \"amazing tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jame Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    },\n    {\n      \"id\": 345,\n      \"rating\": 3,\n      \"text\": \"average tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jack Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "afbe551a-5b1b-4ec0-87c5-ab3217051efc",
+      "type": "http",
+      "documentation": "Tutor details for students to view",
+      "method": "get",
+      "endpoint": "tutor/:tutorId",
+      "responses": [
+        {
+          "uuid": "8e20c14b-34d3-4c9d-b866-6f7edbf2bce0",
+          "body": "{\n  \"id\": \"12345\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"pricing\": 40,\n  \"rating\": 4.7,\n  \"numberOfRatings\": 100,\n  \"topic\": \"Math\",\n  \"language\": \"English\",\n  \"introText\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n  \"numLessonsTaught\": 10,\n  \"profileImgLink\": {\n    \"link\": \"http://cv.pdf\"\n  },\n  \"cv\": {\n    \"link\": \"http://cv.pdf\"\n  },\n  \"video\": {\n    \"link\": \"http://cv.pdf\"\n  },\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"schedule\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 129,\n          \"from\": \"19:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        }\n      ]\n    },\n    {\n      \"date\": \"2024-09-02\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 456,\n          \"from\": \"19:00\",\n          \"to\": \"20:00\",\n          \"status\": \"FREE\"\n        }\n      ]\n    }\n  ],\n  \"reviews\": [\n    {\n      \"id\": 123,\n      \"rating\": 4.5,\n      \"text\": \"amazing tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jame Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    },\n    {\n      \"id\": 345,\n      \"rating\": 3,\n      \"text\": \"average tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jack Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "800c958e-db49-4d8e-b89d-8ad9275e196f",
+      "type": "http",
+      "documentation": "Check notion for req body",
+      "method": "put",
+      "endpoint": "api/v1/tutor/profile",
+      "responses": [
+        {
+          "uuid": "20706821-0575-4e1f-87ec-88890f098ab8",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "7a8adac7-fa26-496d-87ae-aba4d4a2863a",
+      "type": "http",
+      "documentation": "check notion for req body",
+      "method": "put",
+      "endpoint": "api/v1/tutor/schedule/session/:sessionId",
+      "responses": [
+        {
+          "uuid": "2d30e030-abdc-489e-b300-0d88d112548e",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "bc600b29-6e4e-4fe7-b512-f430899718e6",
+      "type": "http",
+      "documentation": "check notion for req body",
+      "method": "post",
+      "endpoint": "api/v1/tutor/schedule/session",
+      "responses": [
+        {
+          "uuid": "e86ee1aa-fd7b-4fbf-8c40-80eb98d7e00e",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "7d38125a-a0f8-4a2e-9eac-f3ae00495ec8",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/tutor/video",
+      "responses": [
+        {
+          "uuid": "f7b52c62-78c9-4e19-bc1c-7f2426dac5c0",
+          "body": "{\n\t\"videoLink\": \"blob.com\",\n\t\"status\": \"PENDING_APPROVAL\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "20f84797-489f-41f6-9354-09e94248ac3e",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/tutor/cv",
+      "responses": [
+        {
+          "uuid": "e209c0be-7cd6-43c6-9c77-7925df7f5b9e",
+          "body": "{\n  \"cvLink\": \"blob.com\",\n  \"status\": \"PENDING_APPROVAL\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "82403dea-49a3-43bd-b760-6413c7ab947d",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/tutor/profileImage",
+      "responses": [
+        {
+          "uuid": "ad4450d4-051a-4d9a-b599-d59776786185",
+          "body": "{\n\t\"profileImgLink\": \"blob.com\",\n\t\"status\": \"PENDING_APPROVAL\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "ca8f30b5-df81-43bd-842d-8c40551c5c55",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/tutor/upcoming-appointments",
+      "responses": [
+        {
+          "uuid": "e41874bb-5b34-445e-ace7-2fe894f91ea1",
+          "body": "{\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"appointments\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"timings\": [\n        {\n          \"sessionId\": 129,\n          \"from\": \"19:00\",\n          \"to\": \"18:00\",\n          \"status\": \"BOOKED\",\n          \"with\": {\n            \"id\": 234,\n            \"firstName\": \"\",\n            \"lastName\": \"\",\n            \"profileImgLink\": \"\"\n          },\n          \"type\": \"TRIAL\"\n        }\n      ]\n    }\n  ]\n}",
+          "latency": 0,
           "statusCode": 200,
           "label": "",
           "headers": [],
@@ -94,6 +605,30 @@
     {
       "type": "route",
       "uuid": "09db5e2a-8503-4689-8311-3815ac8efe8c"
+    },
+    {
+      "type": "route",
+      "uuid": "0b7441ef-0521-4755-aba0-e8b0e90c3cac"
+    },
+    {
+      "type": "route",
+      "uuid": "6865a90d-dc80-4f8e-8730-0b044323295b"
+    },
+    {
+      "type": "route",
+      "uuid": "c676a739-27a5-4466-a9d5-ca57fec7ab89"
+    },
+    {
+      "type": "route",
+      "uuid": "6febb040-772d-484a-9159-0dcf26568298"
+    },
+    {
+      "type": "folder",
+      "uuid": "4eb11b17-a556-41ad-b782-c58d402aba1c"
+    },
+    {
+      "type": "folder",
+      "uuid": "ac6d34b1-8776-4163-8ce7-5525fc5b2e57"
     }
   ],
   "proxyMode": false,

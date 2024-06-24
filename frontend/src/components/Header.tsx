@@ -1,5 +1,8 @@
 import {
+  ActionIcon,
   AppShell,
+  Avatar,
+  Badge,
   Burger,
   Button,
   Flex,
@@ -7,16 +10,25 @@ import {
   Menu,
   Text,
 } from '@mantine/core';
-import { IconChevronDown, IconPlant2 } from '@tabler/icons-react';
-import { SearchTutor } from './SearchTutor';
-import { Link } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
+import { IconMessage, IconPlant2 } from '@tabler/icons-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { authService } from '../service/AuthService';
+import { SearchTutor } from './SearchTutor';
 
-export function Header() {
+interface HeaderProps {
+  as?: React.ElementType;
+}
+
+const UNREAD_MESSAGE_COUNT = 3;
+
+export function Header(props: HeaderProps) {
+  const { as: Component = AppShell.Header } = props;
   const [opened, { toggle }] = useDisclosure(false);
+  const navigate = useNavigate();
 
   return (
-    <AppShell.Header>
+    <Component className='h-[48px] sm:h-[60px] border-b'>
       <Flex justify='space-between' align='center' h='100%' px='md'>
         <Flex justify='flex-start' align='center' gap={5}>
           <Group>
@@ -39,25 +51,68 @@ export function Header() {
           <SearchTutor />
           <Group visibleFrom='sm'>
             <Button variant='outline'>Forum</Button>
-            <Menu trigger='click-hover' withinPortal>
-              <Menu.Target>
-                <Button
-                  variant='outline'
-                  onClick={(event) => event.preventDefault()}
-                  rightSection={<IconChevronDown size='0.9rem' stroke={1.5} />}
-                >
+
+            {!authService.isLoggedIn() && (
+              <>
+                <Button variant='outline' onClick={() => navigate('/register')}>
                   Register
                 </Button>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item>As a student</Menu.Item>
-                <Menu.Item>As a tutor</Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-            <Button>Login</Button>
+                <Button onClick={() => navigate('/login')}>Login</Button>
+              </>
+            )}
+
+            {authService.isLoggedIn() && (
+              <>
+                <Group className='relative'>
+                  <ActionIcon
+                    onClick={() => navigate('/messages')}
+                    size='lg'
+                    variant='transparent'
+                  >
+                    <IconMessage size={24} />
+                  </ActionIcon>
+                  {UNREAD_MESSAGE_COUNT > 0 && (
+                    <Badge
+                      color='red'
+                      variant='filled'
+                      size='xs'
+                      className='absolute -top-1 -right-1'
+                    >
+                      {UNREAD_MESSAGE_COUNT}
+                    </Badge>
+                  )}
+                </Group>
+                <Menu
+                  width={200}
+                  shadow='md'
+                  openDelay={100}
+                  closeDelay={200}
+                  withinPortal
+                >
+                  <Menu.Target>
+                    <Avatar src={null} alt='Profile' color='#52228d' />
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Label>{authService.user?.name}</Menu.Label>
+                    <Menu.Item onClick={() => navigate('/profile')}>
+                      Profile
+                    </Menu.Item>
+                    <Menu.Item
+                      color='red'
+                      onClick={() => {
+                        authService.logout();
+                        navigate('/');
+                      }}
+                    >
+                      Logout
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            )}
           </Group>
         </Flex>
       </Flex>
-    </AppShell.Header>
+    </Component>
   );
 }

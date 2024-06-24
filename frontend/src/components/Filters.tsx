@@ -1,33 +1,49 @@
 import {
+  Button,
   Flex,
   Group,
   MultiSelect,
+  RangeSlider,
   Select,
   Slider,
   Text,
-  // TextInput,
 } from '@mantine/core';
+import { priceMarks, ratingMarks, useFilters, weekDays } from '../hooks';
 import {
-  languages,
-  priceMarks,
-  ratingMarks,
-  useFilters,
-  weekDays,
-} from '../hooks';
-import {
+  IconAdjustments,
   IconCalendar,
   IconCurrencyEuro,
   IconLanguage,
   // IconLocation,
   IconStar,
 } from '@tabler/icons-react';
+import { languages } from '../util/constants';
 
-export function Filters() {
-  const { filters, handleChange } = useFilters();
+interface FiltersProps {
+  onSubmit?: () => void;
+}
+
+export function Filters(props: FiltersProps) {
+  const { onSubmit } = props;
+  const { filters, handleChange, handleReset } = useFilters();
 
   return (
     <Group>
-      <h2 className='text-xl font-semibold'>Filters</h2>
+      <Flex justify='space-between' className='w-full'>
+        <Flex justify='center' align='center' gap={1}>
+          <Text size='lg' fw={500} visibleFrom='sm'>
+            Filters
+          </Text>
+          <Group visibleFrom='sm'>
+            <IconAdjustments size={20} stroke={1} />
+          </Group>
+        </Flex>
+        <Group visibleFrom='sm'>
+          <Button size='xs' variant='transparent' onClick={handleReset}>
+            Reset all
+          </Button>
+        </Group>
+      </Flex>
 
       {/* <Group>
         <TextInput
@@ -66,21 +82,25 @@ export function Filters() {
 
       <Group className='w-full mb-4 mr-1'>
         <Flex justify='center' align='center'>
-          <Text className='text-sm'>Max Price</Text>
+          <Text className='text-sm'>Price range</Text>
           <IconCurrencyEuro size={14} />
         </Flex>
-        <Slider
-          name='pricingMax'
-          marks={priceMarks}
+        <RangeSlider
+          name='pricing'
+          minRange={10}
           min={12}
           max={100}
           className='w-full'
-          value={filters.pricingMax}
-          onChange={handleChange('pricingMax')}
+          value={[filters.pricingMin, filters.pricingMax]}
+          marks={priceMarks}
+          onChange={(value) => {
+            handleChange('pricingMin')(value[0]);
+            handleChange('pricingMax')(value[1]);
+          }}
         />
       </Group>
 
-      <Group className='mb-1'>
+      <Group className='mb-1 w-full'>
         <MultiSelect
           name='availabilityDays'
           label={
@@ -100,10 +120,12 @@ export function Filters() {
       <Group className='mb-1'>
         <Select
           name='language'
-          label=<Flex justify='center' align='center'>
-            <Text className='text-sm'>Langauge</Text>
-            <IconLanguage size={14} />
-          </Flex>
+          label={
+            <Flex justify='center' align='center'>
+              <Text className='text-sm'>Langauge</Text>
+              <IconLanguage size={14} />
+            </Flex>
+          }
           placeholder='Select language'
           className='w-full'
           data={languages}
@@ -111,6 +133,19 @@ export function Filters() {
           onChange={handleChange('language')}
         />
       </Group>
+
+      <Flex className='w-full mb-4 mr-1' gap='sm' hiddenFrom='sm'>
+        <Button onClick={onSubmit}>Apply Filters</Button>
+        <Button
+          onClick={() => {
+            handleReset();
+            onSubmit?.();
+          }}
+          variant='outline'
+        >
+          Reset All
+        </Button>
+      </Flex>
     </Group>
   );
 }

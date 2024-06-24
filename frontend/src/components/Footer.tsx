@@ -5,7 +5,8 @@ export function Footer() {
     <footer className='p-2 sm:p-3 text-center border-t'>
       <Text ta='center' c='gray' className='text-xs sm:text-base'>
         Fulda University Software Engineering Project Summer 2024. For
-        demonstration purposes only.
+        demonstration purposes only. Env:{' '}
+        <span className='text-slate-600 font-bold'>{import.meta.env.MODE}</span>
       </Text>
     </footer>
   );

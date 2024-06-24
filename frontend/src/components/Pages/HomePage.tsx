@@ -1,9 +1,17 @@
-import { Stack, Text } from '@mantine/core';
+import { Hero } from '../HomePageComponents/Hero';
+import { FeatureCards } from '../HomePageComponents/FeatureCards';
+import { UserCounts } from '../HomePageComponents/UserCounts';
+import { Testimonials } from '../HomePageComponents/Testimonials';
+import { TutorAd } from '../HomePageComponents/TutorAd';
 
 export function HomePage() {
   return (
-    <Stack>
-      <Text>Home Page</Text>
-    </Stack>
+    <>
+      <Hero />
+      <FeatureCards />
+      <UserCounts />
+      <Testimonials />
+      <TutorAd />
+    </>
   );
 }
