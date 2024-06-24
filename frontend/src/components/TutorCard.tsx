@@ -76,9 +76,11 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
             <Stack>
               <div>
                 <Title order={3}>{tutorName}</Title>
-                <div>
-                  <Badge>{tutor.topic}</Badge>
-                </div>
+                <Group>
+                  {tutor.topic.map((t) => (
+                    <Badge>{t}</Badge>
+                  ))}
+                </Group>
                 <div className='flex items-center'>
                   <IconUser />
                   <Text>{tutor.numLessonsTaught} lessons taught</Text>

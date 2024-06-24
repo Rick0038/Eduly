@@ -13,7 +13,7 @@ export interface Tutor {
   pricing: number;
   rating: number;
   numberOfRatings: number;
-  topic: string;
+  topic: string[];
   language: string;
   experience: number;
   intro: string;
