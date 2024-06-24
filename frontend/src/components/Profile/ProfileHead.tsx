@@ -43,7 +43,10 @@ export function ProfileHead(props: ProfileHeadProps) {
     <div className='profile-header flex items-center mb-4'>
       <div className='relative'>
         <Avatar
-          src={user.profileImgLink?.link || ''}
+          src={
+            (user.profileImgLink as { link: string; status: string })?.link ||
+            ''
+          }
           alt={`${user.firstName} ${user.lastName}`}
           size='xl'
           className='mr-4'
