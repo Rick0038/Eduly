@@ -18,8 +18,7 @@ export interface Tutor {
   experience: number;
   intro: string;
   numLessonsTaught: number;
-  introText: string;
-  profileImgLink: {
+  profileImg: {
     link: string;
     status: string;
   };
@@ -34,6 +33,9 @@ export interface Tutor {
   bbbLink: string;
   schedule: Schedule[];
   reviews: Review[];
+  profileImgLink: string;
+  cvLink: string;
+  videoLink: string;
 }
 
 export interface UserInfo {

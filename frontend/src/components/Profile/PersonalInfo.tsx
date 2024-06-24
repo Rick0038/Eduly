@@ -7,13 +7,13 @@ import {
   TextInput,
   Textarea,
 } from '@mantine/core';
-import { Tutor } from '../../model';
-import { IconCheck } from '@tabler/icons-react';
-import { languages, topics } from '../../util/constants';
 import { useForm } from '@mantine/form';
+import { IconCheck } from '@tabler/icons-react';
 import { useMutation } from '@tanstack/react-query';
-import { notificationService } from '../../service/NotificationService';
+import { Tutor } from '../../model';
 import { tutorService } from '../../service';
+import { notificationService } from '../../service/NotificationService';
+import { languages, topics } from '../../util/constants';
 
 interface PersonalInfoProps {
   isEditing: boolean;
@@ -55,7 +55,7 @@ export function PersonalInfo(props: PersonalInfoProps) {
       </div>
       <div>
         <strong>Introduction: </strong>
-        {user.introText}
+        {user.intro}
       </div>
       <div className='flex gap-1'>
         <strong>Meeting Link: </strong>
@@ -102,10 +102,10 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
     const data = {
       firstName: values.firstName,
       lastName: values.lastName,
-      topic: values.topic,
+      topics: values.topic,
       language: values.language,
       bbbLink: values.bbbLink,
-      introText: values.intro,
+      intro: values.intro,
       pricing: values.pricing,
     };
     updateProfile.mutate(data);
