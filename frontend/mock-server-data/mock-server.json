@@ -151,7 +151,7 @@
       "responses": [
         {
           "uuid": "e8d30084-7809-4699-a587-5bf931295b0e",
-          "body": "{\n  \"id\": 123,\n  \"name\": \"John Adams\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTUyYjJkNzk1ZDNkZTU0MWZmNDlhODYiLCJpYXQiOjE1ODI0NzgwNTd9.VQ6kqsSCYuQ7f5OHRJkwDvN5_QLgdMeK5jKfk_BZczc\",\n  \"role\": \"STUDENT\",\n  \"profileImgLink\": \"blah.com\"\n}",
+          "body": "{\n  \"id\": 123,\n  \"name\": \"John Adams\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTUyYjJkNzk1ZDNkZTU0MWZmNDlhODYiLCJpYXQiOjE1ODI0NzgwNTd9.VQ6kqsSCYuQ7f5OHRJkwDvN5_QLgdMeK5jKfk_BZczc\",\n  \"role\": \"STUDENT\",\n  \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
