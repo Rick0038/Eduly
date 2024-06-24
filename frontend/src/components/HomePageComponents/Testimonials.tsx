@@ -49,7 +49,7 @@ const testimonialData = [
   {
     name: 'Sophia Martinez',
     feedback:
-      'Booking sessions is so easy with Eduly. The real-time availability calendar and session reminders have been a lifesaver. The platform is user-friendly and efficient!',
+      'Booking sessions is so easy with Eduly. The real-time availability calendar and session reminders have been a lifesaver. The platform is user-friendly and efficient.',
     age: 22,
     portrait: 'sophiaMartinez.png',
   },
