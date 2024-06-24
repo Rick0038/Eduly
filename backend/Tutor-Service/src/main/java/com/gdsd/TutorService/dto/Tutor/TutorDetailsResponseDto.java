@@ -14,7 +14,7 @@ public class TutorDetailsResponseDto {
     private Integer numberOfRatings;
     private Set<String> topic;
     private String language;
-    private String introText;
+    private String intro;
     private Integer numLessonsTaught;
     private Content profileImgLink;
     private Content cv;
@@ -262,12 +262,12 @@ public class TutorDetailsResponseDto {
         this.language = language;
     }
 
-    public String getIntroText() {
-        return introText;
+    public String getIntro() {
+        return intro;
     }
 
-    public void setIntroText(String introText) {
-        this.introText = introText;
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 
     public Integer getNumLessonsTaught() {
