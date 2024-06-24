@@ -30,19 +30,31 @@ class TutorService {
 
   async updateProfileImage(data: FormData) {
     const url = '/api/v1/tutor/profileImage';
-    const response = await httpService.put<Record<string, string>>(url, data);
+    const response = await httpService.put<Record<string, string>>(url, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response;
   }
 
   async updateCV(data: FormData) {
     const url = '/api/v1/tutor/cv';
-    const response = await httpService.put<Record<string, string>>(url, data);
+    const response = await httpService.put<Record<string, string>>(url, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response;
   }
 
   async updateVideo(data: FormData) {
     const url = '/api/v1/tutor/video';
-    const response = await httpService.put<Record<string, string>>(url, data);
+    const response = await httpService.put<Record<string, string>>(url, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response;
   }
 }
