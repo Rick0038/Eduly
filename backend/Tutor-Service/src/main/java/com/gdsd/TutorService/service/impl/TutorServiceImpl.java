@@ -562,7 +562,7 @@ public class TutorServiceImpl implements TutorService {
         responseDto.setTopic(topics);
 
         responseDto.setLanguage(tutor.getLanguage());
-        responseDto.setIntroText(tutor.getIntro());
+        responseDto.setIntro(tutor.getIntro());
         responseDto.setNumLessonsTaught(tutor.getNumLessonsTaught());
 
         // Setting of profile image, cv and video
