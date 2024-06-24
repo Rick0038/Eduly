@@ -14,7 +14,7 @@ public class CorsConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
 
-                registry.addMapping("/**") // Apply CORS settings to all paths...
+                registry.addMapping("/**") // Apply CORS settings to all paths..
 
 
                         .allowedOriginPatterns("*") // Allow requests from the Azure VM's public IP(currently allows from anywhere)
