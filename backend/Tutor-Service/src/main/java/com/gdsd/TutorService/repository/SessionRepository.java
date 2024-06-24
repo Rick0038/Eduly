@@ -2,9 +2,12 @@ package com.gdsd.TutorService.repository;
 
 import com.gdsd.TutorService.model.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,4 +27,9 @@ public interface SessionRepository extends JpaRepository<Session, Integer> {
     Boolean existsByTutorIdAndStatusAndEndTimeLessThanEqual(
             @Param("tutorId") Integer tutorId,
             @Param("endTime") LocalTime endTime);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Session s SET s.status = 'COMPLETED' WHERE s.date < :currentDate")
+    void updateSessionsToCompleted(LocalDate currentDate);
 }

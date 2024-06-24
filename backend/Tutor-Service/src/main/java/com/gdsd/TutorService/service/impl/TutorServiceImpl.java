@@ -16,7 +16,9 @@ import com.gdsd.TutorService.service.interf.StudentService;
 import com.gdsd.TutorService.service.interf.TutorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import java.io.IOException;
@@ -26,7 +28,6 @@ import java.time.LocalTime;
 import java.time.format.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class TutorServiceImpl implements TutorService {
@@ -647,4 +648,13 @@ public class TutorServiceImpl implements TutorService {
 
         return responseDto;
     }
+
+    @Scheduled(cron = "0 30 12 * * ?")
+    public void updateSessionStatusToCompletedForPreviousDays() {
+        LocalDate today = LocalDate.now();
+        System.out.println("Updating all previous day sessions to completed.");
+        sessionRepository.updateSessionsToCompleted(today);
+    }
+
+
 }
