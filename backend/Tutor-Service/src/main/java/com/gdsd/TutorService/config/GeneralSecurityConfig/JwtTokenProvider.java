@@ -28,7 +28,7 @@ public class JwtTokenProvider {
         String jwt = Jwts.builder()
                 .claim("role", role)
                 .setSubject(email)
-                .setIssuedAt(new Date()).setExpiration(new Date(new Date().getTime() + (1*60*60*1000)))
+                .setIssuedAt(new Date()).setExpiration(new Date(new Date().getTime() + (4*60*60*1000)))
                 .signWith(key())
                 .compact();
 
