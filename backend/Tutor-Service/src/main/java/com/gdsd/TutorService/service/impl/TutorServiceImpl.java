@@ -16,7 +16,6 @@ import com.gdsd.TutorService.service.interf.StudentService;
 import com.gdsd.TutorService.service.interf.TutorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -435,7 +434,7 @@ public class TutorServiceImpl implements TutorService {
             profileImage.setLink(tutorProfileImage.get().getContentLink());
             profileImage.setStatus(tutorProfileImage.get().getStatus());
         }
-        responseDto.setProfileImgLink(profileImage);
+        responseDto.setProfileImg(profileImage);
 
         TutorDetailsResponseDto.Content cv = new TutorDetailsResponseDto.Content();
         Optional<TutorContent> tutorCv = tutorContentRepository
@@ -531,7 +530,7 @@ public class TutorServiceImpl implements TutorService {
 
 
         // set responseDto.status to APPROVED if all contents are approved.
-        if(responseDto.getProfileImgLink().getStatus().equals("APPROVED") &&
+        if(responseDto.getProfileImg().getStatus().equals("APPROVED") &&
                 responseDto.getCv().getStatus().equals("APPROVED") &&
                 responseDto.getVideo().getStatus().equals("APPROVED")) {
             responseDto.setStatus("APPROVED");

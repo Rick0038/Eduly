@@ -16,7 +16,7 @@ public class TutorDetailsResponseDto {
     private String language;
     private String intro;
     private Integer numLessonsTaught;
-    private Content profileImgLink;
+    private Content profileImg;
     private Content cv;
     private Content video;
     private String bbbLink;
@@ -278,12 +278,12 @@ public class TutorDetailsResponseDto {
         this.numLessonsTaught = numLessonsTaught;
     }
 
-    public Content getProfileImgLink() {
-        return profileImgLink;
+    public Content getProfileImg() {
+        return profileImg;
     }
 
-    public void setProfileImgLink(Content profileImgLink) {
-        this.profileImgLink = profileImgLink;
+    public void setProfileImg(Content profileImg) {
+        this.profileImg = profileImg;
     }
 
     public Content getCv() {
