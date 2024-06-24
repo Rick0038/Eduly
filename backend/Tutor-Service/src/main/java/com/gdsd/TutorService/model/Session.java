@@ -51,7 +51,8 @@ public class Session {
 
     public enum Status {
         FREE,
-        BOOKED
+        BOOKED,
+        COMPLETED
     }
 
     public enum Day {
