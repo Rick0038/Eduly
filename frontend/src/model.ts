@@ -19,10 +19,12 @@ export interface Tutor {
   intro: string;
   numLessonsTaught: number;
   introText: string;
-  profileImgLink: {
-    link: string;
-    status: string;
-  };
+  profileImgLink:
+    | {
+        link: string;
+        status: string;
+      }
+    | string;
   cv: {
     link: string;
     status: string;
@@ -34,6 +36,8 @@ export interface Tutor {
   bbbLink: string;
   schedule: Schedule[];
   reviews: Review[];
+  videoLink: string;
+  cvLink: string;
 }
 
 export interface UserInfo {
