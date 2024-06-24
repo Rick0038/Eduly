@@ -41,10 +41,37 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                 Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, new ArrayList<>());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (ExpiredJwtException ex) {
+                // Check if the request path is for an unauthenticated endpoint
+                String requestPath = request.getRequestURI();
+                if (requestPath.equals("/topics") || requestPath.equals("/languages") || requestPath.equals("/tutor/search")) {
+                    // Log the expired token and proceed with the filter chain
+                    logger.info("Expired JWT token for unauthenticated endpoint, proceeding without authentication");
+                    filterChain.doFilter(request, response);
+                    return;
+                }
                 handleException(response, "JWT Token has expired", HttpStatus.UNAUTHORIZED);
                 return;
             } catch (SignatureException ex) {
+                // Check if the request path is for an unauthenticated endpoint
+                String requestPath = request.getRequestURI();
+                if (requestPath.equals("/topics") || requestPath.equals("/languages") || requestPath.equals("/tutor/search")) {
+                    // Log the expired token and proceed with the filter chain
+                    logger.info("Invalid JWT token for unauthenticated endpoint, proceeding without authentication");
+                    filterChain.doFilter(request, response);
+                    return;
+                }
                 handleException(response, "Invalid JWT signature", HttpStatus.UNAUTHORIZED);
+                return;
+            } catch (RuntimeException ex) {
+                // Check if the request path is for an unauthenticated endpoint
+                String requestPath = request.getRequestURI();
+                if (requestPath.equals("/topics") || requestPath.equals("/languages") || requestPath.equals("/tutor/search")) {
+                    // Log the expired token and proceed with the filter chain
+                    logger.info("Invalid JWT token for unauthenticated endpoint, proceeding without authentication");
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+                handleException(response, ex.getMessage(), HttpStatus.UNAUTHORIZED);
                 return;
             }
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class DistinctTopicsAndLanguagesController {
     private TutorRepository tutorRepository;
 
     @GetMapping("/topics")
-    public ResponseEntity<Map> getTopics() {
+    public ResponseEntity<Map> getTopics(@RequestHeader("Authorization") String authorizationHeader) {
         List<String> distinctTopicNames = topicRepository.findDistinctTopicNames();
         Map<String, List> response = new HashMap<>();
         response.put("topics", distinctTopicNames);
