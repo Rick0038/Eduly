@@ -167,7 +167,7 @@ public class TutorServiceImpl implements TutorService {
         tutor.setLastName(tutorProfileUpdateRequestDto.getLastName());
         tutor.setLanguage(tutorProfileUpdateRequestDto.getLanguage());
         tutor.setBbbLink(tutorProfileUpdateRequestDto.getBbbLink());
-        tutor.setIntro(tutorProfileUpdateRequestDto.getIntroText());
+        tutor.setIntro(tutorProfileUpdateRequestDto.getIntro());
         tutor.setPrice(tutorProfileUpdateRequestDto.getPricing());
         tutorRepository.save(tutor);
 
