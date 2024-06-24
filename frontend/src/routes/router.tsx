@@ -7,12 +7,13 @@ import {
   NotFound,
   SearchPage,
 } from '../components';
+import { ProfilePage } from '../components/Pages/ProfilePage';
+import { TutorDetail } from '../components/TutorDetail/TutorDetail';
 import { Unauthorized } from '../components/Unauthorized/Unauthorized';
 import { GuardedRoute } from '../components/auth/GuardedRoute';
 import { Login } from '../components/auth/Login';
 import { SignUp } from '../components/auth/SignUp';
 import { ROLE } from '../constant';
-import { ProfilePage } from '../components/Pages/ProfilePage';
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
             <ProfilePage />
           </GuardedRoute>
         ),
+      },
+      {
+        path: '/tutor/:tutorId',
+        element: <TutorDetail />,
       },
       {
         path: '/unauthorized',

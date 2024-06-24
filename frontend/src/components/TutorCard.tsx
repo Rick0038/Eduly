@@ -78,7 +78,7 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
                 <Title order={3}>{tutorName}</Title>
                 <Group>
                   {tutor.topic.map((t) => (
-                    <Badge>{t}</Badge>
+                    <Badge key={t}>{t}</Badge>
                   ))}
                 </Group>
                 <div className='flex items-center'>
@@ -132,7 +132,10 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
             </Group>
             {authService.isStudent && (
               <Stack justify='center'>
-                <Button leftSection={<IconCalendarEvent />}>
+                <Button
+                  onClick={() => navigate(`/tutor/${tutor.id}`)}
+                  leftSection={<IconCalendarEvent />}
+                >
                   Book Session
                 </Button>
                 <Button
