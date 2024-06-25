@@ -1,4 +1,4 @@
-import { Topic, Tutor, Tutors } from '../model';
+import { FetchLanguages, FetchTopics, Tutor, Tutors } from '../model';
 import { httpService } from './HTTPService';
 
 class TutorService {
@@ -18,7 +18,13 @@ class TutorService {
 
   async getTopics() {
     const url = '/topics';
-    const response = await httpService.get<Topic>(url);
+    const response = await httpService.get<FetchTopics>(url);
+    return response;
+  }
+
+  async getLanguages() {
+    const url = '/languages';
+    const response = await httpService.get<FetchLanguages>(url);
     return response;
   }
 

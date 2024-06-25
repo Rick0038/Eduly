@@ -17,7 +17,8 @@ import {
   // IconLocation,
   IconStar,
 } from '@tabler/icons-react';
-import { languages } from '../util/constants';
+import { useQuery } from '@tanstack/react-query';
+import { tutorService } from '../service';
 
 interface FiltersProps {
   onSubmit?: () => void;
@@ -26,6 +27,10 @@ interface FiltersProps {
 export function Filters(props: FiltersProps) {
   const { onSubmit } = props;
   const { filters, handleChange, handleReset } = useFilters();
+  const { data: { langauges } = {} } = useQuery({
+    queryKey: ['getLanguages'],
+    queryFn: tutorService.getLanguages,
+  });
 
   return (
     <Group>
@@ -128,7 +133,7 @@ export function Filters(props: FiltersProps) {
           }
           placeholder='Select language'
           className='w-full'
-          data={languages}
+          data={langauges}
           value={filters.language}
           onChange={handleChange('language')}
         />

@@ -169,13 +169,13 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
         />
         <Textarea
           label='Introduction'
-          name='introText'
+          name='intro'
           placeholder='Enter your introduction text'
           required
           autosize
           minRows={5}
-          key={form.key('introText')}
-          {...form.getInputProps('introText')}
+          key={form.key('intro')}
+          {...form.getInputProps('intro')}
         />
         <TextInput
           label='BBB Link'
