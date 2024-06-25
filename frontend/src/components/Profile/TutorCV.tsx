@@ -36,7 +36,7 @@ export function TutorCV(props: TutorCVProps) {
 
   return (
     <div className='grid gap-4'>
-      {tutor.cv && tutor.cv.link ? (
+      {tutor.cv && tutor.cv?.link?.length ? (
         <div className='flex flex-col gap-2 justify-start content-start text-left'>
           <Text>Your CV:</Text>
           <div className='relative group max-w-[400px]'>
@@ -58,7 +58,7 @@ export function TutorCV(props: TutorCVProps) {
           </div>
         </div>
       ) : (
-        <Text className='text-center text-red-500'>No CV found!</Text>
+        <Text className='text-center text-red-500'>CV not uploaded!</Text>
       )}
 
       {isEditing && (
