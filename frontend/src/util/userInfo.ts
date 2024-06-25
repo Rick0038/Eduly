@@ -13,3 +13,7 @@ export function setUserInfoToLocalStorage(user: UserInfo | null) {
     localStorage.setItem('user', JSON.stringify(user));
   }
 }
+
+export function clearUserInfoFromLocalStorage() {
+  localStorage.removeItem('user');
+}

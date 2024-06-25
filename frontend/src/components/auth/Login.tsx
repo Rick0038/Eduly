@@ -44,8 +44,9 @@ export function Login() {
     mutationFn: authService.login,
     onSuccess: (data) => {
       setUserInfoToLocalStorage(data);
+      const params = new URLSearchParams(location.search);
       // to go back to same page after login instead of going to home page
-      const fromPath = location.state?.from || '/';
+      const fromPath = location.state?.from || params.get('redirect') || '/';
       navigate(fromPath, { replace: true });
     },
     onError: (err) => {
