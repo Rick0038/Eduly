@@ -8,7 +8,13 @@ import {
   Slider,
   Text,
 } from '@mantine/core';
-import { priceMarks, ratingMarks, useFilters, weekDays } from '../hooks';
+import {
+  priceMarks,
+  ratingMarks,
+  useFilters,
+  useLanguages,
+  weekDays,
+} from '../hooks';
 import {
   IconAdjustments,
   IconCalendar,
@@ -17,8 +23,6 @@ import {
   // IconLocation,
   IconStar,
 } from '@tabler/icons-react';
-import { useQuery } from '@tanstack/react-query';
-import { tutorService } from '../service';
 
 interface FiltersProps {
   onSubmit?: () => void;
@@ -27,10 +31,7 @@ interface FiltersProps {
 export function Filters(props: FiltersProps) {
   const { onSubmit } = props;
   const { filters, handleChange, handleReset } = useFilters();
-  const { data: { langauges } = {} } = useQuery({
-    queryKey: ['getLanguages'],
-    queryFn: tutorService.getLanguages,
-  });
+  const { data: { langauges } = {} } = useLanguages();
 
   return (
     <Group>
