@@ -18,7 +18,6 @@ export interface Tutor {
   experience: number;
   intro: string;
   numLessonsTaught: number;
-  introText: string;
   profileImgLink:
     | {
         link: string;

@@ -1,6 +1,7 @@
 import {
   Anchor,
   Button,
+  MultiSelect,
   NumberInput,
   Select,
   Text,
@@ -18,13 +19,14 @@ import { tutorService } from '../../service';
 interface PersonalInfoProps {
   isEditing: boolean;
   user: Tutor;
+  handleEditToggle: () => void;
 }
 
 export function PersonalInfo(props: PersonalInfoProps) {
-  const { isEditing, user } = props;
+  const { isEditing, user, ...otherProps } = props;
 
   if (isEditing) {
-    return <EditPersonalInfo user={user} />;
+    return <EditPersonalInfo user={user} {...otherProps} />;
   }
 
   return (
@@ -47,7 +49,7 @@ export function PersonalInfo(props: PersonalInfoProps) {
       </div>
       <div className='flex gap-1'>
         <strong>Topic: </strong>
-        <Text>{user.topic}</Text>
+        <Text>{user.topic.join(', ')}</Text>
       </div>
       <div className='flex gap-1'>
         <strong>Language: </strong>
@@ -55,7 +57,7 @@ export function PersonalInfo(props: PersonalInfoProps) {
       </div>
       <div>
         <strong>Introduction: </strong>
-        {user.introText}
+        {user.intro}
       </div>
       <div className='flex gap-1'>
         <strong>Meeting Link: </strong>
@@ -73,11 +75,12 @@ export function PersonalInfo(props: PersonalInfoProps) {
 }
 
 export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
-  const { user } = props;
+  const { user, handleEditToggle } = props;
   const updateProfile = useMutation({
     mutationFn: tutorService.updateProfile,
     onSuccess: () => {
       notificationService.showSuccess({ message: 'Profile data updated!' });
+      handleEditToggle();
     },
     onError: (err) => {
       notificationService.showError({ err });
@@ -98,14 +101,13 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
   });
 
   const handleSubmit = (values: Tutor) => {
-    console.log('values', values);
     const data = {
       firstName: values.firstName,
       lastName: values.lastName,
-      topic: values.topic,
+      topics: values.topic,
       language: values.language,
       bbbLink: values.bbbLink,
-      introText: values.intro,
+      intro: values.intro,
       pricing: values.pricing,
     };
     updateProfile.mutate(data);
@@ -147,7 +149,7 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
           key={form.key('pricing')}
           {...form.getInputProps('pricing')}
         />
-        <Select
+        <MultiSelect
           label='Topic'
           name='topic'
           placeholder='Select topic you teach'
