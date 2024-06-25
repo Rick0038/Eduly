@@ -1,6 +1,7 @@
 package com.gdsd.TutorService.controller.Auth;
 
 import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
+import com.gdsd.TutorService.config.UserDetailsServices.CustomAdminDetailsService;
 import com.gdsd.TutorService.config.UserDetailsServices.CustomStudentDetailsService;
 import com.gdsd.TutorService.config.UserDetailsServices.CustomTutorDetailsService;
 import com.gdsd.TutorService.dto.Auth.LoginRequestDto;
@@ -9,8 +10,10 @@ import com.gdsd.TutorService.dto.Auth.RegisterRequestDto;
 import com.gdsd.TutorService.exception.GenericException;
 import com.gdsd.TutorService.model.Student;
 import com.gdsd.TutorService.model.Tutor;
+import com.gdsd.TutorService.repository.AdminRepository;
 import com.gdsd.TutorService.repository.StudentRepository;
 import com.gdsd.TutorService.repository.TutorRepository;
+import com.gdsd.TutorService.service.interf.AdminService;
 import com.gdsd.TutorService.service.interf.StudentService;
 import com.gdsd.TutorService.service.interf.TutorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +57,10 @@ public class AuthController {
 
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private CustomAdminDetailsService customAdminDetailsService;
+    @Autowired
+    private AdminService adminService;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDto registerRequestDto) {
@@ -145,6 +152,22 @@ public class AuthController {
             loginResponseDto.setName(studentService.getStudentNameFromId(studentId));
             loginResponseDto.setProfileImgLink(studentService.getStudentProfileImageFromId(studentId));
             loginResponseDto.setRole("STUDENT");
+        }else if(role.equals("ADMIN")){
+            userDetails = customAdminDetailsService.loadUserByUsername(email);
+
+            if (userDetails == null) {
+                throw new GenericException("Invalid Email", HttpStatus.UNAUTHORIZED);
+            }
+
+            if (!password.equals(userDetails.getPassword())) {
+                throw new GenericException("Invalid Email or Password", HttpStatus.UNAUTHORIZED);
+            }
+
+            Integer adminId = adminService.getAdminIdFromEmail(email);
+            loginResponseDto.setId(adminId);
+            loginResponseDto.setName(adminService.getAdminNameFromId(adminId));
+            loginResponseDto.setRole("ADMIN");
+
         } else {
             throw new GenericException("Incorrect Role provided", HttpStatus.BAD_REQUEST);
         }
