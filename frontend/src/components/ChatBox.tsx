@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react';
 import { useParams } from 'react-router';
+import clsx from 'clsx';
 import { useWebSocket } from '../hooks';
 import { authService, chatService } from '../service';
 import { MessageCard } from './MessageCard';
@@ -85,9 +86,20 @@ export function ChatBox() {
       ) : (
         <div className='flex-1 overflow-y-auto p-4'>
           {/* REST API && Socket Messages */}
-          {mergedMessages.map((msg, index) => (
-            <MessageCard key={`${msg.messageId}-${index}`} message={msg} />
-          ))}
+          {mergedMessages.map((msg, index) => {
+            const isCurrentUser = msg.senderId === authService.user?.id;
+            return (
+              <div
+                key={`${msg.messageId}-${index}`}
+                className={clsx('flex py-1', {
+                  'justify-end': msg.senderId === authService.user?.id,
+                  'justify-start': msg.senderId !== authService.user?.id,
+                })}
+              >
+                <MessageCard message={msg} isCurrentUser={isCurrentUser} />
+              </div>
+            );
+          })}
           <div ref={messagesEndRef} />
         </div>
       )}
