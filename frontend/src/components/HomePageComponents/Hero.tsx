@@ -1,8 +1,12 @@
-import { Container, Title, Text, Button } from '@mantine/core';
+import { Button, Container, Text, Title } from '@mantine/core';
+import { useNavigate } from 'react-router';
+import { ROLE } from '../../constant';
 import classes from './Hero.module.css';
 import heroImg from '/HomepageImages/homePageHero.png';
 
 export function Hero() {
+  const navigate = useNavigate();
+
   return (
     <div
       className={classes.root}
@@ -39,6 +43,7 @@ export function Hero() {
               size='xl'
               className={classes.control}
               mt={40}
+              onClick={() => navigate(`/register?role=${ROLE.STUDENT}`)}
             >
               Get started
             </Button>

@@ -1,24 +1,29 @@
 import {
+  Anchor,
   Button,
   Container,
   Paper,
   PasswordInput,
   SegmentedControl,
   Stack,
+  Text,
   TextInput,
   Title,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 import { ROLE } from '../../constant';
 import { authService } from '../../service/AuthService';
 import { notificationService } from '../../service/NotificationService';
 
 export function SignUp() {
+  const [searchParams] = useSearchParams();
+
   const form = useForm({
     initialValues: {
-      role: ROLE.TUTOR,
+      role: searchParams.get('role') || ROLE.TUTOR,
       email: '',
       firstName: '',
       lastName: '',
@@ -64,13 +69,28 @@ export function SignUp() {
     <Container size={420} my={40}>
       <Title ta='center'>Join us!</Title>
 
+      <Text c='dimmed' size='sm' ta='center' mt={5}>
+        Already have an account?
+        <Anchor
+          style={{ marginLeft: '5px' }}
+          size='sm'
+          component='button'
+          onClick={() => navigate('/login')}
+        >
+          Login
+        </Anchor>
+      </Text>
+
       <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
         <form
           onSubmit={form.onSubmit((values) => registerMutation.mutate(values))}
         >
           <Stack>
             <SegmentedControl
-              data={[ROLE.TUTOR, ROLE.STUDENT]}
+              data={[
+                { value: ROLE.TUTOR, label: 'Tutor' },
+                { value: ROLE.STUDENT, label: 'Student' },
+              ]}
               {...form.getInputProps('role')}
             />
             <TextInput
