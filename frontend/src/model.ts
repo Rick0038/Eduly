@@ -100,6 +100,10 @@ export interface Student {
   profileImgLink: string;
 }
 
-export interface Topic {
+export interface FetchTopics {
   topics: string[];
+}
+
+export interface FetchLanguages {
+  langauges: string[];
 }

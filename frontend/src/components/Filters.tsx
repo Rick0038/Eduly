@@ -8,7 +8,13 @@ import {
   Slider,
   Text,
 } from '@mantine/core';
-import { priceMarks, ratingMarks, useFilters, weekDays } from '../hooks';
+import {
+  priceMarks,
+  ratingMarks,
+  useFilters,
+  useLanguages,
+  weekDays,
+} from '../hooks';
 import {
   IconAdjustments,
   IconCalendar,
@@ -17,7 +23,6 @@ import {
   // IconLocation,
   IconStar,
 } from '@tabler/icons-react';
-import { languages } from '../util/constants';
 
 interface FiltersProps {
   onSubmit?: () => void;
@@ -26,6 +31,7 @@ interface FiltersProps {
 export function Filters(props: FiltersProps) {
   const { onSubmit } = props;
   const { filters, handleChange, handleReset } = useFilters();
+  const { data: { langauges } = {} } = useLanguages();
 
   return (
     <Group>
@@ -128,7 +134,7 @@ export function Filters(props: FiltersProps) {
           }
           placeholder='Select language'
           className='w-full'
-          data={languages}
+          data={langauges}
           value={filters.language}
           onChange={handleChange('language')}
         />
