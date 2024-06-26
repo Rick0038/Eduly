@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SegmentedControl } from '@mantine/core';
+import { TutorsStack } from '../AdminPageComponents/TutorsStack';
 
 export function AdminPage() {
   const [adminPage, setAdminPage] = useState('tutor');
@@ -16,6 +17,7 @@ export function AdminPage() {
           { label: 'Banned users', value: 'banned' },
         ]}
       />
+      <TutorsStack />
     </>
   );
 }
