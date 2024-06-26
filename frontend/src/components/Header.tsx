@@ -20,7 +20,7 @@ interface HeaderProps {
   as?: React.ElementType;
 }
 
-const UNREAD_MESSAGE_COUNT = 3;
+const UNREAD_MESSAGE_COUNT = 0;
 
 export function Header(props: HeaderProps) {
   const { as: Component = AppShell.Header } = props;

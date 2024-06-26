@@ -10,11 +10,12 @@ import {
 } from '@mantine/core';
 import { Tutor } from '../../model';
 import { IconCheck } from '@tabler/icons-react';
-import { languages, topics } from '../../util/constants';
+// import { languages } from '../../util/constants';
 import { useForm } from '@mantine/form';
 import { useMutation } from '@tanstack/react-query';
 import { notificationService } from '../../service/NotificationService';
 import { tutorService } from '../../service';
+import { useLanguages, useTopics } from '../../hooks';
 
 interface PersonalInfoProps {
   isEditing: boolean;
@@ -76,6 +77,9 @@ export function PersonalInfo(props: PersonalInfoProps) {
 
 export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
   const { user, handleEditToggle } = props;
+  const { data: { topics } = {} } = useTopics();
+  const { data: { langauges } = {} } = useLanguages();
+
   const updateProfile = useMutation({
     mutationFn: tutorService.updateProfile,
     onSuccess: () => {
@@ -162,20 +166,20 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
           label='Language'
           name='language'
           placeholder='Select language'
-          data={languages}
+          data={langauges}
           required
           key={form.key('language')}
           {...form.getInputProps('language')}
         />
         <Textarea
           label='Introduction'
-          name='introText'
+          name='intro'
           placeholder='Enter your introduction text'
           required
           autosize
           minRows={5}
-          key={form.key('introText')}
-          {...form.getInputProps('introText')}
+          key={form.key('intro')}
+          {...form.getInputProps('intro')}
         />
         <TextInput
           label='BBB Link'

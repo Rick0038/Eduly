@@ -1,18 +1,14 @@
 import { ActionIcon, Autocomplete } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
-import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { tutorService } from '../service';
+import { useTopics } from '../hooks';
 
 export function SearchTutor() {
   const [value, setValue] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
-  const { data: { topics } = {} } = useQuery({
-    queryKey: ['getTopics'],
-    queryFn: tutorService.getTopics,
-  });
+  const { data: { topics } = {} } = useTopics();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
