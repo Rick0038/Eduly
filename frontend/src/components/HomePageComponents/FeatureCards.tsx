@@ -1,18 +1,18 @@
 import {
   Badge,
-  Group,
-  Title,
-  Text,
   Card,
-  SimpleGrid,
   Container,
+  Group,
+  SimpleGrid,
+  Text,
+  Title,
   rem,
   useMantineTheme,
 } from '@mantine/core';
 import {
-  IconUserSearch,
   IconDeviceLaptop,
   IconMessageCircle,
+  IconUserSearch,
 } from '@tabler/icons-react';
 import classes from './FeatureCards.module.css';
 
@@ -26,7 +26,7 @@ const featureData = [
   {
     title: 'Seamless Online Sessions',
     description:
-      'Seamlessly conduct tutoring sessions with built-in BigBlueButton integration, real-time availability calendar, and automated session reminders and notifications.',
+      'Seamlessly conduct tutoring sessions with your BigBlueButton account (provided by HS Fulda) and also benefit from the real-time availability calendar.',
     icon: IconDeviceLaptop,
   },
   {
