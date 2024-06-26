@@ -36,7 +36,7 @@ export function TutorVideo(props: TutorVideoProps) {
 
   return (
     <div className='grid gap-4'>
-      {tutor.video && tutor.video.link ? (
+      {tutor.video && tutor.video?.link?.length ? (
         <div className='flex flex-col gap-2 justify-start content-start text-left'>
           <Text>Your Video:</Text>
           <video controls disablePictureInPicture className='max-w-[600px]'>
@@ -45,7 +45,7 @@ export function TutorVideo(props: TutorVideoProps) {
         </div>
       ) : (
         <Text className='text-center' c='red'>
-          No Video found!
+          Video not uploaded!
         </Text>
       )}
 
