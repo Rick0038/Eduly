@@ -46,6 +46,15 @@ export function Login() {
     mutationFn: authService.login,
     onSuccess: (data) => {
       setUserInfoToLocalStorage(data);
+
+      if (authService.isTutor) {
+        navigate('/profile');
+      }
+
+      if (authService.isAdmin) {
+        navigate('/admin');
+      }
+
       const params = new URLSearchParams(location.search);
       // to go back to same page after login instead of going to home page
       const fromPath = location.state?.from || params.get('redirect') || '/';
