@@ -5,7 +5,6 @@ import { FC } from 'react';
 
 export const VideoViewer: FC<{ url: string }> = ({ url }) => {
   const [opened, { open, close }] = useDisclosure(false);
-  console.log(url);
 
   return (
     <>
