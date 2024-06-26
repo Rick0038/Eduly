@@ -62,6 +62,40 @@
           "uuid": "afbe551a-5b1b-4ec0-87c5-ab3217051efc"
         }
       ]
+    },
+    {
+      "uuid": "7431a187-c4a5-47de-845b-2cb4de982a13",
+      "name": "Admin APIs",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "95d2bb62-d6ef-476d-9340-da87c5422907"
+        },
+        {
+          "type": "route",
+          "uuid": "901c251c-dd45-4420-8f12-369e4b6443b5"
+        },
+        {
+          "type": "route",
+          "uuid": "211a1a3e-12f1-436a-af86-3da11974b19d"
+        },
+        {
+          "type": "route",
+          "uuid": "9505108f-412b-43e3-ac1d-d821cb61e467"
+        },
+        {
+          "type": "route",
+          "uuid": "bd717e6e-3bc7-4033-9b0a-4146c6acb211"
+        },
+        {
+          "type": "route",
+          "uuid": "fbe7f487-7f2f-40f4-979e-d7275856dcbe"
+        },
+        {
+          "type": "route",
+          "uuid": "54013ce5-0ed9-4b19-b58c-a1e7ff4ec653"
+        }
+      ]
     }
   ],
   "routes": [
@@ -218,7 +252,7 @@
       "responses": [
         {
           "uuid": "4db6b4fc-c984-4545-b506-dece0071506c",
-          "body": "{\n  \"conversations\": [\n    {\n      \"chatId\": \"1\",\n      \"name\": \"John Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"chatId\": \"2\",\n      \"name\": \"Jane Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"chatId\": \"3\",\n      \"name\": \"James Doe\",\n      \"timestamp\": \"21323321\"\n    }\n  ]\n}",
+          "body": "{\n  \"conversations\": [\n    {\n      \"id\": \"1\",\n      \"user\": \"John Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"2\",\n      \"user\": \"Jane Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"3\",\n      \"user\": \"James Doe\",\n      \"timestamp\": \"21323321\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -247,7 +281,7 @@
       "responses": [
         {
           "uuid": "df409cab-56dd-44ff-9244-b8d51777197e",
-          "body": "{\n  \"messages\": [\n    {\n      \"messageId\": \"1\",\n      \"senderName\": \"John Doe\",\n      \"content\": \"Hey James!\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 2\n    },\n    {\n      \"messageId\": \"2\",\n      \"senderName\": \"John Doe\",\n      \"content\": \"How are you?\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 2\n    },\n    {\n      \"messageId\": \"3\",\n      \"senderName\": \"James Doe\",\n      \"content\": \"I am doing well, and you?\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 1\n    },\n    {\n      \"messageId\": \"4\",\n      \"senderName\": \"John Doe\",\n      \"content\": \"All good, have a good one!\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 2\n    }\n  ]\n}",
+          "body": "{\n  \"messages\": [\n    {\n      \"id\": \"1\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"Hey Smith!\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"2\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"How are you?\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"3\",\n      \"receiver\": \"John Doe\",\n      \"sender\": \"You\",\n      \"message\": \"I am doing well, and you?\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"4\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"All good, have a good one!\",\n      \"timestamp\": \"21323321\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -614,6 +648,209 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "95d2bb62-d6ef-476d-9340-da87c5422907",
+      "type": "http",
+      "documentation": "Get tutor contents",
+      "method": "get",
+      "endpoint": "api/v1/admin/tutor-content",
+      "responses": [
+        {
+          "uuid": "35ef3046-a305-4d3e-b537-991458835cbc",
+          "body": "{\n  \"content\": [\n    {\n      \"id\": 234,\n      \"type\": \"profile_image\",\n      \"link\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\",\n      \"status\": \"PENDING_APPROVAL\",\n      \"uploadTimestamp\": \"\",\n      \"tutorName\": \"John Adams\",\n      \"tutorId\": 455\n    },\n    {\n      \"id\": 235,\n      \"type\": \"intro_video\",\n      \"link\": \"https://demoeduly.blob.core.windows.net/demoeduly/intro_video_20\",\n      \"status\": \"PENDING_APPROVAL\",\n      \"uploadTimestamp\": \"\",\n      \"tutorName\": \"John Adams\",\n      \"tutorId\": 455\n    },\n    {\n      \"id\": 236,\n      \"type\": \"cv\",\n      \"link\": \"https://demoeduly.blob.core.windows.net/demoeduly/cv_20\",\n      \"status\": \"PENDING_APPROVAL\",\n      \"uploadTimestamp\": \"\",\n      \"tutorName\": \"John Adams\",\n      \"tutorId\": 455\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "901c251c-dd45-4420-8f12-369e4b6443b5",
+      "type": "http",
+      "documentation": "Get student contents",
+      "method": "get",
+      "endpoint": "api/v1/admin/student-content",
+      "responses": [
+        {
+          "uuid": "ef3360a2-cb52-4b27-952e-e59edfea90b9",
+          "body": "{\n  \"content\": [\n    {\n      \"id\": 123,\n      \"type\": \"profile_image\",\n      \"link\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\",\n      \"status\": \"PENDING_APPROVAL\",\n      \"uploadTimestamp\": \"\",\n      \"studentId\": 23,\n      \"studentName\": \"John Adams\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "9505108f-412b-43e3-ac1d-d821cb61e467",
+      "type": "http",
+      "documentation": "Delete content",
+      "method": "delete",
+      "endpoint": "api/v1/admin/content/:contentId",
+      "responses": [
+        {
+          "uuid": "3b5b2873-52de-49d1-92db-e46543543680",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "211a1a3e-12f1-436a-af86-3da11974b19d",
+      "type": "http",
+      "documentation": "Approve content",
+      "method": "put",
+      "endpoint": "api/v1/admin/content/approve/:contentId",
+      "responses": [
+        {
+          "uuid": "2090fc2c-66a0-4306-ac2f-3efefa048dad",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "bd717e6e-3bc7-4033-9b0a-4146c6acb211",
+      "type": "http",
+      "documentation": "Get banned users",
+      "method": "get",
+      "endpoint": "api/v1/admin/banned/users",
+      "responses": [
+        {
+          "uuid": "645e1ed5-8061-4b05-9396-20f9ff8ef120",
+          "body": "{\n  \"users\": [\n    {\n      \"id\": 23,\n      \"name\": \"John Adams\",\n\t\t\t\"status\": \"BANNED\",\n\t\t\t\"role\": \"TUTOR\"\n    },\n        {\n      \"id\": 24,\n      \"name\": \"John Dams\",\n\t\t\t\"status\": \"BANNED\",\n\t\t\t\"role\": \"STUDENT\"\n    }\n\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "fbe7f487-7f2f-40f4-979e-d7275856dcbe",
+      "type": "http",
+      "documentation": "Ban user",
+      "method": "put",
+      "endpoint": "api/v1/admin/ban/:userid",
+      "responses": [
+        {
+          "uuid": "f254feda-e487-4a04-a4a1-f243847f1b81",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "54013ce5-0ed9-4b19-b58c-a1e7ff4ec653",
+      "type": "http",
+      "documentation": "Unban user",
+      "method": "put",
+      "endpoint": "api/v1/admin/unban/:userid",
+      "responses": [
+        {
+          "uuid": "2753f83e-c701-405e-bdad-9d1605305cf2",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -648,6 +885,10 @@
     {
       "type": "folder",
       "uuid": "ac6d34b1-8776-4163-8ce7-5525fc5b2e57"
+    },
+    {
+      "type": "folder",
+      "uuid": "7431a187-c4a5-47de-845b-2cb4de982a13"
     }
   ],
   "proxyMode": false,
