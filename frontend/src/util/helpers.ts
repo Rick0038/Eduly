@@ -28,3 +28,36 @@ export const formatDate = (
 
   return formattedTime;
 };
+
+interface ContentStatusColors {
+  [key: string]: string;
+  APPROVED: string;
+  PENDING_APPROVAL: string;
+}
+
+export const contentStatusColors: ContentStatusColors = {
+  APPROVED: 'green',
+  PENDING_APPROVAL: 'gray',
+};
+
+export const getContentStatusColor = (key: string): string => {
+  if (key in contentStatusColors) {
+    return contentStatusColors[key];
+  }
+
+  return 'gray';
+};
+
+export const profileStatusColors: ContentStatusColors = {
+  APPROVED: 'green',
+  PENDING_APPROVAL: 'gray',
+  BANNED: 'red',
+};
+
+export const getProfileStatusColor = (key: string): string => {
+  if (key in profileStatusColors) {
+    return profileStatusColors[key];
+  }
+
+  return 'gray';
+};

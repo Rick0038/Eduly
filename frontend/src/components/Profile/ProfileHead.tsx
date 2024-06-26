@@ -12,6 +12,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Tutor } from '../../model';
 import { tutorService } from '../../service';
 import { notificationService } from '../../service/NotificationService';
+import { getProfileStatusColor } from '../../util/helpers';
 
 interface ProfileHeadProps {
   isEditing: boolean;
@@ -74,7 +75,7 @@ export function ProfileHead(props: ProfileHeadProps) {
         <Title order={2}>{`${user.firstName} ${user.lastName}`}</Title>
         <Rating value={user.rating} fractions={2} readOnly />
         <p>{`${user.numLessonsTaught} lessons taught`}</p>
-        <StatusBadge status={user.status} />
+        <Badge color={getProfileStatusColor(user.status)}>{user.status}</Badge>
       </div>
       <Button
         onClick={handleEditToggle}
@@ -89,16 +90,3 @@ export function ProfileHead(props: ProfileHeadProps) {
     </div>
   );
 }
-
-const StatusBadge = (props: { status: string }) => {
-  switch (props.status) {
-    case 'APPROVED':
-      return <Badge color='green'>Approved</Badge>;
-    case 'PENDING':
-      return <Badge color='yellow'>Pending</Badge>;
-    case 'REJECTED':
-      return <Badge color='red'>Rejected</Badge>;
-    default:
-      return null;
-  }
-};

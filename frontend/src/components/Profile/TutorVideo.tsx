@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { FileInput, Button, Text } from '@mantine/core';
+import { FileInput, Button, Text, Badge } from '@mantine/core';
 import { IconUpload, IconVideo } from '@tabler/icons-react';
 import { useMutation } from '@tanstack/react-query';
 import { tutorService } from '../../service';
 import { Tutor } from '../../model';
 import { notificationService } from '../../service/NotificationService';
+import { getContentStatusColor } from '../../util/helpers';
 
 interface TutorVideoProps {
   tutor: Tutor;
@@ -38,7 +39,12 @@ export function TutorVideo(props: TutorVideoProps) {
     <div className='grid gap-4'>
       {tutor.video && tutor.video?.link?.length ? (
         <div className='flex flex-col gap-2 justify-start content-start text-left'>
-          <Text>Your Video:</Text>
+          <div className='flex gap-2 items-center'>
+            <Text>Your Video:</Text>
+            <Badge color={getContentStatusColor(tutor.cv?.status)}>
+              {tutor.cv?.status}
+            </Badge>
+          </div>
           <video controls disablePictureInPicture className='max-w-[600px]'>
             <source src={tutor.video.link} type='video/mp4'></source>
           </video>
