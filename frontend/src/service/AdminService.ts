@@ -1,10 +1,10 @@
 import { httpService } from './HTTPService';
 
-interface TutorContents {
+export interface TutorContents {
   content: TutorContent[];
 }
 
-interface TutorContent {
+export interface TutorContent {
   id: number;
   type: string;
   link: string;
