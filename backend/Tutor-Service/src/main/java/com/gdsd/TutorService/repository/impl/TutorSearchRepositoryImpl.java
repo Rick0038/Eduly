@@ -47,7 +47,7 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
             queryBuilder.append(" AND tut.rating >= :ratingsMin");
         }
         if (topic != null) {
-            queryBuilder.append(" AND top.topicName = :topic");
+            queryBuilder.append(" AND LOWER(top.topicName) LIKE LOWER(CONCAT('%', :topic, '%'))");
         }
         if (language != null) {
             queryBuilder.append(" AND tut.language = :language");
