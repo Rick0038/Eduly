@@ -20,8 +20,9 @@ import {
   IconExternalLink,
   IconX,
 } from '@tabler/icons-react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { adminService } from '../../service';
+import { notificationService } from '../../service/NotificationService';
 
 const tutorData2 = {
   content: [
@@ -65,6 +66,19 @@ export function TutorsStack() {
     queryFn: adminService.getTutorContent,
   });
 
+  const approveContentMutation = useMutation({
+    mutationFn: adminService.approveTutorContent,
+    onSuccess: () => {
+      notificationService.showSuccess({
+        title: 'Success',
+        message: 'Content approved to go live.',
+      });
+    },
+    onError: (err) => {
+      notificationService.showError({ err });
+    },
+  });
+
   const contentTypeColors: Record<string, string> = {
     profile_image: 'blue',
     intro_video: 'cyan',
@@ -87,7 +101,14 @@ export function TutorsStack() {
           </Text>
         </Container>
       )}
-      {tutorData?.content.length && (
+      {tutorData && tutorData?.content.length == 0 && (
+        <Container my={20}>
+          <Text ta='center'>
+            There is no content awaiting your approval. You are all caught up!
+          </Text>
+        </Container>
+      )}
+      {tutorData && tutorData?.content.length != 0 && (
         <Table verticalSpacing='md'>
           <Table.Thead>
             <Table.Tr>
@@ -141,7 +162,17 @@ export function TutorsStack() {
                       label={'Approve'}
                       transitionProps={{ transition: 'scale', duration: 300 }}
                     >
-                      <ActionIcon variant='subtle' color='green'>
+                      <ActionIcon
+                        variant='subtle'
+                        color='green'
+                        onClick={() => {
+                          const toApproveIndex = tutorData?.content.findIndex(
+                            (data) => data.id == item.id
+                          );
+                          tutorData?.content.splice(toApproveIndex, 1);
+                          approveContentMutation.mutate(item.id);
+                        }}
+                      >
                         <IconCheck stroke={1.5} />
                       </ActionIcon>
                     </Tooltip>
