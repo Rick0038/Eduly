@@ -13,6 +13,7 @@ import { Login } from '../components/auth/Login';
 import { SignUp } from '../components/auth/SignUp';
 import { ROLE } from '../constant';
 import { ProfilePage } from '../components/Pages/ProfilePage';
+import { AdminPage } from '../components/Pages/AdminPage';
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
             <ProfilePage />
           </GuardedRoute>
         ),
+      },
+      {
+        path: '/admin',
+        element: <AdminPage />,
       },
       {
         path: '/unauthorized',
