@@ -23,7 +23,7 @@ export const MessageCard = (props: MessageCardProps) => {
       <Flex align='center' mb='xs'>
         <Avatar
           size='sm'
-          color={message.senderId === authService.user?.id ? 'green' : 'blue'}
+          color={message.senderId === authService.user?.id ? 'purple' : 'blue'}
         />
         <div className='ml-2'>
           <span className='font-bold'>{message.senderName}</span>

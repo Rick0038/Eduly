@@ -218,7 +218,7 @@
       "responses": [
         {
           "uuid": "4db6b4fc-c984-4545-b506-dece0071506c",
-          "body": "{\n  \"conversations\": [\n    {\n      \"id\": \"1\",\n      \"user\": \"John Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"2\",\n      \"user\": \"Jane Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"3\",\n      \"user\": \"James Doe\",\n      \"timestamp\": \"21323321\"\n    }\n  ]\n}",
+          "body": "{\n  \"conversations\": [\n    {\n      \"chatId\": \"1\",\n      \"name\": \"John Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"chatId\": \"2\",\n      \"name\": \"Jane Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"chatId\": \"3\",\n      \"name\": \"James Doe\",\n      \"timestamp\": \"21323321\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -247,7 +247,7 @@
       "responses": [
         {
           "uuid": "df409cab-56dd-44ff-9244-b8d51777197e",
-          "body": "{\n  \"messages\": [\n    {\n      \"id\": \"1\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"Hey Smith!\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"2\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"How are you?\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"3\",\n      \"receiver\": \"John Doe\",\n      \"sender\": \"You\",\n      \"message\": \"I am doing well, and you?\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"4\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"All good, have a good one!\",\n      \"timestamp\": \"21323321\"\n    }\n  ]\n}",
+          "body": "{\n  \"messages\": [\n    {\n      \"messageId\": \"1\",\n      \"senderName\": \"John Doe\",\n      \"content\": \"Hey James!\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 2\n    },\n    {\n      \"messageId\": \"2\",\n      \"senderName\": \"John Doe\",\n      \"content\": \"How are you?\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 2\n    },\n    {\n      \"messageId\": \"3\",\n      \"senderName\": \"James Doe\",\n      \"content\": \"I am doing well, and you?\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 1\n    },\n    {\n      \"messageId\": \"4\",\n      \"senderName\": \"John Doe\",\n      \"content\": \"All good, have a good one!\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 2\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
