@@ -16,7 +16,7 @@ Meet our developers who made this project a success.
 
 # Techstack ⚡
 
-- React JS
+- React
 - Vite
 - Node
 - Apache
@@ -26,7 +26,7 @@ Meet our developers who made this project a success.
 
 # Features 🔥
 
-- Direct tutor to student communication
+- Messaging
 - Versatile tutor search
 - Admin dashboard
 
