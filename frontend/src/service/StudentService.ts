@@ -1,7 +1,7 @@
 import { httpService } from './HTTPService';
 
 export interface TutorDetailResponse {
-  id: string;
+  id: number;
   firstName: string;
   lastName: string;
   pricing: number;
@@ -43,9 +43,87 @@ export interface Timing {
   status: string;
 }
 
+export interface StudentSchedule {
+  upcomingAppointments: UpcomingAppointment[];
+}
+
+export interface UpcomingAppointment {
+  date: Date;
+  sessionId: number;
+  from: string;
+  to: string;
+  status: string;
+  tutorDetail: TutorDetail;
+}
+
+export interface TutorDetail {
+  id: number;
+  name: string;
+  profileImgLink: string;
+  bbbLink: string;
+}
+
+export interface StudentProfileDetail {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  profileImgLink: string;
+}
+
+export interface StudentProfileReq {
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
 class StudentService {
   async getTutorDetails(tutorId: string) {
     return httpService.get<TutorDetailResponse>(`/tutor/${tutorId}`);
+  }
+
+  async bookSession(sessionId: number) {
+    return httpService.put(`/api/v1/student/book/${sessionId}`);
+  }
+
+  async cancelSession(sessionId: number) {
+    return httpService.put(`/api/v1/student/cancel/${sessionId}`);
+  }
+
+  async writeReview(reviewReq: {
+    tutorId: number;
+    rating: number;
+    text: string;
+  }) {
+    const { tutorId, rating, text } = reviewReq;
+    return httpService.post(`/api/v1/student/write-review/tutor/${tutorId}`, {
+      rating,
+      text,
+    });
+  }
+
+  async getUpcomingAppointments() {
+    return httpService.get<StudentSchedule>(
+      `api/v1/student/upcoming-appointments`
+    );
+  }
+
+  async updateStudentProfile(profileDetail: StudentProfileReq) {
+    return httpService.put(`api/v1/student/profile`, profileDetail);
+  }
+
+  async updateProfileImage(data: FormData) {
+    const url = '/api/v1/student/profileImage';
+    const response = await httpService.put<Record<string, string>>(url, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response;
+  }
+
+  async getStudentProfileDetails() {
+    return httpService.get<StudentProfileDetail>(`api/v1/student/profile`);
   }
 }
 

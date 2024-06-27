@@ -114,9 +114,19 @@ export function Header(props: HeaderProps) {
                         <Text size='sm'>{authService.user?.name}</Text>
                         <Badge size='xs'>{authService.user?.role}</Badge>
                       </Menu.Label>
-                      <Menu.Item onClick={() => navigate('/profile')}>
-                        Profile
-                      </Menu.Item>
+                      {!authService.isAdmin && (
+                        <Menu.Item
+                          onClick={() => {
+                            if (authService.isTutor) {
+                              navigate('/profile');
+                            } else if (authService.isStudent) {
+                              navigate('/student- profile');
+                            }
+                          }}
+                        >
+                          Profile
+                        </Menu.Item>
+                      )}
                       <Menu.Item
                         color='red'
                         onClick={() => {

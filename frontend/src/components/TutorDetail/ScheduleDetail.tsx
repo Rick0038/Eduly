@@ -1,19 +1,35 @@
 import { Button, Center, Group, Indicator, Radio, Stack } from '@mantine/core';
 import { DatePicker, DatePickerProps } from '@mantine/dates';
+import { useMutation } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { filter, isEmpty } from 'lodash';
 import { FC, useEffect, useState } from 'react';
 import { notificationService } from '../../service/NotificationService';
-import { Schedule, Timing } from '../../service/StudentService';
+import { Schedule, Timing, studentService } from '../../service/StudentService';
 
-export const ScheduleDetail: FC<{ scheduleList: Schedule[] }> = ({
-  scheduleList,
-}) => {
+export const ScheduleDetail: FC<{
+  scheduleList: Schedule[];
+  onBookMeeting: () => void;
+}> = ({ scheduleList, onBookMeeting }) => {
   const dateList = scheduleList.map((schedule) => schedule.date);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [timings, setTimings] = useState<Timing[]>([]);
-  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [sessionId, setSessionId] = useState<string>();
+
+  const bookSessionMutation = useMutation({
+    mutationFn: studentService.bookSession,
+    onSuccess: () => {
+      notificationService.showSuccess({
+        title: 'Success',
+        message: 'Meeting booked successfully!',
+      });
+      onBookMeeting();
+    },
+    onError: (err) => {
+      notificationService.showError({ err });
+    },
+  });
 
   useEffect(() => {
     if (scheduleList && selectedDate) {
@@ -44,13 +60,16 @@ export const ScheduleDetail: FC<{ scheduleList: Schedule[] }> = ({
   return (
     <>
       <Center style={{ padding: '10px' }}>
-        <Stack>
+        <Stack gap={'lg'}>
           <Group>
             <DatePicker
               hideOutsideDates
               minDate={new Date()}
               value={selectedDate}
-              onChange={setSelectedDate}
+              onChange={(val) => {
+                setSelectedDate(val);
+                setSessionId('');
+              }}
               renderDay={(date) => dayRenderer(date)}
             />
             {!isEmpty(timings) && (
@@ -78,12 +97,11 @@ export const ScheduleDetail: FC<{ scheduleList: Schedule[] }> = ({
           </Group>
           <Button
             disabled={!sessionId}
-            onClick={() =>
-              notificationService.showSuccess({
-                title: 'Success',
-                message: 'Meeting booked successfully!',
-              })
-            }
+            onClick={() => {
+              if (sessionId) {
+                bookSessionMutation.mutate(parseInt(sessionId));
+              }
+            }}
           >
             Book Meeting
           </Button>

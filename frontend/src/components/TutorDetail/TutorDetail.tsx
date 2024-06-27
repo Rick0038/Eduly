@@ -15,6 +15,7 @@ import { Tutor } from '../../model';
 import { studentService } from '../../service/StudentService';
 import TutorCard from '../TutorCard';
 import { ScheduleDetail } from './ScheduleDetail';
+import { TutorReviews } from './TutorReviews';
 
 export const TutorDetail = () => {
   const { tutorId } = useParams();
@@ -23,6 +24,7 @@ export const TutorDetail = () => {
     data: tutorDetail,
     isLoading,
     isError,
+    refetch,
   } = useQuery({
     queryKey: ['getTutorDetail', tutorId],
     queryFn: () => studentService.getTutorDetails(tutorId as string),
@@ -73,10 +75,18 @@ export const TutorDetail = () => {
             </Tabs.List>
 
             <Tabs.Panel value='schedule'>
-              <ScheduleDetail scheduleList={tutorDetail.schedule} />
+              <ScheduleDetail
+                scheduleList={tutorDetail.schedule}
+                onBookMeeting={() => refetch()}
+              />
             </Tabs.Panel>
 
-            <Tabs.Panel value='reviews'>Reviews Content</Tabs.Panel>
+            <Tabs.Panel value='reviews'>
+              <TutorReviews
+                tutorDetail={tutorDetail}
+                onAddReview={() => refetch()}
+              />
+            </Tabs.Panel>
           </Tabs>
         </Paper>
       </Stack>
