@@ -1,29 +1,21 @@
-import {
-  Anchor,
-  Button,
-  MultiSelect,
-  NumberInput,
-  Select,
-  Text,
-  TextInput,
-  Textarea,
-} from '@mantine/core';
+import { Button, Text, TextInput } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
-import { Tutor } from '../../model';
 // import { languages } from '../../util/constants';
 import { useForm } from '@mantine/form';
 import { useMutation } from '@tanstack/react-query';
-import { useLanguages, useTopics } from '../../hooks';
-import { tutorService } from '../../service';
 import { notificationService } from '../../service/NotificationService';
+import {
+  StudentProfileDetail,
+  studentService,
+} from '../../service/StudentService';
 
 interface PersonalInfoProps {
   isEditing: boolean;
-  user: Tutor;
+  user: StudentProfileDetail;
   handleEditToggle: () => void;
 }
 
-export function PersonalInfo(props: PersonalInfoProps) {
+export function StudentPersonalInfo(props: PersonalInfoProps) {
   const { isEditing, user, ...otherProps } = props;
 
   if (isEditing) {
@@ -44,44 +36,15 @@ export function PersonalInfo(props: PersonalInfoProps) {
         <strong>Email: </strong>
         <Text>{user.email}</Text>
       </div>
-      <div className='flex gap-1'>
-        <strong>Pricing: </strong>
-        <Text>{user.pricing}</Text>
-      </div>
-      <div className='flex gap-1'>
-        <strong>Topic: </strong>
-        <Text>{user.topic.join(', ')}</Text>
-      </div>
-      <div className='flex gap-1'>
-        <strong>Language: </strong>
-        <Text>{user.language}</Text>
-      </div>
-      <div>
-        <strong>Introduction: </strong>
-        {user.intro}
-      </div>
-      <div className='flex gap-1'>
-        <strong>Meeting Link: </strong>
-        <Anchor
-          href={user.bbbLink}
-          target='_blank'
-          rel='noopener noreferrer'
-          ml={4}
-        >
-          {user.bbbLink}
-        </Anchor>
-      </div>
     </div>
   );
 }
 
 export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
   const { user, handleEditToggle } = props;
-  const { data: { topics } = {} } = useTopics();
-  const { data: { langauges } = {} } = useLanguages();
 
   const updateProfile = useMutation({
-    mutationFn: tutorService.updateProfile,
+    mutationFn: studentService.updateStudentProfile,
     onSuccess: () => {
       notificationService.showSuccess({ message: 'Profile data updated!' });
       handleEditToggle();
@@ -104,15 +67,10 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
     },
   });
 
-  const handleSubmit = (values: Tutor) => {
+  const handleSubmit = (values: StudentProfileDetail) => {
     const data = {
       firstName: values.firstName,
       lastName: values.lastName,
-      topics: values.topic,
-      language: values.language,
-      bbbLink: values.bbbLink,
-      intro: values.intro,
-      pricing: values.pricing,
       email: values.email,
     };
     updateProfile.mutate(data);
@@ -144,51 +102,6 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
           required
           key={form.key('email')}
           {...form.getInputProps('email')}
-        />
-        <NumberInput
-          label='Pricing'
-          name='pricing'
-          prefix='€'
-          placeholder='Your rice per hour'
-          required
-          key={form.key('pricing')}
-          {...form.getInputProps('pricing')}
-        />
-        <MultiSelect
-          label='Topic'
-          name='topic'
-          placeholder='Select topic you teach'
-          data={topics}
-          required
-          key={form.key('topic')}
-          {...form.getInputProps('topic')}
-        />
-        <Select
-          label='Language'
-          name='language'
-          placeholder='Select language'
-          data={langauges}
-          required
-          key={form.key('language')}
-          {...form.getInputProps('language')}
-        />
-        <Textarea
-          label='Introduction'
-          name='intro'
-          placeholder='Enter your introduction text'
-          required
-          autosize
-          minRows={5}
-          key={form.key('intro')}
-          {...form.getInputProps('intro')}
-        />
-        <TextInput
-          label='BBB Link'
-          name='bbbLink'
-          placeholder='Enter bbb link'
-          required
-          key={form.key('bbbLink')}
-          {...form.getInputProps('bbbLink')}
         />
       </div>
       <Button

@@ -48,7 +48,7 @@ export interface StudentSchedule {
 }
 
 export interface UpcomingAppointment {
-  date: Date;
+  date: string;
   sessionId: number;
   from: string;
   to: string;
@@ -65,6 +65,7 @@ export interface TutorDetail {
 
 export interface StudentProfileDetail {
   id: number;
+  status: 'APPROVED' | 'BANNED';
   firstName: string;
   lastName: string;
   email: string;
@@ -87,7 +88,9 @@ class StudentService {
   }
 
   async cancelSession(sessionId: number) {
-    return httpService.put(`/api/v1/student/cancel/${sessionId}`);
+    return httpService.put<{ message: string }>(
+      `/api/v1/student/cancel/${sessionId}`
+    );
   }
 
   async writeReview(reviewReq: {

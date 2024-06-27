@@ -677,11 +677,11 @@
       "type": "http",
       "documentation": "",
       "method": "put",
-      "endpoint": " /api/v1/student/cancel/:sessionId",
+      "endpoint": "api/v1/student/cancel/:sessionId",
       "responses": [
         {
           "uuid": "d3cad374-f546-4a96-ba4d-9320b45617e5",
-          "body": "{}",
+          "body": "{\n\"message\": \"Session with David james on  12-12-2024 18:00 cancelled successfully\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -739,7 +739,7 @@
       "responses": [
         {
           "uuid": "42be6ce5-0c01-41dd-87f6-3fd897fbb6b1",
-          "body": "{\n \"upcomingAppointments\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"sessionId\": 129,\n      \"from\": \"19:00\",\n      \"to\": \"18:00\",\n      \"status\": \"BOOKED\",\n      \"tutorDetail\": {\n        \"id\": 234,\n        \"name\": \"\",\n        \"profileImgLink\": \"\",\n        \"bbbLink\": \"www.webconfi.....de/345/45\"\n      }\n    },\n        {\n      \"date\": \"2024-09-01\",\n      \"sessionId\": 130,\n      \"from\": \"19:00\",\n      \"to\": \"18:00\",\n      \"status\": \"BOOKED\",\n      \"tutorDetail\": {\n        \"id\": 234,\n        \"name\": \"\",\n        \"profileImgLink\": \"\",\n        \"bbbLink\": \"www.webconfi.....de/345/45\"\n      }\n    }\n  ]\n}",
+          "body": "{\n \"upcomingAppointments\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"sessionId\": 129,\n      \"from\": \"19:00\",\n      \"to\": \"18:00\",\n      \"status\": \"BOOKED\",\n      \"tutorDetail\": {\n        \"id\": 234,\n        \"name\": \"John adams\",\n        \"profileImgLink\": \"\",\n        \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\"\n      }\n    },\n        {\n      \"date\": \"2024-09-01\",\n      \"sessionId\": 130,\n      \"from\": \"19:00\",\n      \"to\": \"18:00\",\n      \"status\": \"BOOKED\",\n      \"tutorDetail\": {\n        \"id\": 234,\n        \"name\": \"jack adams\",\n        \"profileImgLink\": \"\",\n        \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\"\n      }\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -826,7 +826,7 @@
       "responses": [
         {
           "uuid": "4fc64c47-6d9b-4472-8137-8a1766ab6d2b",
-          "body": "{\n  \"id\": 12345,\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"Hello@hs-fulda.de\",\n  \"profileImgLink\": \"https://blob.com\",\n}",
+          "body": "{\n  \"id\": 12345,\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"Hello@hs-fulda.de\",\n  \"profileImgLink\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

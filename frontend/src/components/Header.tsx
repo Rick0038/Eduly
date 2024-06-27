@@ -120,7 +120,7 @@ export function Header(props: HeaderProps) {
                             if (authService.isTutor) {
                               navigate('/profile');
                             } else if (authService.isStudent) {
-                              navigate('/student- profile');
+                              navigate('/student-profile');
                             }
                           }}
                         >
