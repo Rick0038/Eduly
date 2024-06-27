@@ -62,6 +62,11 @@
           "uuid": "afbe551a-5b1b-4ec0-87c5-ab3217051efc"
         }
       ]
+    },
+    {
+      "uuid": "508891a6-578f-480c-94ab-1e23e8cebf68",
+      "name": "Community Forums",
+      "children": []
     }
   ],
   "routes": [
@@ -648,6 +653,10 @@
     {
       "type": "folder",
       "uuid": "ac6d34b1-8776-4163-8ce7-5525fc5b2e57"
+    },
+    {
+      "type": "folder",
+      "uuid": "508891a6-578f-480c-94ab-1e23e8cebf68"
     }
   ],
   "proxyMode": false,
