@@ -117,11 +117,7 @@ export function Header(props: HeaderProps) {
                       {!authService.isAdmin && (
                         <Menu.Item
                           onClick={() => {
-                            if (authService.isTutor) {
-                              navigate('/profile');
-                            } else if (authService.isStudent) {
-                              navigate('/student-profile');
-                            }
+                            navigate('/profile');
                           }}
                         >
                           Profile

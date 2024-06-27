@@ -8,7 +8,6 @@ import {
   SearchPage,
 } from '../components';
 import { ProfilePage } from '../components/Pages/ProfilePage';
-import { StudentProfile } from '../components/Pages/StudentProfile';
 import { TutorDetail } from '../components/TutorDetail/TutorDetail';
 import { Unauthorized } from '../components/Unauthorized/Unauthorized';
 import { GuardedRoute } from '../components/auth/GuardedRoute';
@@ -37,18 +36,10 @@ export const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path: '/tutor-profile',
+        path: '/profile',
         element: (
-          <GuardedRoute allowedRoles={[ROLE.TUTOR]}>
+          <GuardedRoute allowedRoles={[ROLE.STUDENT, ROLE.TUTOR]}>
             <ProfilePage />
-          </GuardedRoute>
-        ),
-      },
-      {
-        path: '/student-profile',
-        element: (
-          <GuardedRoute allowedRoles={[ROLE.STUDENT]}>
-            <StudentProfile />
           </GuardedRoute>
         ),
       },
