@@ -32,6 +32,12 @@ class AdminService {
     const response = await httpService.delete(url);
     return response;
   }
+
+  async banTutor(userId: number) {
+    const url = `/api/v1/admin/ban/${userId}`;
+    const response = await httpService.put(url, tutorRole);
+    return response;
+  }
 }
 
 const tutorRole = {

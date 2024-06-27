@@ -98,6 +98,19 @@ export function TutorsStack() {
     },
   });
 
+  const banTutorMutation = useMutation({
+    mutationFn: adminService.banTutor,
+    onSuccess: () => {
+      notificationService.showSuccess({
+        title: 'Success',
+        message: 'Tutor banned from making new requests.',
+      });
+    },
+    onError: (err) => {
+      notificationService.showError({ err });
+    },
+  });
+
   return (
     <>
       {isLoading && (
@@ -225,6 +238,19 @@ export function TutorsStack() {
                               stroke={1.5}
                             />
                           }
+                          onClick={() => {
+                            let i = 0;
+                            while (i < tutorData?.content.length) {
+                              if (
+                                tutorData?.content[i].tutorId === item.tutorId
+                              ) {
+                                tutorData?.content.splice(i, 1);
+                              } else {
+                                i++;
+                              }
+                            }
+                            banTutorMutation.mutate(item.id);
+                          }}
                           color='red'
                         >
                           Ban tutor
