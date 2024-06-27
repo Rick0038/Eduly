@@ -1,10 +1,12 @@
 import {
+  Anchor,
   Button,
   Container,
   NativeSelect,
   Paper,
   PasswordInput,
   Stack,
+  Text,
   TextInput,
   Title,
 } from '@mantine/core';
@@ -44,8 +46,18 @@ export function Login() {
     mutationFn: authService.login,
     onSuccess: (data) => {
       setUserInfoToLocalStorage(data);
+
+      if (authService.isTutor) {
+        navigate('/profile');
+      }
+
+      if (authService.isAdmin) {
+        navigate('/admin');
+      }
+
+      const params = new URLSearchParams(location.search);
       // to go back to same page after login instead of going to home page
-      const fromPath = location.state?.from || '/';
+      const fromPath = location.state?.from || params.get('redirect') || '/';
       navigate(fromPath, { replace: true });
     },
     onError: (err) => {
@@ -57,6 +69,18 @@ export function Login() {
     <Container size={420} my={40}>
       <Title ta='center'>Welcome back!</Title>
 
+      <Text c='dimmed' size='sm' ta='center' mt={5}>
+        Do not have an account yet?
+        <Anchor
+          style={{ marginLeft: '5px' }}
+          size='sm'
+          component='button'
+          onClick={() => navigate('/register')}
+        >
+          Create account
+        </Anchor>
+      </Text>
+
       <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
         <form
           onSubmit={form.onSubmit((values) => loginMutation.mutate(values))}
@@ -64,7 +88,11 @@ export function Login() {
           <Stack>
             <NativeSelect
               label='Role'
-              data={[ROLE.TUTOR, ROLE.STUDENT, ROLE.ADMIN]}
+              data={[
+                { label: 'Tutor', value: ROLE.TUTOR },
+                { label: 'Student', value: ROLE.STUDENT },
+                { label: 'Admin', value: ROLE.ADMIN },
+              ]}
               required
               withAsterisk={false}
               {...form.getInputProps('role')}

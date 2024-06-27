@@ -1,6 +1,7 @@
 import {
   Anchor,
   Button,
+  MultiSelect,
   NumberInput,
   Select,
   Text,
@@ -9,22 +10,24 @@ import {
 } from '@mantine/core';
 import { Tutor } from '../../model';
 import { IconCheck } from '@tabler/icons-react';
-import { languages, topics } from '../../util/constants';
+// import { languages } from '../../util/constants';
 import { useForm } from '@mantine/form';
 import { useMutation } from '@tanstack/react-query';
 import { notificationService } from '../../service/NotificationService';
 import { tutorService } from '../../service';
+import { useLanguages, useTopics } from '../../hooks';
 
 interface PersonalInfoProps {
   isEditing: boolean;
   user: Tutor;
+  handleEditToggle: () => void;
 }
 
 export function PersonalInfo(props: PersonalInfoProps) {
-  const { isEditing, user } = props;
+  const { isEditing, user, ...otherProps } = props;
 
   if (isEditing) {
-    return <EditPersonalInfo user={user} />;
+    return <EditPersonalInfo user={user} {...otherProps} />;
   }
 
   return (
@@ -47,7 +50,7 @@ export function PersonalInfo(props: PersonalInfoProps) {
       </div>
       <div className='flex gap-1'>
         <strong>Topic: </strong>
-        <Text>{user.topic}</Text>
+        <Text>{user.topic.join(', ')}</Text>
       </div>
       <div className='flex gap-1'>
         <strong>Language: </strong>
@@ -55,7 +58,7 @@ export function PersonalInfo(props: PersonalInfoProps) {
       </div>
       <div>
         <strong>Introduction: </strong>
-        {user.introText}
+        {user.intro}
       </div>
       <div className='flex gap-1'>
         <strong>Meeting Link: </strong>
@@ -73,11 +76,15 @@ export function PersonalInfo(props: PersonalInfoProps) {
 }
 
 export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
-  const { user } = props;
+  const { user, handleEditToggle } = props;
+  const { data: { topics } = {} } = useTopics();
+  const { data: { langauges } = {} } = useLanguages();
+
   const updateProfile = useMutation({
     mutationFn: tutorService.updateProfile,
     onSuccess: () => {
       notificationService.showSuccess({ message: 'Profile data updated!' });
+      handleEditToggle();
     },
     onError: (err) => {
       notificationService.showError({ err });
@@ -98,14 +105,13 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
   });
 
   const handleSubmit = (values: Tutor) => {
-    console.log('values', values);
     const data = {
       firstName: values.firstName,
       lastName: values.lastName,
-      topic: values.topic,
+      topics: values.topic,
       language: values.language,
       bbbLink: values.bbbLink,
-      introText: values.intro,
+      intro: values.intro,
       pricing: values.pricing,
     };
     updateProfile.mutate(data);
@@ -147,7 +153,7 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
           key={form.key('pricing')}
           {...form.getInputProps('pricing')}
         />
-        <Select
+        <MultiSelect
           label='Topic'
           name='topic'
           placeholder='Select topic you teach'
@@ -160,20 +166,20 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
           label='Language'
           name='language'
           placeholder='Select language'
-          data={languages}
+          data={langauges}
           required
           key={form.key('language')}
           {...form.getInputProps('language')}
         />
         <Textarea
           label='Introduction'
-          name='introText'
+          name='intro'
           placeholder='Enter your introduction text'
           required
           autosize
           minRows={5}
-          key={form.key('introText')}
-          {...form.getInputProps('introText')}
+          key={form.key('intro')}
+          {...form.getInputProps('intro')}
         />
         <TextInput
           label='BBB Link'

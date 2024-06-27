@@ -18,7 +18,6 @@ export interface Tutor {
   experience: number;
   intro: string;
   numLessonsTaught: number;
-  introText: string;
   profileImgLink:
     | {
         link: string;
@@ -101,6 +100,10 @@ export interface Student {
   profileImgLink: string;
 }
 
-export interface Topic {
+export interface FetchTopics {
   topics: string[];
+}
+
+export interface FetchLanguages {
+  langauges: string[];
 }

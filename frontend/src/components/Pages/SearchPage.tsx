@@ -132,13 +132,21 @@ export function SearchPage() {
                 </Text>
               </Container>
             )}
-            {tutorsData?.tutors
-              .slice(
-                resultsPerPage * (activePage - 1),
-                resultsPerPage * activePage
-              )
-              .map((tutor) => <TutorCard key={tutor.id} tutor={tutor} />)}
-            {tutorsData && tutorsData.tutors && (
+            {tutorsData?.tutors.length == 0 && (
+              <Container>
+                <Text ta='center'>
+                  No tutors available for the search criteria.
+                </Text>
+              </Container>
+            )}
+            {tutorsData?.tutors.length &&
+              tutorsData.tutors
+                .slice(
+                  resultsPerPage * (activePage - 1),
+                  resultsPerPage * activePage
+                )
+                .map((tutor) => <TutorCard key={tutor.id} tutor={tutor} />)}
+            {tutorsData && tutorsData.tutors && tutorsData.tutors.length && (
               <Container mb={40}>
                 <Pagination
                   value={activePage}

@@ -116,7 +116,7 @@
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": true,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         },
@@ -136,6 +136,25 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "6e4f40d4-3d76-47ad-9dec-7916991cde29",
+          "body": "{\n  \"tutors\": []\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
           "crudKey": "id",
           "callbacks": []
         }
@@ -199,7 +218,7 @@
       "responses": [
         {
           "uuid": "4db6b4fc-c984-4545-b506-dece0071506c",
-          "body": "{\n  \"conversations\": [\n    {\n      \"id\": \"1\",\n      \"user\": \"John Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"2\",\n      \"user\": \"Jane Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"3\",\n      \"user\": \"James Doe\",\n      \"timestamp\": \"21323321\"\n    }\n  ]\n}",
+          "body": "{\n  \"conversations\": [\n    {\n      \"chatId\": \"1\",\n      \"name\": \"John Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"chatId\": \"2\",\n      \"name\": \"Jane Doe\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"chatId\": \"3\",\n      \"name\": \"James Doe\",\n      \"timestamp\": \"21323321\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -228,7 +247,7 @@
       "responses": [
         {
           "uuid": "df409cab-56dd-44ff-9244-b8d51777197e",
-          "body": "{\n  \"messages\": [\n    {\n      \"id\": \"1\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"Hey Smith!\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"2\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"How are you?\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"3\",\n      \"receiver\": \"John Doe\",\n      \"sender\": \"You\",\n      \"message\": \"I am doing well, and you?\",\n      \"timestamp\": \"12321321\"\n    },\n    {\n      \"id\": \"4\",\n      \"receiver\": \"You\",\n      \"sender\": \"John Doe\",\n      \"message\": \"All good, have a good one!\",\n      \"timestamp\": \"21323321\"\n    }\n  ]\n}",
+          "body": "{\n  \"messages\": [\n    {\n      \"messageId\": \"1\",\n      \"senderName\": \"John Doe\",\n      \"content\": \"Hey James!\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 2\n    },\n    {\n      \"messageId\": \"2\",\n      \"senderName\": \"John Doe\",\n      \"content\": \"How are you?\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 2\n    },\n    {\n      \"messageId\": \"3\",\n      \"senderName\": \"James Doe\",\n      \"content\": \"I am doing well, and you?\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 1\n    },\n    {\n      \"messageId\": \"4\",\n      \"senderName\": \"John Doe\",\n      \"content\": \"All good, have a good one!\",\n      \"timestamp\": \"1719426889680\",\n      \"chatId\": 3,\n      \"senderId\": 2\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -344,7 +363,7 @@
       "responses": [
         {
           "uuid": "6cd64b2b-e36a-4688-9887-568843e39b02",
-          "body": "{\n  \"id\": \"12345\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"hello@hs-fulda.de\",\n  \"status\": \"APPROVED\",\n  \"pricing\": 40,\n  \"rating\": 4.7,\n  \"numberOfRatings\": 100,\n  \"topic\": \"Math\",\n  \"language\": \"English\",\n  \"introText\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n  \"numLessonsTaught\": 10,\n  \"profileImgLink\": {\n    \"link\": \"https://cdn.pixabay.com/photo/2016/11/29/13/14/attractive-1869761_1280.jpg\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"cv\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"video\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"schedule\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 129,\n          \"from\": \"19:00\",\n          \"to\": \"18:00\",\n          \"status\": \"BOOKED\"\n        }\n      ]\n    },\n    {\n      \"date\": \"2024-09-02\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 456,\n          \"from\": \"19:00\",\n          \"to\": \"20:00\",\n          \"status\": \"BOOKED\"\n        }\n      ]\n    }\n  ],\n  \"reviews\": [\n    {\n      \"id\": 123,\n      \"rating\": 4.5,\n      \"text\": \"amazing tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jame Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    },\n    {\n      \"id\": 345,\n      \"rating\": 3,\n      \"text\": \"average tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jack Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    }\n  ]\n}",
+          "body": "{\n  \"id\": \"12345\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"hello@hs-fulda.de\",\n  \"status\": \"APPROVED\",\n  \"pricing\": 40,\n  \"rating\": 4.7,\n  \"numberOfRatings\": 100,\n  \"topic\": [\"Math\"],\n  \"language\": \"English\",\n  \"introText\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n  \"numLessonsTaught\": 10,\n  \"profileImgLink\": {\n    \"link\": \"https://cdn.pixabay.com/photo/2016/11/29/13/14/attractive-1869761_1280.jpg\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"cv\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"video\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  },\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"schedule\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 129,\n          \"from\": \"19:00\",\n          \"to\": \"18:00\",\n          \"status\": \"BOOKED\"\n        }\n      ]\n    },\n    {\n      \"date\": \"2024-09-02\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 456,\n          \"from\": \"19:00\",\n          \"to\": \"20:00\",\n          \"status\": \"BOOKED\"\n        }\n      ]\n    }\n  ],\n  \"reviews\": [\n    {\n      \"id\": 123,\n      \"rating\": 4.5,\n      \"text\": \"amazing tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jame Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    },\n    {\n      \"id\": 345,\n      \"rating\": 3,\n      \"text\": \"average tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jack Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

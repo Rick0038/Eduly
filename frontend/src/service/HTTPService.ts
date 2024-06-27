@@ -1,10 +1,15 @@
 import axios, {
+  AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
+  AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
 import { APP_API_URL } from '../constant';
-import { getUserInfoFromLocalStorage } from '../util/userInfo';
+import {
+  clearUserInfoFromLocalStorage,
+  getUserInfoFromLocalStorage,
+} from '../util/userInfo';
 
 class HTTPService {
   private client: AxiosInstance;
@@ -21,6 +26,11 @@ class HTTPService {
       this.handleRequest.bind(this),
       (error) => Promise.reject(error)
     );
+
+    this.client.interceptors.response.use(
+      (response: AxiosResponse) => response,
+      this.handleResponseError.bind(this)
+    );
   }
 
   private handleRequest(
@@ -31,6 +41,15 @@ class HTTPService {
       config.headers.Authorization = `Bearer ${user.token}`;
     }
     return config;
+  }
+
+  private handleResponseError(error: AxiosError): Promise<never> {
+    if (error.response && error.response.status === 401) {
+      clearUserInfoFromLocalStorage();
+      const pageRedirect = window.location.pathname;
+      window.location.href = `/login?redirect=${pageRedirect}`;
+    }
+    return Promise.reject(error);
   }
 
   get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {

@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { FileInput, Button, Anchor, Text } from '@mantine/core';
+import { FileInput, Button, Anchor, Text, Badge } from '@mantine/core';
 import { IconEye, IconFileCv, IconUpload } from '@tabler/icons-react';
 import { useMutation } from '@tanstack/react-query';
 import { tutorService } from '../../service';
 import { Tutor } from '../../model';
 import { notificationService } from '../../service/NotificationService';
+import { getContentStatusColor } from '../../util/helpers';
 
 interface TutorCVProps {
   tutor: Tutor;
@@ -36,9 +37,14 @@ export function TutorCV(props: TutorCVProps) {
 
   return (
     <div className='grid gap-4'>
-      {tutor.cv && tutor.cv.link ? (
+      {tutor.cv && tutor.cv?.link?.length ? (
         <div className='flex flex-col gap-2 justify-start content-start text-left'>
-          <Text>Your CV:</Text>
+          <div className='flex gap-2 items-center'>
+            <Text>Your CV:</Text>
+            <Badge color={getContentStatusColor(tutor.cv?.status)}>
+              {tutor.cv?.status}
+            </Badge>
+          </div>
           <div className='relative group max-w-[400px]'>
             <Anchor
               href={tutor.cv.link}
@@ -58,7 +64,7 @@ export function TutorCV(props: TutorCVProps) {
           </div>
         </div>
       ) : (
-        <Text className='text-center text-red-500'>No CV found!</Text>
+        <Text className='text-center text-red-500'>CV not uploaded!</Text>
       )}
 
       {isEditing && (

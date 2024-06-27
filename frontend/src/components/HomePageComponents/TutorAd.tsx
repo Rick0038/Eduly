@@ -1,8 +1,11 @@
-import { Title, Text, Container, Button, Overlay, Paper } from '@mantine/core';
+import { Button, Container, Overlay, Paper, Text, Title } from '@mantine/core';
+import { useNavigate } from 'react-router';
+import { ROLE } from '../../constant';
 import classes from './TutorAd.module.css';
 import tutorAdImg from '/HomepageImages/homePageTutor.png';
 
 export function TutorAd() {
+  const navigate = useNavigate();
   return (
     <Paper mt={10}>
       <div
@@ -25,7 +28,12 @@ export function TutorAd() {
           </Container>
 
           <div className={classes.controls}>
-            <Button className={classes.control} variant='white' size='lg'>
+            <Button
+              onClick={() => navigate(`/register?role=${ROLE.TUTOR}`)}
+              className={classes.control}
+              variant='white'
+              size='lg'
+            >
               Get started
             </Button>
           </div>

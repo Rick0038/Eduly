@@ -71,7 +71,11 @@ export function ProfilePage() {
                 </Tabs.Tab>
               </Tabs.List>
               <Tabs.Panel value='personalInfo' pt='md'>
-                <PersonalInfo isEditing={isEditing} user={data} />
+                <PersonalInfo
+                  isEditing={isEditing}
+                  user={data}
+                  handleEditToggle={handleEditToggle}
+                />
               </Tabs.Panel>
               <Tabs.Panel value='schedule' pt='md'>
                 <TutorSchedule isEditing={isEditing} tutor={data} />
