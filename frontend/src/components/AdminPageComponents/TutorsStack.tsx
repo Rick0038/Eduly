@@ -85,6 +85,19 @@ export function TutorsStack() {
     cv: 'pink',
   };
 
+  const rejectContentMutation = useMutation({
+    mutationFn: adminService.rejectTutorContent,
+    onSuccess: () => {
+      notificationService.showSuccess({
+        title: 'Success',
+        message: 'Content rejected from going live.',
+      });
+    },
+    onError: (err) => {
+      notificationService.showError({ err });
+    },
+  });
+
   return (
     <>
       {isLoading && (
@@ -195,6 +208,13 @@ export function TutorsStack() {
                               stroke={1.5}
                             />
                           }
+                          onClick={() => {
+                            const toRejectIndex = tutorData?.content.findIndex(
+                              (data) => data.id == item.id
+                            );
+                            tutorData?.content.splice(toRejectIndex, 1);
+                            rejectContentMutation.mutate(item.id);
+                          }}
                         >
                           Reject
                         </Menu.Item>

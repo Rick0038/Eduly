@@ -26,6 +26,12 @@ class AdminService {
     const response = await httpService.put(url, tutorRole);
     return response;
   }
+
+  async rejectTutorContent(contentId: number) {
+    const url = `api/v1/admin/content/${contentId}?role=${tutorRole.role}`;
+    const response = await httpService.delete(url);
+    return response;
+  }
 }
 
 const tutorRole = {
