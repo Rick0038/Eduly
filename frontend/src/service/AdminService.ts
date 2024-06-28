@@ -28,6 +28,17 @@ export interface StudentContent {
   studentName: string;
 }
 
+export interface BannedUsers {
+  users: BannedUser[];
+}
+
+export interface BannedUser {
+  id: number;
+  name: string;
+  status: string;
+  role: string;
+}
+
 class AdminService {
   async getTutorContent() {
     const url = '/api/v1/admin/tutor-content';
@@ -73,6 +84,23 @@ class AdminService {
 
   async banStudent(userId: number) {
     const url = `/api/v1/admin/ban/${userId}`;
+    const response = await httpService.put(url, studentRole);
+    return response;
+  }
+
+  async getBannedUsers() {
+    const url = '/api/v1/admin/banned/users';
+    const response = await httpService.get<BannedUsers>(url);
+    return response;
+  }
+
+  async unbanTutor(userId: number) {
+    const url = `/api/v1/admin/unban/${userId}`;
+    const response = await httpService.put(url, tutorRole);
+    return response;
+  }
+  async unbanStudent(userId: number) {
+    const url = `/api/v1/admin/unban/${userId}`;
     const response = await httpService.put(url, studentRole);
     return response;
   }
