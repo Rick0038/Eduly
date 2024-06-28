@@ -20,6 +20,7 @@ export function BannedUsersStack() {
     data: bannedUsersData,
     isLoading,
     isError,
+    refetch: refetchBannedUsersData,
   } = useQuery({
     queryKey: ['getBannedUsers'],
     queryFn: adminService.getBannedUsers,
@@ -32,6 +33,7 @@ export function BannedUsersStack() {
         title: 'Success',
         message: 'Tutor ban lifted successfully.',
       });
+      refetchBannedUsersData();
     },
     onError: (err) => {
       notificationService.showError({ err });
@@ -45,6 +47,7 @@ export function BannedUsersStack() {
         title: 'Success',
         message: 'Student ban lifted successfully.',
       });
+      refetchBannedUsersData();
     },
     onError: (err) => {
       notificationService.showError({ err });
@@ -120,10 +123,6 @@ export function BannedUsersStack() {
                         variant='subtle'
                         color='green'
                         onClick={() => {
-                          const toUnbanIndex = bannedUsersData?.users.findIndex(
-                            (data) => data.id === item.id
-                          );
-                          bannedUsersData?.users.splice(toUnbanIndex, 1);
                           if (item.role === 'TUTOR') {
                             unbanTutorMutation.mutate(item.id);
                           }

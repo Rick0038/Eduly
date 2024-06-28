@@ -29,6 +29,7 @@ export function StudentsStack() {
     data: studentData,
     isLoading,
     isError,
+    refetch: refetchStudentData,
   } = useQuery({
     queryKey: ['getStudentContent'],
     queryFn: adminService.getStudentContent,
@@ -41,6 +42,7 @@ export function StudentsStack() {
         title: 'Success',
         message: 'Content approved to go live.',
       });
+      refetchStudentData();
     },
     onError: (err) => {
       notificationService.showError({ err });
@@ -54,6 +56,7 @@ export function StudentsStack() {
         title: 'Success',
         message: 'Content rejected from going live.',
       });
+      refetchStudentData();
     },
     onError: (err) => {
       notificationService.showError({ err });
@@ -67,6 +70,7 @@ export function StudentsStack() {
         title: 'Success',
         message: 'Student banned from making new requests.',
       });
+      refetchStudentData();
     },
     onError: (err) => {
       notificationService.showError({ err });
@@ -154,10 +158,6 @@ export function StudentsStack() {
                         variant='subtle'
                         color='green'
                         onClick={() => {
-                          const toApproveIndex = studentData?.content.findIndex(
-                            (data) => data.id == item.id
-                          );
-                          studentData?.content.splice(toApproveIndex, 1);
                           approveContentMutation.mutate(item.id);
                         }}
                       >
@@ -184,10 +184,6 @@ export function StudentsStack() {
                             />
                           }
                           onClick={() => {
-                            const toRejectIndex = studentData?.content.findIndex(
-                              (data) => data.id == item.id
-                            );
-                            studentData?.content.splice(toRejectIndex, 1);
                             rejectContentMutation.mutate(item.id);
                           }}
                         >
@@ -201,16 +197,6 @@ export function StudentsStack() {
                             />
                           }
                           onClick={() => {
-                            let i = 0;
-                            while (i < studentData?.content.length) {
-                              if (
-                                studentData?.content[i].studentId === item.studentId
-                              ) {
-                                studentData?.content.splice(i, 1);
-                              } else {
-                                i++;
-                              }
-                            }
                             banStudentMutation.mutate(item.id);
                           }}
                           color='red'

@@ -29,6 +29,7 @@ export function TutorsStack() {
     data: tutorData,
     isLoading,
     isError,
+    refetch: refetchTutorData,
   } = useQuery({
     queryKey: ['getTutorContent'],
     queryFn: adminService.getTutorContent,
@@ -41,6 +42,7 @@ export function TutorsStack() {
         title: 'Success',
         message: 'Content approved to go live.',
       });
+      refetchTutorData();
     },
     onError: (err) => {
       notificationService.showError({ err });
@@ -60,6 +62,7 @@ export function TutorsStack() {
         title: 'Success',
         message: 'Content rejected from going live.',
       });
+      refetchTutorData();
     },
     onError: (err) => {
       notificationService.showError({ err });
@@ -73,6 +76,7 @@ export function TutorsStack() {
         title: 'Success',
         message: 'Tutor banned from making new requests.',
       });
+      refetchTutorData();
     },
     onError: (err) => {
       notificationService.showError({ err });
@@ -160,10 +164,6 @@ export function TutorsStack() {
                         variant='subtle'
                         color='green'
                         onClick={() => {
-                          const toApproveIndex = tutorData?.content.findIndex(
-                            (data) => data.id == item.id
-                          );
-                          tutorData?.content.splice(toApproveIndex, 1);
                           approveContentMutation.mutate(item.id);
                         }}
                       >
@@ -190,10 +190,6 @@ export function TutorsStack() {
                             />
                           }
                           onClick={() => {
-                            const toRejectIndex = tutorData?.content.findIndex(
-                              (data) => data.id == item.id
-                            );
-                            tutorData?.content.splice(toRejectIndex, 1);
                             rejectContentMutation.mutate(item.id);
                           }}
                         >
@@ -207,16 +203,6 @@ export function TutorsStack() {
                             />
                           }
                           onClick={() => {
-                            let i = 0;
-                            while (i < tutorData?.content.length) {
-                              if (
-                                tutorData?.content[i].tutorId === item.tutorId
-                              ) {
-                                tutorData?.content.splice(i, 1);
-                              } else {
-                                i++;
-                              }
-                            }
                             banTutorMutation.mutate(item.id);
                           }}
                           color='red'
