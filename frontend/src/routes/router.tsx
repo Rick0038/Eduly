@@ -53,7 +53,11 @@ export const router = createBrowserRouter([
       },
       {
         path: '/admin',
-        element: <AdminPage />,
+        element: (
+          <GuardedRoute allowedRoles={[ROLE.ADMIN]}>
+            <AdminPage />
+          </GuardedRoute>
+        ),
       },
       {
         path: '/unauthorized',
