@@ -93,10 +93,10 @@ export function BannedUsersStack() {
               <Table.Tr key={item.id}>
                 <Table.Td>
                   <Stack gap={'sm'}>
-                    <Text ta={'center'} fz='sm' fw={500}>
+                    <Text ta={'left'} fz='sm' fw={500}>
                       {item.name}
                     </Text>
-                    <Text ta={'center'} c='dimmed' fz='xs'>
+                    <Text ta={'left'} c='dimmed' fz='xs'>
                       #{item.id}
                     </Text>
                   </Stack>
