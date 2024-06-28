@@ -1,4 +1,5 @@
 import { httpService } from './HTTPService';
+import { ROLE } from '../constant';
 
 export interface TutorContents {
   content: TutorContent[];
@@ -107,11 +108,11 @@ class AdminService {
 }
 
 const tutorRole = {
-  role: 'TUTOR',
+  role: ROLE.TUTOR,
 };
 
 const studentRole = {
-  role: 'STUDENT',
+  role: ROLE.STUDENT,
 };
 
 const adminService = new AdminService();
