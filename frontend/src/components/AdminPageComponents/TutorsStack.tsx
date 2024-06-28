@@ -24,38 +24,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { adminService } from '../../service';
 import { notificationService } from '../../service/NotificationService';
 
-const tutorData2 = {
-  content: [
-    {
-      id: 234,
-      type: 'profile_image',
-      link: 'https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20',
-      status: 'PENDING_APPROVAL',
-      uploadTimestamp: '',
-      tutorName: 'John Adams',
-      tutorId: 455,
-    },
-    {
-      id: 235,
-      type: 'intro_video',
-      link: 'https://demoeduly.blob.core.windows.net/demoeduly/intro_video_20',
-      status: 'PENDING_APPROVAL',
-      uploadTimestamp: '',
-      tutorName: 'John Adams',
-      tutorId: 455,
-    },
-    {
-      id: 236,
-      type: 'cv',
-      link: 'https://demoeduly.blob.core.windows.net/demoeduly/cv_20',
-      status: 'PENDING_APPROVAL',
-      uploadTimestamp: '',
-      tutorName: 'John Adams',
-      tutorId: 455,
-    },
-  ],
-};
-
 export function TutorsStack() {
   const {
     data: tutorData,
