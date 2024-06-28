@@ -17,10 +17,10 @@ export function AdminPage() {
         radius='xs'
       >
         <Tabs.List grow>
-          <Tabs.Tab value='tutor' color='blue'>
+          <Tabs.Tab value='tutor'>
             Tutor
           </Tabs.Tab>
-          <Tabs.Tab value='student' color='pink'>
+          <Tabs.Tab value='student'>
             Student
           </Tabs.Tab>
           <Tabs.Tab value='banned'>Banned users</Tabs.Tab>
