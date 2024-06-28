@@ -1,24 +1,45 @@
 import { useState } from 'react';
-import { SegmentedControl } from '@mantine/core';
+import { Box, Divider, Tabs } from '@mantine/core';
 import { TutorsStack } from '../AdminPageComponents/TutorsStack';
 import { StudentsStack } from '../AdminPageComponents/StudentsStack';
 import { BannedUsersStack } from '../AdminPageComponents/BannedUsersStack';
+import { IconShieldCheckFilled } from '@tabler/icons-react';
 
 export function AdminPage() {
-  const [adminPage, setAdminPage] = useState('tutor');
+  const [adminPage, setAdminPage] = useState<string | null>('tutor');
 
   return (
     <>
-      <SegmentedControl
-        fullWidth
+      <Tabs
         value={adminPage}
         onChange={setAdminPage}
-        data={[
-          { label: 'Tutor content', value: 'tutor' },
-          { label: 'Student content', value: 'student' },
-          { label: 'Banned users', value: 'banned' },
-        ]}
+        variant='pills'
+        radius='xs'
+      >
+        <Tabs.List grow>
+          <Tabs.Tab value='tutor' color='blue'>
+            Tutor
+          </Tabs.Tab>
+          <Tabs.Tab value='student' color='pink'>
+            Student
+          </Tabs.Tab>
+          <Tabs.Tab value='banned'>Banned users</Tabs.Tab>
+        </Tabs.List>
+      </Tabs>
+
+      <Divider
+        my='xs'
+        variant='dashed'
+        labelPosition='center'
+        label={
+          <>
+            <IconShieldCheckFilled size={12} />
+            <Box mx={5}> EDULY ADMIN MODE </Box>
+            <IconShieldCheckFilled size={12} />
+          </>
+        }
       />
+
       {adminPage === 'tutor' && <TutorsStack />}
       {adminPage === 'student' && <StudentsStack />}
       {adminPage === 'banned' && <BannedUsersStack />}
