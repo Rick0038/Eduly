@@ -9,16 +9,16 @@ import {
   Textarea,
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
+import { Tutor } from '../../model';
 import { useForm } from '@mantine/form';
 import {
   QueryObserverResult,
   RefetchOptions,
   useMutation,
 } from '@tanstack/react-query';
-import { Tutor } from '../../model';
-import { notificationService } from '../../service/NotificationService';
-import { tutorService } from '../../service';
 import { useLanguages, useTopics } from '../../hooks';
+import { tutorService } from '../../service';
+import { notificationService } from '../../service/NotificationService';
 
 interface PersonalInfoProps {
   isEditing: boolean;
@@ -120,6 +120,7 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
       bbbLink: values.bbbLink,
       intro: values.intro,
       pricing: values.pricing,
+      email: values.email,
     };
     updateProfile.mutate(data);
   };

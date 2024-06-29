@@ -16,11 +16,16 @@ import {
 import { Tutor } from '../../model';
 import { tutorService } from '../../service';
 import { notificationService } from '../../service/NotificationService';
+import {
+  StudentProfileDetail,
+  studentService,
+} from '../../service/StudentService';
 import { getProfileStatusColor } from '../../util/helpers';
 
 interface ProfileHeadProps {
   isEditing: boolean;
-  user: Tutor;
+  user: Tutor | StudentProfileDetail;
+  isStudent?: boolean;
   handleEditToggle: () => void;
   refetch: (
     options?: RefetchOptions | undefined
@@ -30,7 +35,9 @@ interface ProfileHeadProps {
 export function ProfileHead(props: ProfileHeadProps) {
   const { isEditing, user, handleEditToggle, refetch } = props;
   const updateProfileImage = useMutation({
-    mutationFn: tutorService.updateProfileImage,
+    mutationFn: props.isStudent
+      ? studentService.updateProfileImage
+      : tutorService.updateProfileImage,
     onSuccess: () => {
       notificationService.showSuccess({ message: 'Image sent for approval!' });
       refetch();
@@ -81,10 +88,22 @@ export function ProfileHead(props: ProfileHeadProps) {
       </div>
       <div className='flex-grow'>
         <Title order={2}>{`${user.firstName} ${user.lastName}`}</Title>
-        <Rating value={user.rating} fractions={2} readOnly />
-        <p>{`${user.numLessonsTaught} lessons taught`}</p>
-        <Badge color={getProfileStatusColor(user.status)}>{user.status}</Badge>
+        {!props.isStudent && (
+          <>
+            <Rating value={(user as Tutor).rating} fractions={2} readOnly />
+            <p>{`${(user as Tutor).numLessonsTaught} lessons taught`}</p>
+            <Badge color={getProfileStatusColor((user as Tutor).status)}>
+              {(user as Tutor).status}
+            </Badge>
+          </>
+        )}
+        {props.isStudent && (
+          <Badge color={getProfileStatusColor(user.status)}>
+            {(user.profileImgLink as { link: string; status: string })?.status}
+          </Badge>
+        )}
       </div>
+
       <Button
         onClick={handleEditToggle}
         leftSection={isEditing ? <IconX size={16} /> : <IconEdit size={16} />}

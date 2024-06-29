@@ -13,6 +13,7 @@ import {
 import { useForm } from '@mantine/form';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 import { ROLE } from '../../constant';
 import { authService } from '../../service/AuthService';
 import { notificationService } from '../../service/NotificationService';
@@ -21,10 +22,11 @@ import { setUserInfoToLocalStorage } from '../../util/userInfo';
 export function Login() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const form = useForm({
     initialValues: {
-      role: ROLE.TUTOR,
+      role: searchParams.get('role') || ROLE.TUTOR,
       email: '',
       password: '',
     },
@@ -47,12 +49,14 @@ export function Login() {
     onSuccess: (data) => {
       setUserInfoToLocalStorage(data);
 
-      if (authService.isTutor) {
+      if (data.role === ROLE.TUTOR) {
         navigate('/profile');
+        return;
       }
 
-      if (authService.isAdmin) {
+      if (data.role === ROLE.ADMIN) {
         navigate('/admin');
+        return;
       }
 
       const params = new URLSearchParams(location.search);

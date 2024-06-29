@@ -7,12 +7,16 @@ import {
   NotFound,
   SearchPage,
 } from '../components';
+import { AdminPage } from '../components/Pages/AdminPage';
+import { ForumPage } from '../components/Pages/ForumPage';
+import { ProfilePage } from '../components/Pages/ProfilePage';
+import { TutorDetail } from '../components/TutorDetail/TutorDetail';
 import { Unauthorized } from '../components/Unauthorized/Unauthorized';
 import { GuardedRoute } from '../components/auth/GuardedRoute';
 import { Login } from '../components/auth/Login';
 import { SignUp } from '../components/auth/SignUp';
+import QuestionDetails from '../components/forum/QuestionDetail';
 import { ROLE } from '../constant';
-import { ProfilePage } from '../components/Pages/ProfilePage';
 
 export const router = createBrowserRouter([
   {
@@ -35,20 +39,37 @@ export const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path: '/test',
-        element: (
-          <GuardedRoute allowedRoles={[ROLE.STUDENT]}>
-            <p>I am guarded!!</p>
-          </GuardedRoute>
-        ),
-      },
-      {
         path: '/profile',
         element: (
           <GuardedRoute allowedRoles={[ROLE.STUDENT, ROLE.TUTOR]}>
             <ProfilePage />
           </GuardedRoute>
         ),
+      },
+      {
+        path: '/admin',
+        element: (
+          <GuardedRoute allowedRoles={[ROLE.ADMIN]}>
+            <AdminPage />
+          </GuardedRoute>
+        ),
+      },
+      {
+        path: '/forum',
+        children: [
+          {
+            path: '',
+            element: <ForumPage />,
+          },
+          {
+            path: ':questionId',
+            element: <QuestionDetails />,
+          },
+        ],
+      },
+      {
+        path: '/tutor/:tutorId',
+        element: <TutorDetail />,
       },
       {
         path: '/unauthorized',

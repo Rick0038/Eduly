@@ -3,14 +3,14 @@
 You can connect via SSH:
 ```bash
 chmod 400 <path-to-private-key>
-ssh -i <path-to-private-key> svc-tutor-prod@20.82.160.2
+ssh -i <path-to-private-key> <username>@<vm-ip-address>
 ```
 
 # Database Instance
 
 ```
-hostname=tutor-app.mysql.database.azure.com
-username=tutordb
+hostname=<database-url>
+username=<db-name>
 password=<password>
 ```
 To connect with MySQL workbench client, follow the steps below.

@@ -61,3 +61,13 @@ export const getProfileStatusColor = (key: string): string => {
 
   return 'gray';
 };
+
+export const isEmpty = (value: unknown): boolean => {
+  if (Array.isArray(value)) {
+    return value.length === 0;
+  }
+  if (typeof value === 'object' && value !== null) {
+    return Object.keys(value).length === 0;
+  }
+  return !value; // For strings, numbers, booleans, null, undefined
+};

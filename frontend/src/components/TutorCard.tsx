@@ -15,7 +15,6 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
-  IconCalendarEvent,
   IconFileCv,
   IconLanguage,
   IconMessage,
@@ -24,6 +23,8 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { FC, Fragment, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
+import { ROLE } from '../constant';
 import { Tutor } from '../model';
 import { authService, chatService } from '../service';
 import { notificationService } from '../service/NotificationService';
@@ -78,10 +79,18 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
           <Grid.Col span={6}>
             <Stack>
               <div>
-                <Title order={3}>{tutorName}</Title>
+                <Link
+                  to={
+                    authService.isLoggedIn() && authService.isStudent
+                      ? `/tutor/${tutor.id}`
+                      : `/login?role=${ROLE.STUDENT}&redirect=/tutor/${tutor.id}`
+                  }
+                >
+                  <Title order={3}>{tutorName}</Title>
+                </Link>
                 <Group>
                   {tutor.topic.map((t) => (
-                    <Badge>{t}</Badge>
+                    <Badge key={t}>{t}</Badge>
                   ))}
                 </Group>
                 <div className='flex items-center'>
@@ -135,9 +144,6 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
             </Group>
             {authService.isStudent && (
               <Stack justify='center'>
-                <Button leftSection={<IconCalendarEvent />}>
-                  Book Session
-                </Button>
                 <Button
                   leftSection={<IconMessage />}
                   variant='outline'
