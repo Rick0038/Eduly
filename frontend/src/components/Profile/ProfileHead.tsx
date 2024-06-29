@@ -8,7 +8,11 @@ import {
   Title,
 } from '@mantine/core';
 import { IconEdit, IconPencil, IconX } from '@tabler/icons-react';
-import { useMutation } from '@tanstack/react-query';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useMutation,
+} from '@tanstack/react-query';
 import { Tutor } from '../../model';
 import { tutorService } from '../../service';
 import { notificationService } from '../../service/NotificationService';
@@ -23,16 +27,20 @@ interface ProfileHeadProps {
   user: Tutor | StudentProfileDetail;
   isStudent?: boolean;
   handleEditToggle: () => void;
+  refetch: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<Tutor, Error>>;
 }
 
 export function ProfileHead(props: ProfileHeadProps) {
-  const { isEditing, user, handleEditToggle } = props;
+  const { isEditing, user, handleEditToggle, refetch } = props;
   const updateProfileImage = useMutation({
     mutationFn: props.isStudent
       ? studentService.updateProfileImage
       : tutorService.updateProfileImage,
     onSuccess: () => {
       notificationService.showSuccess({ message: 'Image sent for approval!' });
+      refetch();
       handleEditToggle();
     },
     onError: (err) => {

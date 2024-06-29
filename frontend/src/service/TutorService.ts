@@ -2,6 +2,10 @@ import { FetchLanguages, FetchTopics, Tutor, Tutors } from '../model';
 import { httpService } from './HTTPService';
 
 class TutorService {
+  constructor() {
+    this.addScheduleBulk = this.addScheduleBulk.bind(this);
+  }
+
   async getTutors(query?: URLSearchParams) {
     const url = query?.toString()?.length
       ? `/tutor/search?${query}`
@@ -61,6 +65,38 @@ class TutorService {
         'Content-Type': 'multipart/form-data',
       },
     });
+    return response;
+  }
+
+  async addSchedule(data: Record<string, string>) {
+    const url = '/api/v1/tutor/schedule/session';
+    const response = await httpService.post<Record<string, string>>(url, data);
+    return response;
+  }
+
+  async addScheduleBulk(data: Record<string, string>[]) {
+    const results = { success: 0, failure: 0 };
+    for (const schedule of data) {
+      try {
+        await this.addSchedule(schedule);
+        results.success += 1;
+      } catch (err) {
+        console.log('Error bulk schedule save', err);
+        results.failure += 1;
+      }
+    }
+    return results;
+  }
+
+  async deleteSchedule(id: number) {
+    const url = `/api/v1/tutor/schedule/session/${id}`;
+    const response = await httpService.delete<Record<string, string>>(url);
+    return response;
+  }
+
+  async editSchedule(id: number, data: Record<string, string>) {
+    const url = `/api/v1/tutor/schedule/session/${id}`;
+    const response = await httpService.put<Record<string, string>>(url, data);
     return response;
   }
 }

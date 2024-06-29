@@ -1,12 +1,25 @@
-import { Badge, Button, MultiSelect, Table, Text } from '@mantine/core';
-import { Tutor } from '../../model';
-import { formatDate } from '../../util/helpers';
-import { IconCheck } from '@tabler/icons-react';
-import { useForm } from '@mantine/form';
+import { ActionIcon, Badge, Group, Table } from '@mantine/core';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useMutation,
+} from '@tanstack/react-query';
+import { IconEdit, IconTrash } from '@tabler/icons-react';
+import { Schedule, ScheduleTiming, Tutor } from '../../model';
+import { tutorService } from '../../service';
+import { notificationService } from '../../service/NotificationService';
+import { AddTutorSchedule } from './AddTutorSchedule';
+import { useState } from 'react';
+import dayjs from 'dayjs';
+import { EditTutorScheduleModal } from './EditTutorScheduleModal';
 
-interface TutorScheduleProps {
+export interface TutorScheduleProps {
   isEditing: boolean;
   tutor: Tutor;
+  handleEditToggle: () => void;
+  refetch: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<Tutor, Error>>;
 }
 
 const statusColors: { [key: string]: string } = {
@@ -15,129 +28,97 @@ const statusColors: { [key: string]: string } = {
   UNAVAILABLE: 'gray',
 };
 
-export function TutorSchedule(props: TutorScheduleProps) {
-  const { isEditing, tutor } = props;
-
-  if (isEditing) {
-    return <EditTutorSchedule />;
-  }
-
-  return (
-    <Table striped withColumnBorders>
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th>Date</Table.Th>
-          <Table.Th>From</Table.Th>
-          <Table.Th>To</Table.Th>
-          <Table.Th>Status</Table.Th>
-        </Table.Tr>
-      </Table.Thead>
-      <Table.Tbody>
-        {tutor.schedule.map((sched) =>
-          sched.timings.map((timing) => {
-            const formattedDate = formatDate(sched.date, { useIntl: true });
-            return (
-              <Table.Tr key={timing.sessionId}>
-                <Table.Td>{formattedDate}</Table.Td>
-                <Table.Td>{timing.from}</Table.Td>
-                <Table.Td>{timing.to}</Table.Td>
-                <Table.Td>
-                  <Badge color={statusColors[timing.status]}>
-                    {timing.status}
-                  </Badge>
-                </Table.Td>
-              </Table.Tr>
-            );
-          })
-        )}
-      </Table.Tbody>
-    </Table>
-  );
+interface EditSchedule {
+  schedule: Schedule;
+  timing: ScheduleTiming;
 }
 
-const days = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday',
-];
-const hours = [
-  '12:00 AM',
-  '01:00 AM',
-  '02:00 AM',
-  '03:00 AM',
-  '04:00 AM',
-  '05:00 AM',
-  '06:00 AM',
-  '07:00 AM',
-  '08:00 AM',
-  '09:00 AM',
-  '10:00 AM',
-  '11:00 AM',
-  '12:00 PM',
-  '01:00 PM',
-  '02:00 PM',
-  '03:00 PM',
-  '04:00 PM',
-  '05:00 PM',
-  '06:00 PM',
-  '07:00 PM',
-  '08:00 PM',
-  '09:00 PM',
-  '10:00 PM',
-  '11:00 PM',
-];
-
-const availability = {
-  Monday: [],
-  Tuesday: [],
-  Wednesday: [],
-  Thursday: [],
-  Friday: [],
-  Saturday: [],
-  Sunday: [],
-};
-
-export function EditTutorSchedule() {
-  const form = useForm({
-    mode: 'uncontrolled',
-    initialValues: {
-      availability: availability,
+export function TutorSchedule(props: TutorScheduleProps) {
+  const { isEditing: isProfileEditing, tutor, refetch, ...otherProps } = props;
+  const [editSchedule, setEditSchedule] = useState<EditSchedule | null>(null);
+  const deleteSchedule = useMutation({
+    mutationFn: (id: number) => tutorService.deleteSchedule(id),
+    onSuccess: () => {
+      notificationService.showSuccess({ message: 'Schedule deleted!' });
+      refetch();
+    },
+    onError: (err) => {
+      notificationService.showError({ err });
     },
   });
 
-  const handleSubmit = (values: unknown) => {
-    console.log('values', values);
-    // TODO: Hit the API
+  if (isProfileEditing) {
+    return <AddTutorSchedule tutor={tutor} refetch={refetch} {...otherProps} />;
+  }
+
+  const handleDelete = (sessionId: number) => {
+    deleteSchedule.mutate(sessionId);
+  };
+
+  const handleEdit = (schedule: Schedule, timing: ScheduleTiming) => {
+    setEditSchedule({ schedule, timing });
+  };
+
+  const handleModalClose = () => {
+    setEditSchedule(null);
   };
 
   return (
-    <form onSubmit={form.onSubmit(handleSubmit)} className='schedule'>
-      <Text w={700} size='lg' pb='sm'>
-        Set Your Availability
-      </Text>
-      {days.map((day) => (
-        <MultiSelect
-          label={day}
-          name={`availability.${day}`}
-          placeholder={`Your availability for ${day}`}
-          data={hours}
-          className='mb-1'
-          key={form.key(`availability.${day}`)}
-          {...form.getInputProps(`availability.${day}`)}
+    <>
+      <Table.ScrollContainer minWidth={700}>
+        <Table striped withColumnBorders stickyHeader highlightOnHover>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Date</Table.Th>
+              <Table.Th>From</Table.Th>
+              <Table.Th>To</Table.Th>
+              <Table.Th>Status</Table.Th>
+              <Table.Th>Action</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {tutor.schedule.map((sched) =>
+              sched.timings.map((timing) => (
+                <Table.Tr key={timing.sessionId}>
+                  <Table.Td>
+                    {dayjs(sched.date).format('MMM DD, YYYY')}
+                  </Table.Td>
+                  <Table.Td>{timing.from}</Table.Td>
+                  <Table.Td>{timing.to}</Table.Td>
+                  <Table.Td>
+                    <Badge color={statusColors[timing.status]}>
+                      {timing.status}
+                    </Badge>
+                  </Table.Td>
+                  <Table.Td>
+                    {timing.status === 'FREE' && (
+                      <Group py={0} align='center'>
+                        <ActionIcon onClick={() => handleEdit(sched, timing)}>
+                          <IconEdit size={16} />
+                        </ActionIcon>
+                        <ActionIcon
+                          onClick={() => handleDelete(timing.sessionId)}
+                          color='red'
+                        >
+                          <IconTrash size={16} />
+                        </ActionIcon>
+                      </Group>
+                    )}
+                  </Table.Td>
+                </Table.Tr>
+              ))
+            )}
+          </Table.Tbody>
+        </Table>
+      </Table.ScrollContainer>
+      {editSchedule && (
+        <EditTutorScheduleModal
+          schedule={editSchedule.schedule}
+          timing={editSchedule.timing}
+          onClose={handleModalClose}
+          refetch={refetch}
         />
-      ))}
-      <Button
-        className='mt-4'
-        leftSection={<IconCheck size={16} />}
-        type='submit'
-        fullWidth
-      >
-        Save Availability
-      </Button>
-    </form>
+      )}
+    </>
   );
 }

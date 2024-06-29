@@ -18,7 +18,7 @@ import { TutorVideo } from '../Profile/TutorVideo';
 
 export function TutorProfile() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['getProfile'],
     queryFn: tutorService.getProfile,
   });
@@ -45,6 +45,7 @@ export function TutorProfile() {
               isEditing={isEditing}
               user={data}
               handleEditToggle={handleEditToggle}
+              refetch={refetch}
             />
             <Tabs defaultValue='personalInfo'>
               <Tabs.List>
@@ -75,16 +76,23 @@ export function TutorProfile() {
                   isEditing={isEditing}
                   user={data}
                   handleEditToggle={handleEditToggle}
+                  refetch={refetch}
                 />
               </Tabs.Panel>
               <Tabs.Panel value='schedule' pt='md'>
-                <TutorSchedule isEditing={isEditing} tutor={data} />
+                <TutorSchedule
+                  isEditing={isEditing}
+                  tutor={data}
+                  handleEditToggle={handleEditToggle}
+                  refetch={refetch}
+                />
               </Tabs.Panel>
               <Tabs.Panel value='cv' pt='md'>
                 <TutorCV
                   isEditing={isEditing}
                   tutor={data}
                   handleEditToggle={handleEditToggle}
+                  refetch={refetch}
                 />
               </Tabs.Panel>
               <Tabs.Panel value='video' pt='md'>
@@ -92,6 +100,7 @@ export function TutorProfile() {
                   isEditing={isEditing}
                   tutor={data}
                   handleEditToggle={handleEditToggle}
+                  refetch={refetch}
                 />
               </Tabs.Panel>
               <Tabs.Panel value='reviews' pt='md'>

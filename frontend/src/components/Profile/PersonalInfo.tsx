@@ -10,9 +10,12 @@ import {
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import { Tutor } from '../../model';
-// import { languages } from '../../util/constants';
 import { useForm } from '@mantine/form';
-import { useMutation } from '@tanstack/react-query';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useMutation,
+} from '@tanstack/react-query';
 import { useLanguages, useTopics } from '../../hooks';
 import { tutorService } from '../../service';
 import { notificationService } from '../../service/NotificationService';
@@ -21,6 +24,9 @@ interface PersonalInfoProps {
   isEditing: boolean;
   user: Tutor;
   handleEditToggle: () => void;
+  refetch: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<Tutor, Error>>;
 }
 
 export function PersonalInfo(props: PersonalInfoProps) {
@@ -76,7 +82,7 @@ export function PersonalInfo(props: PersonalInfoProps) {
 }
 
 export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
-  const { user, handleEditToggle } = props;
+  const { user, handleEditToggle, refetch } = props;
   const { data: { topics } = {} } = useTopics();
   const { data: { langauges } = {} } = useLanguages();
 
@@ -84,6 +90,7 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
     mutationFn: tutorService.updateProfile,
     onSuccess: () => {
       notificationService.showSuccess({ message: 'Profile data updated!' });
+      refetch();
       handleEditToggle();
     },
     onError: (err) => {

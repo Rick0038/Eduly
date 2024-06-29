@@ -82,14 +82,16 @@ export interface Review {
   };
 }
 
+export interface ScheduleTiming {
+  sessionId: number;
+  from: string;
+  to: string;
+  status: string;
+}
+
 export interface Schedule {
   date: string;
-  timings: {
-    sessionId: number;
-    from: string;
-    to: string;
-    status: string;
-  }[];
+  timings: ScheduleTiming[];
 }
 
 export interface Student {
