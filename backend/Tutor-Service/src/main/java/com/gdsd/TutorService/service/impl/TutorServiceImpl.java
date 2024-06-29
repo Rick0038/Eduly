@@ -491,6 +491,14 @@ public class TutorServiceImpl implements TutorService {
                     = new LinkedHashMap<>();
             // Loop over each returned session sorted by date then startTime
             for(Session session : sessions) {
+                //if session is today and before current time but still has status='FREE'
+                // then update it in DB
+                if(session.getDate().isEqual(LocalDate.now()) &&
+                        session.getStartTime().isBefore(LocalTime.now()) &&
+                        session.getStatus().equals("FREE")) {
+                    session.setStatus(Session.Status.COMPLETED.toString());
+                    sessionRepository.save(session);
+                }
                 LocalDate date = session.getDate();
                 TutorDetailsResponseDto.Timing timing = new TutorDetailsResponseDto.Timing();
 
@@ -598,7 +606,7 @@ public class TutorServiceImpl implements TutorService {
         responseDto.setBbbLink(tutor.getBbbLink());
 
         // Setting of Schedule
-        Optional<List<Session>> tutorSessions = sessionRepository.findByTutorIdAndStatusOrderByDateAscStartTimeAsc(tutorId, "FREE");
+        Optional<List<Session>> tutorSessions = sessionRepository.findByTutorIdAndStatusAfterCurrentTime(tutorId, "FREE", LocalDate.now(), LocalTime.now());
         if(tutorSessions.isEmpty() || tutorSessions.get().isEmpty()) {
             responseDto.setSchedule(new ArrayList<>());
         } else {
