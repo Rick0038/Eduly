@@ -60,6 +60,34 @@
         {
           "type": "route",
           "uuid": "afbe551a-5b1b-4ec0-87c5-ab3217051efc"
+        },
+        {
+          "type": "route",
+          "uuid": "8ee68456-5f5f-41b6-8642-c49d864e4915"
+        },
+        {
+          "type": "route",
+          "uuid": "4b0f7810-1ab3-41b4-8dd7-d0aaec2f8561"
+        },
+        {
+          "type": "route",
+          "uuid": "2f626292-6947-45a8-bdcc-b3e275f9f139"
+        },
+        {
+          "type": "route",
+          "uuid": "9c4487ca-dfad-4201-a609-c146b1757802"
+        },
+        {
+          "type": "route",
+          "uuid": "b5f7aebd-f834-4a75-b581-9bfb39f728b0"
+        },
+        {
+          "type": "route",
+          "uuid": "5030cdcf-0a70-446c-9b51-a42cae7c081e"
+        },
+        {
+          "type": "route",
+          "uuid": "d2c22f41-aa5f-470c-aead-5b6854a0c3ec"
         }
       ]
     }
@@ -103,7 +131,7 @@
       "responses": [
         {
           "uuid": "3a784ea1-67cc-454b-8ab4-7719300d019c",
-          "body": "{\n  \"tutors\": [\n    {\n      \"id\": \"12345\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"pricing\": 40,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 100,\n      \"topic\": [\"Math\", \"Physics\"],\n      \"language\": \"English\",\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 10,\n      \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\",\n      \"cvLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/cv_20\",\n      \"videoLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/intro_video_20\"\n    },\n    {\n      \"id\": \"67890\",\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Smith\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 27,\n      \"topic\": [\"Physics\"],\n      \"language\": \"English\",\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 20,\n      \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\",\n      \"cvLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/cv_20\",\n      \"videoLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/intro_video_20\"\n    }\n  ]\n}",
+          "body": "{\n  \"tutors\": [\n    {\n      \"id\": \"12345\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"pricing\": 40,\n      \"rating\": 4.7,\n      \"numberOfRatings\": 100,\n      \"topic\": [\"Math\"],\n      \"language\": \"English\",\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 10,\n      \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\",\n      \"cvLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/cv_20\",\n      \"videoLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/intro_video_20\"\n    },\n    {\n      \"id\": \"67890\",\n      \"firstName\": \"Jane\",\n      \"lastName\": \"Smith\",\n      \"pricing\": 35,\n      \"rating\": 4.6,\n      \"numberOfRatings\": 27,\n      \"topic\":[ \"Physics\"],\n      \"language\": \"English\",\n      \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n      \"numLessonsTaught\": 20,\n      \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\",\n      \"cvLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/cv_20\",\n      \"videoLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/intro_video_20\"\n    }\n  ]\n}",
           "latency": 1500,
           "statusCode": 200,
           "label": "",
@@ -116,7 +144,7 @@
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": false,
+          "default": true,
           "crudKey": "id",
           "callbacks": []
         },
@@ -154,7 +182,7 @@
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": true,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         }
@@ -392,7 +420,7 @@
       "responses": [
         {
           "uuid": "8e20c14b-34d3-4c9d-b866-6f7edbf2bce0",
-          "body": "{\n  \"id\": \"12345\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"pricing\": 40,\n  \"rating\": 4.7,\n  \"numberOfRatings\": 100,\n  \"topic\": \"Math\",\n  \"language\": \"English\",\n  \"introText\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n  \"numLessonsTaught\": 10,\n  \"profileImgLink\": {\n    \"link\": \"http://cv.pdf\"\n  },\n  \"cv\": {\n    \"link\": \"http://cv.pdf\"\n  },\n  \"video\": {\n    \"link\": \"http://cv.pdf\"\n  },\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"schedule\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 129,\n          \"from\": \"19:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        }\n      ]\n    },\n    {\n      \"date\": \"2024-09-02\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 456,\n          \"from\": \"19:00\",\n          \"to\": \"20:00\",\n          \"status\": \"FREE\"\n        }\n      ]\n    }\n  ],\n  \"reviews\": [\n    {\n      \"id\": 123,\n      \"rating\": 4.5,\n      \"text\": \"amazing tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jame Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    },\n    {\n      \"id\": 345,\n      \"rating\": 3,\n      \"text\": \"average tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jack Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    }\n  ]\n}",
+          "body": "{\n  \"id\": 12345,\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"pricing\": 40,\n  \"rating\": 4.7,\n  \"numberOfRatings\": 100,\n  \"topic\": [\"Math\"],\n  \"language\": \"English\",\n  \"intro\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed risus ante, tempus blandit augue vitae, molestie venenatis est. Nunc molestie tellus quis efficitur sagittis. Nulla eu laoreet arcu, non sodales. \",\n  \"numLessonsTaught\": 10,\n  \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\",\n  \"cvLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/cv_20\",\n  \"videoLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/intro_video_20\",\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"schedule\": [\n    {\n      \"date\": \"2024-06-29\",\n      \"timings\": [\n{\n  \"sessionId\": 123,\n  \"from\": \"17:00\",\n  \"to\": \"18:00\",\n  \"status\": \"FREE\"\n},\n{\n  \"sessionId\": 129,\n  \"from\": \"19:00\",\n  \"to\": \"20:00\",\n  \"status\": \"FREE\"\n},\n{\n  \"sessionId\": 130,\n  \"from\": \"09:00\",\n  \"to\": \"10:00\",\n  \"status\": \"FREE\"\n},\n{\n  \"sessionId\": 131,\n  \"from\": \"10:00\",\n  \"to\": \"11:00\",\n  \"status\": \"FREE\"\n},\n{\n  \"sessionId\": 132,\n  \"from\": \"11:00\",\n  \"to\": \"12:00\",\n  \"status\": \"FREE\"\n},\n{\n  \"sessionId\": 133,\n  \"from\": \"12:00\",\n  \"to\": \"13:00\",\n  \"status\": \"FREE\"\n},\n{\n  \"sessionId\": 134,\n  \"from\": \"13:00\",\n  \"to\": \"14:00\",\n  \"status\": \"FREE\"\n},\n{\n  \"sessionId\": 135,\n  \"from\": \"14:00\",\n  \"to\": \"15:00\",\n  \"status\": \"FREE\"\n},\n{\n  \"sessionId\": 136,\n  \"from\": \"15:00\",\n  \"to\": \"16:00\",\n  \"status\": \"FREE\"\n},\n{\n  \"sessionId\": 137,\n  \"from\": \"16:00\",\n  \"to\": \"17:00\",\n  \"status\": \"FREE\"\n},\n{\n  \"sessionId\": 138,\n  \"from\": \"18:00\",\n  \"to\": \"19:00\",\n  \"status\": \"FREE\"\n},\n{\n  \"sessionId\": 139,\n  \"from\": \"20:00\",\n  \"to\": \"21:00\",\n  \"status\": \"FREE\"\n}\n\n      ]\n    },\n    {\n      \"date\": \"2024-06-28\",\n      \"timings\": [\n        {\n          \"sessionId\": 123,\n          \"from\": \"17:00\",\n          \"to\": \"18:00\",\n          \"status\": \"FREE\"\n        },\n        {\n          \"sessionId\": 456,\n          \"from\": \"19:00\",\n          \"to\": \"20:00\",\n          \"status\": \"FREE\"\n        }\n      ]\n    }\n  ],\n  \"reviews\": [\n    {\n      \"id\": 123,\n      \"rating\": 4.5,\n      \"text\": \"amazing tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jame Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    },\n    {\n      \"id\": 345,\n      \"rating\": 3,\n      \"text\": \"average tutor\",\n      \"reviewBy\": {\n        \"name\": \"Jack Adams\",\n        \"profileImgLink\": \"blah.com/pic\"\n      }\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -596,6 +624,209 @@
         {
           "uuid": "e41874bb-5b34-445e-ace7-2fe894f91ea1",
           "body": "{\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"appointments\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"timings\": [\n        {\n          \"sessionId\": 129,\n          \"from\": \"19:00\",\n          \"to\": \"18:00\",\n          \"status\": \"BOOKED\",\n          \"with\": {\n            \"id\": 234,\n            \"firstName\": \"\",\n            \"lastName\": \"\",\n            \"profileImgLink\": \"\"\n          },\n          \"type\": \"TRIAL\"\n        }\n      ]\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "8ee68456-5f5f-41b6-8642-c49d864e4915",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/student/book/:sessionId",
+      "responses": [
+        {
+          "uuid": "239a50bf-ec87-4268-a6e2-561205ae828e",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "4b0f7810-1ab3-41b4-8dd7-d0aaec2f8561",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/student/cancel/:sessionId",
+      "responses": [
+        {
+          "uuid": "d3cad374-f546-4a96-ba4d-9320b45617e5",
+          "body": "{\n\"message\": \"Session with David james on  12-12-2024 18:00 cancelled successfully\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "2f626292-6947-45a8-bdcc-b3e275f9f139",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/v1/student/write-review/tutor/:tutorId",
+      "responses": [
+        {
+          "uuid": "78829101-86c3-4bdd-8ee6-e2ec90a4895a",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "9c4487ca-dfad-4201-a609-c146b1757802",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/student/upcoming-appointments",
+      "responses": [
+        {
+          "uuid": "42be6ce5-0c01-41dd-87f6-3fd897fbb6b1",
+          "body": "{\n \"upcomingAppointments\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"sessionId\": 129,\n      \"from\": \"19:00\",\n      \"to\": \"18:00\",\n      \"status\": \"BOOKED\",\n      \"tutorDetail\": {\n        \"id\": 234,\n        \"name\": \"John adams\",\n        \"profileImgLink\": \"\",\n        \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\"\n      }\n    },\n        {\n      \"date\": \"2024-09-01\",\n      \"sessionId\": 130,\n      \"from\": \"19:00\",\n      \"to\": \"18:00\",\n      \"status\": \"BOOKED\",\n      \"tutorDetail\": {\n        \"id\": 234,\n        \"name\": \"jack adams\",\n        \"profileImgLink\": \"\",\n        \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\"\n      }\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "b5f7aebd-f834-4a75-b581-9bfb39f728b0",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/student/profile",
+      "responses": [
+        {
+          "uuid": "4009ae33-4e8d-41f0-bca2-00d589526dcf",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "5030cdcf-0a70-446c-9b51-a42cae7c081e",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/student/profileImage",
+      "responses": [
+        {
+          "uuid": "42ac3750-3652-4666-b97e-aa9743786ba6",
+          "body": "{\n\t\"profileImgLink\": \"blob.com\",\n\t\"status\": \"PENDING_APPROVAL\"\n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "d2c22f41-aa5f-470c-aead-5b6854a0c3ec",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/student/profile",
+      "responses": [
+        {
+          "uuid": "4fc64c47-6d9b-4472-8137-8a1766ab6d2b",
+          "body": "{\n  \"id\": 12345,\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"Hello@hs-fulda.de\",\n  \"profileImgLink\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
