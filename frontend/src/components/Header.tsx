@@ -60,7 +60,9 @@ export function Header(props: HeaderProps) {
           <Flex justify='flex-end' align='center' gap={10}>
             <SearchTutor />
             <Group visibleFrom='sm'>
-              <Button variant='outline'>Forum</Button>
+              <Button variant='outline' onClick={() => navigate('/forum')}>
+                Forum
+              </Button>
 
               {!authService.isLoggedIn() && (
                 <>
