@@ -1,6 +1,6 @@
 import { authService } from '../../service';
 import { StudentProfile } from '../Profile/StudentProfile';
-import { TutorProfile } from './TutorProfile';
+import { TutorProfile } from '../Profile/TutorProfile';
 
 export const ProfilePage = () => {
   if (authService.isStudent) {
