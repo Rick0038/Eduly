@@ -24,6 +24,7 @@ import { useMutation } from '@tanstack/react-query';
 import { FC, Fragment, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { ROLE } from '../constant';
 import { Tutor } from '../model';
 import { authService, chatService } from '../service';
 import { notificationService } from '../service/NotificationService';
@@ -78,7 +79,13 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
           <Grid.Col span={6}>
             <Stack>
               <div>
-                <Link to={`/tutor/${tutor.id}`}>
+                <Link
+                  to={
+                    authService.isLoggedIn() && authService.isStudent
+                      ? `/tutor/${tutor.id}`
+                      : `/login?role=${ROLE.STUDENT}&redirect=/tutor/${tutor.id}`
+                  }
+                >
                   <Title order={3}>{tutorName}</Title>
                 </Link>
                 <Group>

@@ -80,7 +80,7 @@ export interface StudentProfileReq {
 
 class StudentService {
   async getTutorDetails(tutorId: string) {
-    return httpService.get<TutorDetailResponse>(`/tutor/${tutorId}`);
+    return httpService.get<TutorDetailResponse>(`/api/v1/tutor/${tutorId}`);
   }
 
   async bookSession(sessionId: number) {
