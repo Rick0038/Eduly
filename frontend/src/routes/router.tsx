@@ -7,6 +7,7 @@ import {
   NotFound,
   SearchPage,
 } from '../components';
+import { AdminPage } from '../components/Pages/AdminPage';
 import { ForumPage } from '../components/Pages/ForumPage';
 import { ProfilePage } from '../components/Pages/ProfilePage';
 import { TutorDetail } from '../components/TutorDetail/TutorDetail';
@@ -42,6 +43,14 @@ export const router = createBrowserRouter([
         element: (
           <GuardedRoute allowedRoles={[ROLE.STUDENT, ROLE.TUTOR]}>
             <ProfilePage />
+          </GuardedRoute>
+        ),
+      },
+      {
+        path: '/admin',
+        element: (
+          <GuardedRoute allowedRoles={[ROLE.ADMIN]}>
+            <AdminPage />
           </GuardedRoute>
         ),
       },
