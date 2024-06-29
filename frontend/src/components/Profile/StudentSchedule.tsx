@@ -17,7 +17,7 @@ import { studentService } from '../../service/StudentService';
 
 export const StudentSchedule = () => {
   const { data, refetch, isError, isLoading } = useQuery({
-    queryFn: () => studentService.getUpcomingAppointments(),
+    queryFn: studentService.getUpcomingAppointments,
     queryKey: ['getUpcomingAppointments'],
   });
 

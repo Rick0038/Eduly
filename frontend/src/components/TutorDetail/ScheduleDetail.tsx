@@ -2,10 +2,10 @@ import { Button, Center, Group, Indicator, Radio, Stack } from '@mantine/core';
 import { DatePicker, DatePickerProps } from '@mantine/dates';
 import { useMutation } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { filter, isEmpty } from 'lodash';
-import { FC, useEffect, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { notificationService } from '../../service/NotificationService';
-import { Schedule, Timing, studentService } from '../../service/StudentService';
+import { Schedule, studentService } from '../../service/StudentService';
+import { isEmpty } from '../../util/helpers';
 
 export const ScheduleDetail: FC<{
   scheduleList: Schedule[];
@@ -14,7 +14,6 @@ export const ScheduleDetail: FC<{
   const dateList = scheduleList.map((schedule) => schedule.date);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [timings, setTimings] = useState<Timing[]>([]);
   const [sessionId, setSessionId] = useState<string>();
 
   const bookSessionMutation = useMutation({
@@ -31,17 +30,16 @@ export const ScheduleDetail: FC<{
     },
   });
 
-  useEffect(() => {
-    if (scheduleList && selectedDate) {
-      const filteredScheduleList =
-        filter(scheduleList, {
-          date: dayjs(selectedDate).format('YYYY-MM-DD'),
-        }) || [];
-      if (!isEmpty(filteredScheduleList)) {
-        setTimings(filteredScheduleList[0].timings);
-      } else {
-        setTimings([]);
-      }
+  const timings = useMemo(() => {
+    const selectedDateFormatted = dayjs(selectedDate).format('YYYY-MM-DD');
+    const filteredScheduleList = scheduleList.filter((item) => {
+      return item.date === selectedDateFormatted;
+    });
+
+    if (!isEmpty(filteredScheduleList)) {
+      return filteredScheduleList[0].timings;
+    } else {
+      return [];
     }
   }, [scheduleList, selectedDate]);
 

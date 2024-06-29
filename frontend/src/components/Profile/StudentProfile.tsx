@@ -3,9 +3,9 @@ import { IconCalendar, IconUser } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { studentService } from '../../service/StudentService';
-import { ProfileHead } from '../Profile/ProfileHead';
-import { StudentPersonalInfo } from '../Profile/StudentPersonalInfo';
-import { StudentSchedule } from '../Profile/StudentSchedule';
+import { ProfileHead } from './ProfileHead';
+import { StudentPersonalInfo } from './StudentPersonalInfo';
+import { StudentSchedule } from './StudentSchedule';
 
 export const StudentProfile = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);

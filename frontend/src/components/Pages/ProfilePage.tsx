@@ -1,5 +1,5 @@
 import { authService } from '../../service';
-import { StudentProfile } from './StudentProfile';
+import { StudentProfile } from '../Profile/StudentProfile';
 import { TutorProfile } from './TutorProfile';
 
 export const ProfilePage = () => {
