@@ -63,7 +63,6 @@ export function AddTutorSchedule(props: Omit<TutorScheduleProps, 'isEditing'>) {
         from: schedule.from,
         to: schedule.to,
       }));
-
     addScheduleBulk.mutate(completeSchedules);
   };
 

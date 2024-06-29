@@ -93,6 +93,12 @@ class TutorService {
     const response = await httpService.delete<Record<string, string>>(url);
     return response;
   }
+
+  async editSchedule(id: number, data: Record<string, string>) {
+    const url = `/api/v1/tutor/schedule/session/${id}`;
+    const response = await httpService.put<Record<string, string>>(url, data);
+    return response;
+  }
 }
 
 const tutorService = new TutorService();
