@@ -1,10 +1,5 @@
 # Eduly 📚
-
-API Documentation: https://luxurious-airplane-ccc.notion.site/Eduly-API-Specification-aafb9051d4874ad89caf3205a4760f52
-
-A modular lightweight education platform based on microservices.
-
-With this project, our goal is to create a platform so that tutors and students can connect.
+Connect with tutors!
 
 # Meet the team 👨‍💻👨‍💻
 
@@ -16,26 +11,24 @@ Meet our developers who made this project a success.
 | Sagnik Bhattacharya      | sagnik.bhattacharya@informatik.hs-fulda.de        | rick0038        |
 | Aashay Ajay Markale      | aashay-ajay.markale@informatik.hs-fulda.de        | babaji811       |
 | Advaith Hari Raj Lakshmi | advaith.hari-raj-lakshmi@informatik.hs-fulda.de   | advaithhl       |
-| Ayush Pravin SHetty      | ayush-pravin.shetty@informatik.hs-fulda.de        | ayush1999-dot   |
+| Ayush Pravin Shetty      | ayush-pravin.shetty@informatik.hs-fulda.de        | ayush1999-dot   |
 | Ammar Ansari             | muhammad-ammar.ansari@informatik.hs-fulda.de      | iAmmar7         |
 
 # Techstack ⚡
 
-- React JS
+- React
 - Vite
 - Node
 - Apache
 - Java Spring
 - Docker
 - Azure
-- Jenkins
 
 # Features 🔥
 
-- Direct tutor to student communication
-- Full E2E solution for education management
-- Modular components
-- Highly scalable
+- Messaging
+- Versatile tutor search
+- Admin dashboard
 
 # Development 💻
 

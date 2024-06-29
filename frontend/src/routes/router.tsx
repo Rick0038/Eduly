@@ -9,6 +9,7 @@ import {
 } from '../components';
 import { ForumPage } from '../components/Pages/ForumPage';
 import { ProfilePage } from '../components/Pages/ProfilePage';
+import { TutorDetail } from '../components/TutorDetail/TutorDetail';
 import { Unauthorized } from '../components/Unauthorized/Unauthorized';
 import { GuardedRoute } from '../components/auth/GuardedRoute';
 import { Login } from '../components/auth/Login';
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
             element: <QuestionDetails />,
           },
         ],
+      },
+      {
+        path: '/tutor/:tutorId',
+        element: <TutorDetail />,
       },
       {
         path: '/unauthorized',
