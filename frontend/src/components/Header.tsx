@@ -60,7 +60,9 @@ export function Header(props: HeaderProps) {
           <Flex justify='flex-end' align='center' gap={10}>
             <SearchTutor />
             <Group visibleFrom='sm'>
-              <Button variant='outline'>Forum</Button>
+              <Button variant='outline' onClick={() => navigate('/forum')}>
+                Forum
+              </Button>
 
               {!authService.isLoggedIn() && (
                 <>
@@ -114,9 +116,15 @@ export function Header(props: HeaderProps) {
                         <Text size='sm'>{authService.user?.name}</Text>
                         <Badge size='xs'>{authService.user?.role}</Badge>
                       </Menu.Label>
-                      <Menu.Item onClick={() => navigate('/profile')}>
-                        Profile
-                      </Menu.Item>
+                      {!authService.isAdmin && (
+                        <Menu.Item
+                          onClick={() => {
+                            navigate('/profile');
+                          }}
+                        >
+                          Profile
+                        </Menu.Item>
+                      )}
                       <Menu.Item
                         color='red'
                         onClick={() => {
