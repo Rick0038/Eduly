@@ -66,7 +66,24 @@
     {
       "uuid": "508891a6-578f-480c-94ab-1e23e8cebf68",
       "name": "Community Forums",
-      "children": []
+      "children": [
+        {
+          "type": "route",
+          "uuid": "a0caec72-94f4-4e86-af1c-2b1025f9a0ee"
+        },
+        {
+          "type": "route",
+          "uuid": "71735c1b-dc8b-47e0-9aa4-7c24533641ce"
+        },
+        {
+          "type": "route",
+          "uuid": "6ef61d62-d8e2-4596-ab41-8a7b69b5090f"
+        },
+        {
+          "type": "route",
+          "uuid": "3ee4b5f2-d356-4d69-b42d-e6b8ded6b683"
+        }
+      ]
     }
   ],
   "routes": [
@@ -601,6 +618,122 @@
         {
           "uuid": "e41874bb-5b34-445e-ace7-2fe894f91ea1",
           "body": "{\n  \"bbbLink\": \"https://webconf.hs-fulda.de/b/ale-5zr-osl-go2\",\n  \"appointments\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"timings\": [\n        {\n          \"sessionId\": 129,\n          \"from\": \"19:00\",\n          \"to\": \"18:00\",\n          \"status\": \"BOOKED\",\n          \"with\": {\n            \"id\": 234,\n            \"firstName\": \"\",\n            \"lastName\": \"\",\n            \"profileImgLink\": \"\"\n          },\n          \"type\": \"TRIAL\"\n        }\n      ]\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "a0caec72-94f4-4e86-af1c-2b1025f9a0ee",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "forums/questions",
+      "responses": [
+        {
+          "uuid": "1ad73e3e-72e9-4b72-af3d-c457e1151c61",
+          "body": "{\n  \"questions\": [\n    {\n      \"id\": 34,\n      \"title\": \"what is that?\",\n      \"description\": \"blah blah\",\n      \"questionBy\": \"John Adams\",\n      \"timestamp\": \"2024-06-13 14:23\"\n    },\n        {\n      \"id\": 36,\n      \"title\": \"what is that?\",\n      \"description\": \"blah blah\",\n      \"questionBy\": \"John Adams\",\n      \"timestamp\": \"2024-06-13 14:23\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "71735c1b-dc8b-47e0-9aa4-7c24533641ce",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "forums/answer/:qid",
+      "responses": [
+        {
+          "uuid": "52d50581-99a9-4ac1-b755-f12a74a493fe",
+          "body": "{\n\t\"question\":  {\n\t    \"id\": 34,\n      \"title\": \"what is that?\",\n      \"description\": \"blah blah\",\n      \"questionBy\": \"John Adams\",\n      \"timestamp\": \"2024-06-13 14:23\"\n\t},\n  \"answers\": [\n    {\n      \"id\": 34,\n      \"description\": \"blah blah\",\n      \"answerBy\": \"John Adams\",\n      \"timestamp\": \"2024-06-13 14:23:45\"\n    },\n        {\n      \"id\": 35,\n      \"description\": \"blah blah\",\n      \"answerBy\": \"John Adams\",\n      \"timestamp\": \"2024-06-13 14:23:45\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "6ef61d62-d8e2-4596-ab41-8a7b69b5090f",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/v1/forums/ask",
+      "responses": [
+        {
+          "uuid": "6edf13bc-2f28-4042-891c-6cf40e339e73",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "3ee4b5f2-d356-4d69-b42d-e6b8ded6b683",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/v1/forums/answer/:qid",
+      "responses": [
+        {
+          "uuid": "6afe9bb0-5969-43e6-afe5-555a7d5d4f2c",
+          "body": "{}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

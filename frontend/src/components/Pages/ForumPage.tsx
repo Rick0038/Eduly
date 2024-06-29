@@ -1,30 +1,36 @@
 import {
   ActionIcon,
-  Button,
-  Card,
+  Center,
   Container,
   Grid,
-  Group,
   List,
+  Loader,
   Text,
   TextInput,
   Title,
 } from '@mantine/core';
-import { IconPlus, IconSearch } from '@tabler/icons-react';
+import { IconSearch } from '@tabler/icons-react';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-
-const data = [
-  {
-    id: 34,
-    title: 'what is that?',
-    description: 'blah blah',
-    questionBy: 'John Adams',
-    timestamp: '2024-06-13 14:23',
-  },
-];
+import { Link } from 'react-router-dom';
+import { authService } from '../../service';
+import { forumService } from '../../service/ForumService';
+import { AddQuestion } from '../forum/AddQuestion';
+import { QuestionCard } from '../forum/QuestionCard';
 
 export const ForumPage = () => {
+  const [keyword, setKeyword] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryFn: () => forumService.getQuestions(keyword),
+    queryKey: ['getQuestions', keyword],
+  });
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setKeyword(searchQuery);
+  };
 
   return (
     <Container>
@@ -33,8 +39,8 @@ export const ForumPage = () => {
       </Title>
 
       <Grid>
-        <Grid.Col span={10}>
-          <form onSubmit={() => alert('submitted!!')}>
+        <Grid.Col span={authService.isLoggedIn() ? 10 : 12}>
+          <form onSubmit={(e) => handleFormSubmit(e)}>
             <TextInput
               placeholder='Search questions by keyword'
               rightSection={
@@ -49,23 +55,30 @@ export const ForumPage = () => {
           </form>
         </Grid.Col>
 
-        <Grid.Col span={2}>
-          <Button leftSection={<IconPlus />}>Ask Question</Button>
+        <Grid.Col hidden={!authService.isLoggedIn()} span={2}>
+          <AddQuestion onAddQuestion={() => refetch()} />
         </Grid.Col>
       </Grid>
 
+      {isLoading && (
+        <Container>
+          <Center style={{ height: 'calc(100vh - 120px)' }}>
+            <Loader type='bars'></Loader>
+          </Center>
+        </Container>
+      )}
+
+      {isError && (
+        <Container>
+          <Text ta='center'>An error occurred while fetching questions</Text>
+        </Container>
+      )}
+
       <List spacing='sm' size='sm' center>
-        {data.map((question) => (
-          <Card shadow='sm' padding='lg' key={question.id} withBorder>
-            <Group style={{ marginBottom: 5 }}>
-              <Text size='lg'>{question.title}</Text>
-            </Group>
-            <Text size='sm'>{question.description}</Text>
-            <Text size='xs' c='dimmed'>
-              Asked by {question.questionBy} on{' '}
-              {new Date(question.timestamp).toLocaleString()}
-            </Text>
-          </Card>
+        {data?.questions.map((question) => (
+          <Link key={question.id} to={`/forum/${question.id}`}>
+            <QuestionCard key={question.id} question={question} />
+          </Link>
         ))}
       </List>
     </Container>

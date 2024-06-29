@@ -1,69 +1,80 @@
-import { Button, Card, Container, Group, List, Text } from '@mantine/core';
-import { IconPlus } from '@tabler/icons-react';
+import {
+  Card,
+  Center,
+  Container,
+  Group,
+  List,
+  Loader,
+  Text,
+} from '@mantine/core';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import { authService } from '../../service';
+import { forumService } from '../../service/ForumService';
+import { AddAnswer } from './AddAnswer';
+import { QuestionCard } from './QuestionCard';
 
 const QuestionDetails = () => {
-  const { question, answers } = {
-    question: {
-      id: 34,
-      title: 'what is that?',
-      description: 'blah blah',
-      questionBy: 'John Adams',
-      timestamp: '2024-06-13 14:23',
-    },
-    answers: [
-      {
-        id: 34,
-        description: 'blah blah',
-        answerBy: 'John Adams',
-        timestamp: '2024-06-13 14:23:45',
-      },
-      {
-        id: 35,
-        description: 'blah blah',
-        answerBy: 'John Adams',
-        timestamp: '2024-06-13 14:23:45',
-      },
-    ],
-  };
+  const { questionId } = useParams();
+
+  const { data, isError, isLoading, refetch } = useQuery({
+    queryFn: () => forumService.getAnswers(parseInt(questionId as string)),
+    queryKey: ['getAnswers', questionId],
+  });
+
+  if (isError) {
+    return (
+      <Container>
+        <Text ta='center'>An error occurred while fetching answers.</Text>
+      </Container>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <Container>
+        <Center style={{ height: 'calc(100vh - 120px)' }}>
+          <Loader type='bars'></Loader>
+        </Center>
+      </Container>
+    );
+  }
 
   return (
-    <Container>
-      <Card shadow='sm' padding='lg' withBorder mb='lg'>
-        <Group style={{ marginBottom: 5 }}>
-          <Text size='lg'>{question.title}</Text>
-          <Text size='xs' c={'gray'}>
-            {new Date(question.timestamp).toLocaleString()}
-          </Text>
+    questionId &&
+    data && (
+      <Container>
+        <QuestionCard question={data?.question} />
+
+        <Group justify='space-between' mb={'lg'}>
+          <Text size='xl'>Answers</Text>
+          {authService.isLoggedIn() && (
+            <AddAnswer
+              questionId={parseInt(questionId as string)}
+              onAddAnswer={() => refetch()}
+            />
+          )}
         </Group>
-        <Text size='sm' mb='md'>
-          {question.description}
-        </Text>
-        <Text size='xs' color='dimmed'>
-          Asked by {question.questionBy}
-        </Text>
-      </Card>
 
-      <Group justify='space-between' mb={'lg'}>
-        <Text size='xl'>Answers</Text>
-        <Button leftSection={<IconPlus />}> Add Answer</Button>
-      </Group>
-
-      <List spacing='sm' size='sm'>
-        {answers.map((answer) => (
-          <Card shadow='sm' padding='lg' key={answer.id} withBorder>
-            <Group style={{ marginBottom: 5 }}>
-              <Text size='sm' c='dimmed'>
+        <List spacing='sm' size='sm'>
+          {data.answers.map((answer) => (
+            <Card
+              style={{ marginBottom: '20px' }}
+              shadow='sm'
+              padding='lg'
+              key={answer.id}
+              withBorder
+            >
+              <Text size='sm'>{answer.description}</Text>
+              <Text size='xs' c='dimmed'>
+                Answered by {answer.answerBy} on{' '}
                 {new Date(answer.timestamp).toLocaleString()}
               </Text>
-            </Group>
-            <Text size='sm'>{answer.description}</Text>
-            <Text size='xs' c='dimmed'>
-              Answered by {answer.answerBy}
-            </Text>
-          </Card>
-        ))}
-      </List>
-    </Container>
+            </Card>
+          ))}
+        </List>
+      </Container>
+    )
   );
 };
 
