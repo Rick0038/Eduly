@@ -7,11 +7,19 @@ interface ISuccess {
   autoClose?: number | boolean;
 }
 
-interface IError {
+interface IErrorWithErr {
   err: AxiosError | Error;
   title?: string;
   autoClose?: number | boolean;
 }
+
+interface IErrorWithMessage {
+  message: string;
+  title?: string;
+  autoClose?: number | boolean;
+}
+
+type IError = IErrorWithErr | IErrorWithMessage;
 
 class NotificationService {
   showSuccess({ message, title, autoClose }: ISuccess) {
@@ -23,17 +31,18 @@ class NotificationService {
     });
   }
 
-  showError({ err, title, autoClose }: IError) {
-    console.error(err);
+  showError(error: IError) {
     let msg = 'An error occurred';
-    if (err instanceof AxiosError) {
-      msg = err.response?.data.message;
+    if ('message' in error && error.message) {
+      msg = error.message;
+    } else if (error instanceof AxiosError) {
+      msg = error.response?.data.message;
     }
     notifications.show({
-      title: title || 'Error',
+      title: error.title || 'Error',
       message: msg,
       color: 'red',
-      autoClose,
+      autoClose: error.autoClose,
     });
   }
 }

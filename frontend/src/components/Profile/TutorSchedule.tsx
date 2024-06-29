@@ -10,14 +10,19 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { DateInput } from '@mantine/dates';
+import dayjs from 'dayjs';
+import { useMutation } from '@tanstack/react-query';
+import { IconCheck, IconPlus, IconTrash } from '@tabler/icons-react';
 import { Tutor } from '../../model';
 import { formatDate } from '../../util/helpers';
-import { IconCheck, IconPlus, IconTrash } from '@tabler/icons-react';
 import { hours } from '../../util/constants';
+import { tutorService } from '../../service';
+import { notificationService } from '../../service/NotificationService';
 
 interface TutorScheduleProps {
   isEditing: boolean;
   tutor: Tutor;
+  handleEditToggle: () => void;
 }
 
 const statusColors: { [key: string]: string } = {
@@ -27,10 +32,10 @@ const statusColors: { [key: string]: string } = {
 };
 
 export function TutorSchedule(props: TutorScheduleProps) {
-  const { isEditing, tutor } = props;
+  const { isEditing, tutor, ...otherProps } = props;
 
   if (isEditing) {
-    return <EditTutorSchedule />;
+    return <EditTutorSchedule tutor={tutor} {...otherProps} />;
   }
 
   return (
@@ -66,7 +71,33 @@ export function TutorSchedule(props: TutorScheduleProps) {
   );
 }
 
-export function EditTutorSchedule() {
+export function EditTutorSchedule(
+  props: Omit<TutorScheduleProps, 'isEditing'>
+) {
+  const { handleEditToggle } = props;
+
+  const addScheduleBulk = useMutation({
+    mutationFn: tutorService.addScheduleBulk,
+    onSuccess: (results) => {
+      const { success, failure } = results;
+      if (success > 0) {
+        notificationService.showSuccess({
+          message: `${success} schedule(s) added successfully!`,
+        });
+        handleEditToggle();
+      }
+      if (failure > 0) {
+        notificationService.showError({
+          message: `${failure} schedule(s) failed to add.`,
+        });
+      }
+    },
+    onError: (err) => {
+      console.log('err', err);
+      notificationService.showError({ err });
+    },
+  });
+
   const form = useForm({
     initialValues: {
       schedules: [{ date: '', from: '', to: '' }],
@@ -81,16 +112,23 @@ export function EditTutorSchedule() {
     form.removeListItem('schedules', index);
   };
 
-  const handleSubmit = (values: unknown) => {
-    console.log('values', values);
-    // TODO: Hit the API
-  };
-
   const handleFromTimeChange = (index: number, value: string | null) => {
     if (!value) return;
     const toIndex = (hours.indexOf(value) + 1) % hours.length;
     form.setFieldValue(`schedules.${index}.from`, value);
     form.setFieldValue(`schedules.${index}.to`, hours[toIndex]);
+  };
+
+  const handleSubmit = (values: { schedules: Record<string, string>[] }) => {
+    const completeSchedules = values.schedules
+      .filter((schedule) => schedule.date && schedule.from && schedule.to)
+      .map((schedule) => ({
+        date: dayjs(schedule.date).format('YYYY-MM-DD'),
+        from: schedule.from,
+        to: schedule.to,
+      }));
+
+    addScheduleBulk.mutate(completeSchedules);
   };
 
   return (
