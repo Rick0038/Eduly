@@ -1,8 +1,19 @@
-import { Badge, Button, MultiSelect, Table, Text } from '@mantine/core';
+import {
+  ActionIcon,
+  Badge,
+  Box,
+  Button,
+  Group,
+  Select,
+  Table,
+  Text,
+} from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { DateInput } from '@mantine/dates';
 import { Tutor } from '../../model';
 import { formatDate } from '../../util/helpers';
-import { IconCheck } from '@tabler/icons-react';
-import { useForm } from '@mantine/form';
+import { IconCheck, IconPlus, IconTrash } from '@tabler/icons-react';
+import { hours } from '../../util/constants';
 
 interface TutorScheduleProps {
   isEditing: boolean;
@@ -55,89 +66,99 @@ export function TutorSchedule(props: TutorScheduleProps) {
   );
 }
 
-const days = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday',
-];
-const hours = [
-  '12:00 AM',
-  '01:00 AM',
-  '02:00 AM',
-  '03:00 AM',
-  '04:00 AM',
-  '05:00 AM',
-  '06:00 AM',
-  '07:00 AM',
-  '08:00 AM',
-  '09:00 AM',
-  '10:00 AM',
-  '11:00 AM',
-  '12:00 PM',
-  '01:00 PM',
-  '02:00 PM',
-  '03:00 PM',
-  '04:00 PM',
-  '05:00 PM',
-  '06:00 PM',
-  '07:00 PM',
-  '08:00 PM',
-  '09:00 PM',
-  '10:00 PM',
-  '11:00 PM',
-];
-
-const availability = {
-  Monday: [],
-  Tuesday: [],
-  Wednesday: [],
-  Thursday: [],
-  Friday: [],
-  Saturday: [],
-  Sunday: [],
-};
-
 export function EditTutorSchedule() {
   const form = useForm({
-    mode: 'uncontrolled',
     initialValues: {
-      availability: availability,
+      schedules: [{ date: '', from: '', to: '' }],
     },
   });
+
+  const addForm = () => {
+    form.insertListItem('schedules', { date: '', from: '', to: '' });
+  };
+
+  const removeForm = (index: number) => {
+    form.removeListItem('schedules', index);
+  };
 
   const handleSubmit = (values: unknown) => {
     console.log('values', values);
     // TODO: Hit the API
   };
 
+  const handleFromTimeChange = (index: number, value: string | null) => {
+    if (!value) return;
+    const toIndex = (hours.indexOf(value) + 1) % hours.length;
+    form.setFieldValue(`schedules.${index}.from`, value);
+    form.setFieldValue(`schedules.${index}.to`, hours[toIndex]);
+  };
+
   return (
-    <form onSubmit={form.onSubmit(handleSubmit)} className='schedule'>
-      <Text w={700} size='lg' pb='sm'>
-        Set Your Availability
-      </Text>
-      {days.map((day) => (
-        <MultiSelect
-          label={day}
-          name={`availability.${day}`}
-          placeholder={`Your availability for ${day}`}
-          data={hours}
-          className='mb-1'
-          key={form.key(`availability.${day}`)}
-          {...form.getInputProps(`availability.${day}`)}
-        />
-      ))}
-      <Button
-        className='mt-4'
-        leftSection={<IconCheck size={16} />}
-        type='submit'
-        fullWidth
-      >
-        Save Availability
-      </Button>
-    </form>
+    <>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <Text w={700} size='lg' pb='sm'>
+          Set Your Availability
+        </Text>
+        {form.values.schedules.map((_, index) => (
+          <Box key={index} className='mb-4 max-w-[500px]'>
+            <DateInput
+              label='Date'
+              placeholder='Pick a date'
+              {...form.getInputProps(`schedules.${index}.date`)}
+              required
+            />
+            <Group mt='xs' align='center'>
+              <Select
+                label='From'
+                placeholder='Select time'
+                data={hours}
+                {...form.getInputProps(`schedules.${index}.from`)}
+                onChange={(value) => handleFromTimeChange(index, value)}
+                required
+              />
+              <Select
+                label='To'
+                placeholder='Select time'
+                data={hours}
+                {...form.getInputProps(`schedules.${index}.to`)}
+                required
+                disabled
+              />
+              <ActionIcon
+                variant='outline'
+                color='red'
+                onClick={() => removeForm(index)}
+                className='sm:mt-7'
+                visibleFrom='sm'
+              >
+                <IconTrash size={16} />
+              </ActionIcon>
+              <Button
+                variant='outline'
+                color='red'
+                onClick={() => removeForm(index)}
+                hiddenFrom='sm'
+                leftSection={<IconTrash size={16} />}
+              >
+                Remove slot
+              </Button>
+            </Group>
+          </Box>
+        ))}
+        <Group p='apart' mt='md'>
+          <Button leftSection={<IconPlus size={16} />} onClick={addForm}>
+            Add Another Time Slot
+          </Button>
+          <Button
+            leftSection={<IconCheck size={16} />}
+            fullWidth
+            type='submit'
+            mt='xl'
+          >
+            Save Availability
+          </Button>
+        </Group>
+      </form>
+    </>
   );
 }
