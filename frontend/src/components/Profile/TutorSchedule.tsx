@@ -10,9 +10,13 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { DateInput } from '@mantine/dates';
-import dayjs from 'dayjs';
-import { useMutation } from '@tanstack/react-query';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useMutation,
+} from '@tanstack/react-query';
 import { IconCheck, IconPlus, IconTrash } from '@tabler/icons-react';
+import dayjs from 'dayjs';
 import { Tutor } from '../../model';
 import { formatDate } from '../../util/helpers';
 import { hours } from '../../util/constants';
@@ -23,6 +27,9 @@ interface TutorScheduleProps {
   isEditing: boolean;
   tutor: Tutor;
   handleEditToggle: () => void;
+  refetch: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<Tutor, Error>>;
 }
 
 const statusColors: { [key: string]: string } = {
@@ -74,7 +81,7 @@ export function TutorSchedule(props: TutorScheduleProps) {
 export function EditTutorSchedule(
   props: Omit<TutorScheduleProps, 'isEditing'>
 ) {
-  const { handleEditToggle } = props;
+  const { handleEditToggle, refetch } = props;
 
   const addScheduleBulk = useMutation({
     mutationFn: tutorService.addScheduleBulk,
@@ -84,13 +91,14 @@ export function EditTutorSchedule(
         notificationService.showSuccess({
           message: `${success} schedule(s) added successfully!`,
         });
-        handleEditToggle();
       }
       if (failure > 0) {
         notificationService.showError({
           message: `${failure} schedule(s) failed to add.`,
         });
       }
+      refetch();
+      handleEditToggle();
     },
     onError: (err) => {
       console.log('err', err);
@@ -142,6 +150,7 @@ export function EditTutorSchedule(
             <DateInput
               label='Date'
               placeholder='Pick a date'
+              minDate={dayjs().toDate()}
               {...form.getInputProps(`schedules.${index}.date`)}
               required
             />

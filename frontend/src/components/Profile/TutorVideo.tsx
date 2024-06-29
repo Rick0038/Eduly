@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { FileInput, Button, Text, Badge } from '@mantine/core';
 import { IconUpload, IconVideo } from '@tabler/icons-react';
-import { useMutation } from '@tanstack/react-query';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useMutation,
+} from '@tanstack/react-query';
 import { tutorService } from '../../service';
 import { Tutor } from '../../model';
 import { notificationService } from '../../service/NotificationService';
@@ -11,16 +15,20 @@ interface TutorVideoProps {
   tutor: Tutor;
   isEditing: boolean;
   handleEditToggle: () => void;
+  refetch: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<Tutor, Error>>;
 }
 
 export function TutorVideo(props: TutorVideoProps) {
-  const { tutor, isEditing, handleEditToggle } = props;
+  const { tutor, isEditing, handleEditToggle, refetch } = props;
   const [videoFile, setVideoFile] = useState<File | null>(null);
 
   const updateVideo = useMutation({
     mutationFn: tutorService.updateVideo,
     onSuccess: () => {
       notificationService.showSuccess({ message: 'Video sent for approval!' });
+      refetch();
       handleEditToggle();
     },
     onError: (err) => {

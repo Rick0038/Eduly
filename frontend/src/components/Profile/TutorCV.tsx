@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { FileInput, Button, Anchor, Text, Badge } from '@mantine/core';
 import { IconEye, IconFileCv, IconUpload } from '@tabler/icons-react';
-import { useMutation } from '@tanstack/react-query';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useMutation,
+} from '@tanstack/react-query';
 import { tutorService } from '../../service';
 import { Tutor } from '../../model';
 import { notificationService } from '../../service/NotificationService';
@@ -11,16 +15,20 @@ interface TutorCVProps {
   tutor: Tutor;
   isEditing: boolean;
   handleEditToggle: () => void;
+  refetch: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<Tutor, Error>>;
 }
 
 export function TutorCV(props: TutorCVProps) {
-  const { tutor, isEditing, handleEditToggle } = props;
+  const { tutor, isEditing, handleEditToggle, refetch } = props;
   const [cvFile, setCvFile] = useState<File | null>(null);
 
   const updateCV = useMutation({
     mutationFn: tutorService.updateCV,
     onSuccess: () => {
       notificationService.showSuccess({ message: 'CV sent for approval!' });
+      refetch();
       handleEditToggle();
     },
     onError: (err) => {

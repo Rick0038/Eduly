@@ -18,7 +18,7 @@ import { TutorVideo } from '../Profile/TutorVideo';
 
 export function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['getProfile'],
     queryFn: tutorService.getProfile,
   });
@@ -45,6 +45,7 @@ export function ProfilePage() {
               isEditing={isEditing}
               user={data}
               handleEditToggle={handleEditToggle}
+              refetch={refetch}
             />
             <Tabs defaultValue='personalInfo'>
               <Tabs.List>
@@ -75,6 +76,7 @@ export function ProfilePage() {
                   isEditing={isEditing}
                   user={data}
                   handleEditToggle={handleEditToggle}
+                  refetch={refetch}
                 />
               </Tabs.Panel>
               <Tabs.Panel value='schedule' pt='md'>
@@ -82,6 +84,7 @@ export function ProfilePage() {
                   isEditing={isEditing}
                   tutor={data}
                   handleEditToggle={handleEditToggle}
+                  refetch={refetch}
                 />
               </Tabs.Panel>
               <Tabs.Panel value='cv' pt='md'>
@@ -89,6 +92,7 @@ export function ProfilePage() {
                   isEditing={isEditing}
                   tutor={data}
                   handleEditToggle={handleEditToggle}
+                  refetch={refetch}
                 />
               </Tabs.Panel>
               <Tabs.Panel value='video' pt='md'>
@@ -96,6 +100,7 @@ export function ProfilePage() {
                   isEditing={isEditing}
                   tutor={data}
                   handleEditToggle={handleEditToggle}
+                  refetch={refetch}
                 />
               </Tabs.Panel>
               <Tabs.Panel value='reviews' pt='md'>
