@@ -110,6 +110,14 @@ public class TutorController {
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 
+    @DeleteMapping("/schedule/session/{sessionId}")
+    public ResponseEntity<String> deleteTutorSchedule(@RequestHeader("Authorization") String authorizationHeader,
+                                                      @PathVariable Integer sessionId) {
+        Integer tutorId = getTutorIdFromAuthHeader(authorizationHeader);
+        tutorService.deleteTutorSchedule(tutorId, sessionId);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
 
     @PutMapping("/schedule/session/{sessionId}")
     public ResponseEntity<String> updateTutorSchedule(@RequestBody TutorScheduleRequestDto tutorScheduleRequestDto,
