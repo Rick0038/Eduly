@@ -49,12 +49,14 @@ export function Login() {
     onSuccess: (data) => {
       setUserInfoToLocalStorage(data);
 
-      if (authService.isTutor) {
+      if (data.role === ROLE.TUTOR) {
         navigate('/profile');
+        return;
       }
 
-      if (authService.isAdmin) {
+      if (data.role === ROLE.ADMIN) {
         navigate('/admin');
+        return;
       }
 
       const params = new URLSearchParams(location.search);

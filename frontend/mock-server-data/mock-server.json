@@ -60,58 +60,13 @@
         {
           "type": "route",
           "uuid": "afbe551a-5b1b-4ec0-87c5-ab3217051efc"
-        },
-        {
-          "type": "route",
-          "uuid": "8ee68456-5f5f-41b6-8642-c49d864e4915"
-        },
-        {
-          "type": "route",
-          "uuid": "4b0f7810-1ab3-41b4-8dd7-d0aaec2f8561"
-        },
-        {
-          "type": "route",
-          "uuid": "2f626292-6947-45a8-bdcc-b3e275f9f139"
-        },
-        {
-          "type": "route",
-          "uuid": "9c4487ca-dfad-4201-a609-c146b1757802"
-        },
-        {
-          "type": "route",
-          "uuid": "b5f7aebd-f834-4a75-b581-9bfb39f728b0"
-        },
-        {
-          "type": "route",
-          "uuid": "5030cdcf-0a70-446c-9b51-a42cae7c081e"
-        },
-        {
-          "type": "route",
-          "uuid": "d2c22f41-aa5f-470c-aead-5b6854a0c3ec"
         }
       ]
     },
     {
       "uuid": "508891a6-578f-480c-94ab-1e23e8cebf68",
       "name": "Community Forums",
-      "children": [
-        {
-          "type": "route",
-          "uuid": "a0caec72-94f4-4e86-af1c-2b1025f9a0ee"
-        },
-        {
-          "type": "route",
-          "uuid": "71735c1b-dc8b-47e0-9aa4-7c24533641ce"
-        },
-        {
-          "type": "route",
-          "uuid": "6ef61d62-d8e2-4596-ab41-8a7b69b5090f"
-        },
-        {
-          "type": "route",
-          "uuid": "3ee4b5f2-d356-4d69-b42d-e6b8ded6b683"
-        }
-      ]
+      "children": []
     },
     {
       "uuid": "7431a187-c4a5-47de-845b-2cb4de982a13",
@@ -254,7 +209,7 @@
       "responses": [
         {
           "uuid": "e8d30084-7809-4699-a587-5bf931295b0e",
-          "body": "{\n  \"id\": 123,\n  \"name\": \"John Adams\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTUyYjJkNzk1ZDNkZTU0MWZmNDlhODYiLCJpYXQiOjE1ODI0NzgwNTd9.VQ6kqsSCYuQ7f5OHRJkwDvN5_QLgdMeK5jKfk_BZczc\",\n  \"role\": \"STUDENT\",\n  \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\"\n}",
+          "body": "{\n  \"id\": 123,\n  \"name\": \"John Adams\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTUyYjJkNzk1ZDNkZTU0MWZmNDlhODYiLCJpYXQiOjE1ODI0NzgwNTd9.VQ6kqsSCYuQ7f5OHRJkwDvN5_QLgdMeK5jKfk_BZczc\",\n  \"role\": \"ADMIN\",\n  \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -939,6 +894,10 @@
     {
       "type": "folder",
       "uuid": "7431a187-c4a5-47de-845b-2cb4de982a13"
+    },
+    {
+      "type": "folder",
+      "uuid": "508891a6-578f-480c-94ab-1e23e8cebf68"
     }
   ],
   "proxyMode": false,
