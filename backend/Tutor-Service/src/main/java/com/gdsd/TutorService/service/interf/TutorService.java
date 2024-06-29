@@ -23,6 +23,7 @@ public interface TutorService {
     String getTutorProfileImageFromId(Integer tutorId);
     void addTutorSchedule(TutorScheduleRequestDto tutorScheduleRequestDto, Integer tutorId);
     void updateTutorSchedule(TutorScheduleRequestDto tutorScheduleRequestDto, Integer tutorId, Integer sessionId);
+    void deleteTutorSchedule(Integer tutorId, Integer sessionId);
     void updateTutorProfile(TutorProfileUpdateRequestDto tutorProfileUpdateRequestDto, Integer tutorId);
     List<TutorSearchResponseDto> search(Double pricingMin,
                                                Double pricingMax, Double ratingsMin,

@@ -137,6 +137,23 @@ public class TutorServiceImpl implements TutorService {
     }
 
     @Override
+    public void deleteTutorSchedule(Integer tutorId, Integer sessionId) {
+        Session session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new GenericException("Session with id: "
+                        + sessionId + " not found.", HttpStatus.NOT_FOUND));
+
+        if(session.getTutorId() != tutorId) {
+            throw new GenericException("Tutor not related to this session. Cannot delete.", HttpStatus.UNAUTHORIZED);
+        }
+
+        if(!session.getStatus().equals("FREE")) {
+            throw new GenericException("Selected session is not free. Cannot be deleted.", HttpStatus.BAD_REQUEST);
+        }
+
+        sessionRepository.delete(session);
+    }
+
+    @Override
     public void updateTutorSchedule(TutorScheduleRequestDto tutorScheduleRequestDto, Integer tutorId, Integer sessionId) {
         Session session = sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new GenericException("Session with id: "
@@ -474,6 +491,14 @@ public class TutorServiceImpl implements TutorService {
                     = new LinkedHashMap<>();
             // Loop over each returned session sorted by date then startTime
             for(Session session : sessions) {
+                //if session is today and before current time but still has status='FREE'
+                // then update it in DB
+                if(session.getDate().isEqual(LocalDate.now()) &&
+                        session.getStartTime().isBefore(LocalTime.now()) &&
+                        session.getStatus().equals("FREE")) {
+                    session.setStatus(Session.Status.COMPLETED.toString());
+                    sessionRepository.save(session);
+                }
                 LocalDate date = session.getDate();
                 TutorDetailsResponseDto.Timing timing = new TutorDetailsResponseDto.Timing();
 
@@ -581,7 +606,7 @@ public class TutorServiceImpl implements TutorService {
         responseDto.setBbbLink(tutor.getBbbLink());
 
         // Setting of Schedule
-        Optional<List<Session>> tutorSessions = sessionRepository.findByTutorIdAndStatusOrderByDateAscStartTimeAsc(tutorId, "FREE");
+        Optional<List<Session>> tutorSessions = sessionRepository.findByTutorIdAndStatusAfterCurrentTime(tutorId, "FREE", LocalDate.now(), LocalTime.now());
         if(tutorSessions.isEmpty() || tutorSessions.get().isEmpty()) {
             responseDto.setSchedule(new ArrayList<>());
         } else {
