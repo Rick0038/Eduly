@@ -87,6 +87,12 @@ class TutorService {
     }
     return results;
   }
+
+  async deleteSchedule(id: number) {
+    const url = `/api/v1/tutor/schedule/session/${id}`;
+    const response = await httpService.delete<Record<string, string>>(url);
+    return response;
+  }
 }
 
 const tutorService = new TutorService();
