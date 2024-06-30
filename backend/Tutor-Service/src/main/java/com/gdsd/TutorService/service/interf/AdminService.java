@@ -19,4 +19,5 @@ public interface AdminService {
      boolean banTutororStudent(Integer id, String role);
       Integer getAdminIdFromEmail(String email) ;
      String getAdminNameFromId(Integer id) ;
+     boolean unbanTutororStudent(Integer id, String role);
 }

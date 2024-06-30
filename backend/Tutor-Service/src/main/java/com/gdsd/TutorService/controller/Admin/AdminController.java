@@ -20,8 +20,8 @@ import java.util.Map;
 public class AdminController {
 
 
-@Autowired
-public  AdminService adminService ;
+ @Autowired
+ public  AdminService adminService ;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -73,9 +73,9 @@ public  AdminService adminService ;
         if ("TUTOR".equalsIgnoreCase(role) || "STUDENT".equalsIgnoreCase(role)) {
             boolean approved = adminService.approvContentById(contentId, role);
             if (approved) {
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.ok().build();
             } else {
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.ok().build();
             }
         } else {
             return ResponseEntity.badRequest().body("Invalid role provided");
@@ -83,25 +83,24 @@ public  AdminService adminService ;
     }
 
 
-    @PutMapping("/content/delete/{contentId}")
+    @DeleteMapping("/content/delete/{contentId}")
     public ResponseEntity<String> deleteContent(
             @RequestHeader("Authorization") String authorizationHeader,
             @PathVariable Integer contentId,
-            @RequestBody Map<String, String> requestBody) {
+            @RequestParam String role) {
 
         String roleFromAuthHeader = getRoleFromAuthHeader(authorizationHeader);
         if (!roleFromAuthHeader.equalsIgnoreCase("ADMIN")) {
             throw new GenericException("USER IS UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
         }
 
-        String role = requestBody.get("role");
 
         if ("TUTOR".equalsIgnoreCase(role) || "STUDENT".equalsIgnoreCase(role)) {
             boolean deleted = adminService.deleteContentById(contentId, role);
             if (deleted) {
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.ok().build();
             } else {
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.ok().build();
             }
         } else {
             return ResponseEntity.badRequest().body("Invalid role provided");
@@ -142,9 +141,35 @@ public  AdminService adminService ;
         if ("TUTOR".equalsIgnoreCase(role) || "STUDENT".equalsIgnoreCase(role)) {
             boolean deleted = adminService.banTutororStudent(userId, role);
             if (deleted) {
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.ok().build();
             } else {
-                return ResponseEntity.noContent().build();
+                return ResponseEntity.ok().build();
+            }
+        } else {
+            return ResponseEntity.badRequest().body("Invalid role provided");
+        }
+
+    }
+    @PutMapping("/unban/{userId}")
+    public ResponseEntity<String> unbanTutorOrStudent(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable Integer userId,
+            @RequestBody Map<String, String> requestBody){
+
+
+        String roleFromAuthHeader = getRoleFromAuthHeader(authorizationHeader);
+        if (!roleFromAuthHeader.equalsIgnoreCase("ADMIN")) {
+            throw new GenericException("USER IS UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
+        }
+
+        String role = requestBody.get("role");
+
+        if ("TUTOR".equalsIgnoreCase(role) || "STUDENT".equalsIgnoreCase(role)) {
+            boolean deleted = adminService.unbanTutororStudent(userId, role);
+            if (deleted) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.ok().build();
             }
         } else {
             return ResponseEntity.badRequest().body("Invalid role provided");

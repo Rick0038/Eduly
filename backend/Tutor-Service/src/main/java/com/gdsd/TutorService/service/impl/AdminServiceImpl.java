@@ -12,12 +12,10 @@ import com.gdsd.TutorService.service.interf.TutorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
-
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -43,24 +41,25 @@ private StudentRepository studentRepository;
 
     @Override
     public List<TutorAdminContentDTO> getPendingApprovalTutorContents() {
-        List<TutorContent> pendingContents = tutorContentRepository.findByStatus("PENDING_APPROVAL");
+        List<TutorContent> pendingContents = tutorContentRepository.findByStatusOrderByUploadTimestampAsc("PENDING_APPROVAL");
 
         return pendingContents.stream()
                 .map(content -> {
                     Integer contentId = content.getContentId();
                     Integer tutorId = content.getTutorId();
-                    String contentLink = content.getContentLink();
+                    String link = content.getContentLink();
                     String status = content.getStatus();
                     String contentType = content.getContentType();
                     String tutorName = tutorService.getTutorNameFromId(content.getTutorId());
-                    return new TutorAdminContentDTO(contentId, tutorId, contentLink, status, tutorName, contentType);
+                    LocalDateTime uploadTimestamp = content.getUploadTimestamp();
+                    return new TutorAdminContentDTO(contentId, tutorId, link, status, tutorName, contentType,uploadTimestamp);
                 })
                 .toList();
     }
 
     @Override
     public List<StudentContentDTO> getPendingApprovalStudentContents() {
-        List<StudentContent> pendingContents = studentContentRepository.findByStatus("PENDING_APPROVAL");
+        List<StudentContent> pendingContents = studentContentRepository.findByStatusOrderByUploadTimestampAsc("PENDING_APPROVAL");
 
         return pendingContents.stream()
                 .map(content -> new StudentContentDTO(
@@ -69,7 +68,8 @@ private StudentRepository studentRepository;
                         content.getContentType(),
                         content.getContentLink(),
                         studentService.getStudentNameFromId(content.getStudentId()),
-                        content.getStatus()
+                        content.getStatus(),
+                        content.getUploadTimestamp()
 
 //                        content.getUploadTimestamp()
                 ))
@@ -163,6 +163,19 @@ private StudentRepository studentRepository;
         } else if ("STUDENT".equalsIgnoreCase(role)) {
            studentRepository.updateIsBannedByStudentId(id,true);
            studentContentRepository.deleteByStudentId(id);
+        }
+        return false;
+
+    }
+    @Override
+    public boolean unbanTutororStudent(Integer id, String role) {
+
+        if ("TUTOR".equalsIgnoreCase(role)) {
+            tutorRepository.updateIsBannedByTutorId(id,false);
+
+
+        } else if ("STUDENT".equalsIgnoreCase(role)) {
+            studentRepository.updateIsBannedByStudentId(id,false);
         }
         return false;
 

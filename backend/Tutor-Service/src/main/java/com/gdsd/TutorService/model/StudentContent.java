@@ -2,6 +2,9 @@ package com.gdsd.TutorService.model;
 
 import jakarta.persistence.*;
 
+import java.security.Timestamp;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "student_profile_content")
 public class StudentContent {
@@ -22,6 +25,8 @@ public class StudentContent {
 
     @Column(name = "contentType")
     private String contentType;
+    @Column(name = "uploadTimestamp")
+    private LocalDateTime uploadTimestamp;
 
     public StudentContent() {
     }
@@ -75,5 +80,12 @@ public class StudentContent {
                 ", status='" + status + '\'' +
                 ", contentType='" + contentType + '\'' +
                 '}';
+    }
+    public LocalDateTime getUploadTimestamp() {
+        return uploadTimestamp;
+    }
+
+    public void setUploadTimestamp(LocalDateTime uploadTimestamp) {
+        this.uploadTimestamp = uploadTimestamp;
     }
 }

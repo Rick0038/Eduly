@@ -16,6 +16,8 @@ import java.util.Optional;
 public interface TutorContentRepository extends JpaRepository<TutorContent, Integer> {
     Optional<TutorContent> findByTutorIdAndContentType(Integer tutorId, String contentType);
     List<TutorContent> findByStatus(String status);
+
+    List<TutorContent> findByStatusOrderByUploadTimestampAsc(String status);
     Optional<TutorContent> findByContentId(Integer contentId);
     @Transactional
     @Modifying

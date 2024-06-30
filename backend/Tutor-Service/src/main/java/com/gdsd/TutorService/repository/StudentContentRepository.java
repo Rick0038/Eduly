@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface StudentContentRepository extends JpaRepository<StudentContent, Integer> {
     Optional<StudentContent> findByStudentIdAndContentType(Integer studentId, String contentType);
     List<StudentContent> findByStatus(String status);
+    List<StudentContent> findByStatusOrderByUploadTimestampAsc(String status);
     Optional<StudentContent> findByContentId(Integer contenId);
 
     @Query("DELETE FROM StudentContent sc WHERE sc.studentId = :studentId")

@@ -3,41 +3,35 @@ package com.gdsd.TutorService.dto.Admin;
 import java.time.LocalDateTime;
 
 public class TutorAdminContentDTO {
-    private Integer contentId;
+    private Integer id;
     private Integer tutorId;
-    private String contentLink;
+    private String link;
     private String status;
     private String tutorName;
     private String contentType;
-//    private LocalDateTime uploadTimestamp;
+   private LocalDateTime uploadTimestamp;
 
     public TutorAdminContentDTO() {}
 
-//    public TutorAdminContentDTO(Integer contentId, Integer tutorId, String contentLink, String status, String contentType, LocalDateTime uploadTimestamp) {
-//        this.contentId = contentId;
-//        this.tutorId = tutorId;
-//        this.contentLink = contentLink;
-//        this.status = status;
-//        this.contentType = contentType;
-//        this.uploadTimestamp = uploadTimestamp;
-//    }
-
-    public TutorAdminContentDTO(Integer contentId, Integer tutorId, String contentLink, String status,String tutorName, String contentType) {
-        this.contentId = contentId;
+    public TutorAdminContentDTO(Integer id, Integer tutorId, String link, String status, String tutorName,String contentType, LocalDateTime uploadTimestamp) {
+        this.id = id;
         this.tutorId = tutorId;
-        this.contentLink = contentLink;
+        this.link = link;
         this.status = status;
-        this.tutorName=tutorName;
         this.contentType = contentType;
+        this.tutorName=tutorName;
+        this.uploadTimestamp = uploadTimestamp;
     }
+
+
 
     // Getters and Setters
-    public Integer getContentId() {
-        return contentId;
+    public Integer getid() {
+        return id;
     }
 
-    public void setContentId(Integer contentId) {
-        this.contentId = contentId;
+    public void setid(Integer id) {
+        this.id = id;
     }
 
     public Integer getTutorId() {
@@ -48,12 +42,12 @@ public class TutorAdminContentDTO {
         this.tutorId = tutorId;
     }
 
-    public String getContentLink() {
-        return contentLink;
+    public String getlink() {
+        return link;
     }
 
-    public void setContentLink(String contentLink) {
-        this.contentLink = contentLink;
+    public void setlink(String link) {
+        this.link = link;
     }
 
     public String getStatus() {
@@ -80,11 +74,11 @@ public class TutorAdminContentDTO {
         this.tutorName = tutorName;
     }
 
-//    public LocalDateTime getUploadTimestamp() {
-//        return uploadTimestamp;
-//    }
-//
-//    public void setUploadTimestamp(LocalDateTime uploadTimestamp) {
-//        this.uploadTimestamp = uploadTimestamp;
-//    }
+    public LocalDateTime getUploadTimestamp() {
+        return uploadTimestamp;
+    }
+
+    public void setUploadTimestamp(LocalDateTime uploadTimestamp) {
+        this.uploadTimestamp = uploadTimestamp;
+    }
 }

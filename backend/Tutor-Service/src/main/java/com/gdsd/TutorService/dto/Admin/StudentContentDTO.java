@@ -1,41 +1,37 @@
 package com.gdsd.TutorService.dto.Admin;
 
+import java.time.LocalDateTime;
+
 public class StudentContentDTO {
 
-    private Integer contentId;
+    private Integer id;
     private Integer studentId;
     private String type;
     private String link;
 
     private  String studentName;
     private String status;
-   // private String uploadTimestamp;
+    private LocalDateTime uploadTimestamp;
 
     public StudentContentDTO() {
     }
 
-//    public StudentContentDTO(Integer contentId, Integer studentId, String type, String link, String status, String uploadTimestamp) {
-//        this.contentId = contentId;
-//        this.studentId = studentId;
-//        this.type = type;
-//        this.link = link;
-//        this.status = status;
-//        this.uploadTimestamp = uploadTimestamp;
-//    }
-public StudentContentDTO(Integer contentId, Integer studentId, String type, String link,String studentName, String status) {
-        this.contentId = contentId;
+    public StudentContentDTO(Integer id, Integer studentId, String type, String link,String studentName, String status, LocalDateTime uploadTimestamp) {
+        this.id = id;
         this.studentId = studentId;
         this.type = type;
         this.link = link;
-        this.studentName=studentName;
         this.status = status;
-    }
-    public Integer getContentId() {
-        return contentId;
+        this.studentName=studentName;
+        this.uploadTimestamp = uploadTimestamp;
     }
 
-    public void setContentId(Integer contentId) {
-        this.contentId = contentId;
+    public Integer getid() {
+        return id;
+    }
+
+    public void setid(Integer id) {
+        this.id = id;
     }
 
     public Integer getStudentId() {
@@ -78,11 +74,11 @@ public StudentContentDTO(Integer contentId, Integer studentId, String type, Stri
         this.studentName = studentName;
     }
 
-//    public String getUploadTimestamp() {
-//        return uploadTimestamp;
-//    }
-//
-//    public void setUploadTimestamp(String uploadTimestamp) {
-//        this.uploadTimestamp = uploadTimestamp;
-//    }
+    public LocalDateTime getUploadTimestamp() {
+        return uploadTimestamp;
+    }
+
+    public void setUploadTimestamp(LocalDateTime uploadTimestamp) {
+        this.uploadTimestamp = uploadTimestamp;
+    }
 }
