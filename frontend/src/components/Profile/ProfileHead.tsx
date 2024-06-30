@@ -29,7 +29,7 @@ interface ProfileHeadProps {
   handleEditToggle: () => void;
   refetch: (
     options?: RefetchOptions | undefined
-  ) => Promise<QueryObserverResult<Tutor, Error>>;
+  ) => Promise<QueryObserverResult<Tutor | StudentProfileDetail, Error>>;
 }
 
 export function ProfileHead(props: ProfileHeadProps) {

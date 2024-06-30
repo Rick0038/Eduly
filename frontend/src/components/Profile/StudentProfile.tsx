@@ -9,7 +9,7 @@ import { StudentSchedule } from './StudentSchedule';
 
 export const StudentProfile = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['getProfile'],
     queryFn: studentService.getStudentProfileDetails,
   });
@@ -37,6 +37,7 @@ export const StudentProfile = () => {
               user={data}
               handleEditToggle={handleEditToggle}
               isStudent={true}
+              refetch={refetch}
             />
             <Tabs defaultValue='personalInfo'>
               <Tabs.List>
@@ -58,6 +59,7 @@ export const StudentProfile = () => {
                   isEditing={isEditing}
                   user={data}
                   handleEditToggle={handleEditToggle}
+                  onUpdatePersonalInfo={() => refetch()}
                 />
               </Tabs.Panel>
               <Tabs.Panel value='schedule' pt='md'>
