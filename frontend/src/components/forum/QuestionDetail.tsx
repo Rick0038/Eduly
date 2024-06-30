@@ -48,7 +48,7 @@ const QuestionDetails = () => {
 
         <Group justify='space-between' mb={'lg'}>
           <Text size='xl'>Answers</Text>
-          {authService.isLoggedIn() && (
+          {authService.isLoggedIn() && !authService.isAdmin && (
             <AddAnswer
               questionId={parseInt(questionId as string)}
               onAddAnswer={() => refetch()}

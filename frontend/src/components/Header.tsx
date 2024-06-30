@@ -78,25 +78,27 @@ export function Header(props: HeaderProps) {
 
               {authService.isLoggedIn() && (
                 <>
-                  <Group className='relative'>
-                    <ActionIcon
-                      onClick={() => navigate('/messages')}
-                      size='lg'
-                      variant='transparent'
-                    >
-                      <IconMessage size={24} />
-                    </ActionIcon>
-                    {UNREAD_MESSAGE_COUNT > 0 && (
-                      <Badge
-                        color='red'
-                        variant='filled'
-                        size='xs'
-                        className='absolute -top-1 -right-1'
+                  {!authService.isAdmin && (
+                    <Group className='relative'>
+                      <ActionIcon
+                        onClick={() => navigate('/messages')}
+                        size='lg'
+                        variant='transparent'
                       >
-                        {UNREAD_MESSAGE_COUNT}
-                      </Badge>
-                    )}
-                  </Group>
+                        <IconMessage size={24} />
+                      </ActionIcon>
+                      {UNREAD_MESSAGE_COUNT > 0 && (
+                        <Badge
+                          color='red'
+                          variant='filled'
+                          size='xs'
+                          className='absolute -top-1 -right-1'
+                        >
+                          {UNREAD_MESSAGE_COUNT}
+                        </Badge>
+                      )}
+                    </Group>
+                  )}
                   <Menu
                     width={200}
                     shadow='md'

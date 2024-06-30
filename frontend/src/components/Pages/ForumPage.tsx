@@ -39,7 +39,9 @@ export const ForumPage = () => {
       </Title>
 
       <Grid>
-        <Grid.Col span={authService.isLoggedIn() ? 10 : 12}>
+        <Grid.Col
+          span={authService.isLoggedIn() && !authService.isAdmin ? 10 : 12}
+        >
           <form onSubmit={(e) => handleFormSubmit(e)}>
             <TextInput
               placeholder='Search questions by keyword'
@@ -55,7 +57,10 @@ export const ForumPage = () => {
           </form>
         </Grid.Col>
 
-        <Grid.Col hidden={!authService.isLoggedIn()} span={2}>
+        <Grid.Col
+          hidden={!authService.isLoggedIn() || authService.isAdmin}
+          span={2}
+        >
           <AddQuestion onAddQuestion={() => refetch()} />
         </Grid.Col>
       </Grid>
@@ -71,6 +76,12 @@ export const ForumPage = () => {
       {isError && (
         <Container>
           <Text ta='center'>An error occurred while fetching questions</Text>
+        </Container>
+      )}
+
+      {data?.questions.length == 0 && (
+        <Container>
+          <Text ta='center'>No results available for the search criteria.</Text>
         </Container>
       )}
 
