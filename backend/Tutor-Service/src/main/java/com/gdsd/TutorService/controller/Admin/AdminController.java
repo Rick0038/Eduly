@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class AdminController {
 
 
     @GetMapping("/tutor-content")
-    public ResponseEntity<List<TutorAdminContentDTO>> getTutorContent(
+    public Map<String,List<TutorAdminContentDTO>> getTutorContent(
             @RequestHeader("Authorization") String authorizationHeader) {
 
         String role = getRoleFromAuthHeader(authorizationHeader);
@@ -36,12 +37,15 @@ public class AdminController {
            throw new GenericException("USER IS UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
         }
         List<TutorAdminContentDTO> pendingContents = adminService.getPendingApprovalTutorContents();
-        return new ResponseEntity<>(pendingContents, HttpStatus.OK);
+        Map<String,List<TutorAdminContentDTO>> response = new HashMap<>();
+        response.put("content", pendingContents);
+
+        return new ResponseEntity<>(response, HttpStatus.OK).getBody();
     }
 
 
     @GetMapping("/student-content")
-    public ResponseEntity<List<StudentContentDTO>> getStudentContent(
+    public StudentContentDTO.ContentResponseDTO getStudentContent(
             @RequestHeader("Authorization") String authorizationHeader
     ) {
 
@@ -50,8 +54,10 @@ public class AdminController {
         if (!role.equalsIgnoreCase("ADMIN")) {
             throw new GenericException("USER IS UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
         }
-        List<StudentContentDTO> pendingContents = adminService.getPendingApprovalStudentContents();
-        return new ResponseEntity<>(pendingContents, HttpStatus.OK);
+        List<StudentContentDTO.StudentProfileContentDTO> Contents = adminService.getPendingApprovalStudentContents();
+        StudentContentDTO.ContentResponseDTO response = new StudentContentDTO.ContentResponseDTO();
+        response.setContent(Contents);
+        return new ResponseEntity<>(response, HttpStatus.OK).getBody();
     }
 
 
@@ -108,7 +114,7 @@ public class AdminController {
     }
 
     @GetMapping("/banned/users")
-    public ResponseEntity<List<BannedUserDTO>> getBannedUsers(
+    public  Map<String,List<BannedUserDTO>> getBannedUsers(
             @RequestHeader("Authorization") String authorizationHeader) {
 
         String role = getRoleFromAuthHeader(authorizationHeader);
@@ -118,7 +124,9 @@ public class AdminController {
         }
 
         List<BannedUserDTO> bannedUser = adminService.getBannedUsers();
-        return  new ResponseEntity<>(bannedUser, HttpStatus.OK);
+        Map<String,List<BannedUserDTO>> response = new HashMap<>();
+        response.put("users", bannedUser);
+        return new ResponseEntity<>(response, HttpStatus.OK).getBody();
     }
 
 

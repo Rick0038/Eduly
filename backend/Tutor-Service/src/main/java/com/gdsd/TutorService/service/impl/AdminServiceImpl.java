@@ -58,11 +58,11 @@ private StudentRepository studentRepository;
     }
 
     @Override
-    public List<StudentContentDTO> getPendingApprovalStudentContents() {
+    public List<StudentContentDTO.StudentProfileContentDTO> getPendingApprovalStudentContents() {
         List<StudentContent> pendingContents = studentContentRepository.findByStatusOrderByUploadTimestampAsc("PENDING_APPROVAL");
 
         return pendingContents.stream()
-                .map(content -> new StudentContentDTO(
+                .map(content -> new StudentContentDTO.StudentProfileContentDTO(
                         content.getContentId(),
                         content.getStudentId(),
                         content.getContentType(),
