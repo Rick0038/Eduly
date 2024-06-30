@@ -84,6 +84,7 @@ public class AuthController {
             tutor.setFirstName(firstName);
             tutor.setLastName(lastName);
             tutor.setLanguage("English");
+            tutor.setBanned(false);
 
             tutorRepository.save(tutor);
         } else if (registerRequestDto.getRole().equals("STUDENT")) {
@@ -125,6 +126,10 @@ public class AuthController {
             }
 
             Integer tutorId = tutorService.getTutorIdFromEmail(email);
+            Optional<Tutor> tutor = tutorRepository.findById(tutorId);
+            if(tutor.get().getBanned()) {
+                throw new GenericException("User with email: " + email + " is currently banned. Please contact the administrator for further help.", HttpStatus.UNAUTHORIZED);
+            }
             loginResponseDto.setId(tutorId);
             loginResponseDto.setName(tutorService.getTutorNameFromId(tutorId));
             loginResponseDto.setProfileImgLink(tutorService.getTutorProfileImageFromId(tutorId));
@@ -141,6 +146,10 @@ public class AuthController {
             }
 
             Integer studentId = studentService.getStudentIdFromEmail(email);
+            Optional<Student> student = studentRepository.findById(studentId);
+            if(student.get().getBanned()) {
+                throw new GenericException("User with email: " + email + " is currently banned. Please contact the administrator for further help.", HttpStatus.UNAUTHORIZED);
+            }
             loginResponseDto.setId(studentId);
             loginResponseDto.setName(studentService.getStudentNameFromId(studentId));
             loginResponseDto.setProfileImgLink(studentService.getStudentProfileImageFromId(studentId));

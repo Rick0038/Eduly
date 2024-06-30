@@ -572,6 +572,10 @@ public class TutorServiceImpl implements TutorService {
         Tutor tutor = tutorRepository.findById(tutorId).
                 orElseThrow(() -> new ResourceNotFoundException("Tutor", "tutorId", tutorId));
 
+        if(tutor.getBanned()) {
+            throw new GenericException("Tutor you are trying to access is currently banned.", HttpStatus.BAD_REQUEST);
+        }
+
         TutorDetailsForStudentResponseDto responseDto = new TutorDetailsForStudentResponseDto();
         responseDto.setId(tutor.getTutorId());
         responseDto.setFirstName(tutor.getFirstName());
