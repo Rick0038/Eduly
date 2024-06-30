@@ -3,7 +3,7 @@ package com.gdsd.TutorService.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tutor_review")
+@Table(name = "review")
 public class Review {
 
     @Id
