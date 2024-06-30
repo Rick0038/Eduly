@@ -68,6 +68,10 @@
         {
           "type": "route",
           "uuid": "c1813826-9075-4879-8ce4-32a99c41878a"
+        },
+        {
+          "type": "route",
+          "uuid": "c1d3d08d-570c-405a-b17b-35e0dbd34e14"
         }
       ]
     },
@@ -874,7 +878,7 @@
       "responses": [
         {
           "uuid": "345ff02c-c2f4-4ba3-beb8-286e789a0757",
-          "body": "{\n  \"id\": 12345,\n  \"status\": \"APPROVED\"\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"Hello@hs-fulda.de\",\n  \"profileImgLink\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  }\n}",
+          "body": "{\n  \"id\": 12345,\n  \"status\": \"APPROVED\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"Hello@hs-fulda.de\",\n  \"profileImgLink\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -904,6 +908,35 @@
         {
           "uuid": "376c2af1-4520-46d2-8538-13a762b24afc",
           "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "c1d3d08d-570c-405a-b17b-35e0dbd34e14",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/student/upcoming-appointments",
+      "responses": [
+        {
+          "uuid": "4ff05893-67c1-4b4e-8f6f-91c7d3acb57d",
+          "body": "{\n \"upcomingAppointments\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"sessionId\": 129,\n      \"from\": \"19:00\",\n      \"to\": \"18:00\",\n      \"status\": \"BOOKED\",\n      \"tutorDetail\": {\n        \"id\": 234,\n        \"name\": \"\",\n        \"profileImgLink\": \"\",\n        \"bbbLink\": \"www.webconfi.....de/345/45\"\n      }\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

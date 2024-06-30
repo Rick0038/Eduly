@@ -98,8 +98,14 @@ export function ProfileHead(props: ProfileHeadProps) {
           </>
         )}
         {props.isStudent && (
-          <Badge color={getProfileStatusColor(user.status)}>
-            {(user.profileImgLink as { link: string; status: string })?.status}
+          <Badge
+            color={getProfileStatusColor(
+              (user.profileImgLink as { link: string; status: string })
+                ?.status || 'APPROVED'
+            )}
+          >
+            {(user.profileImgLink as { link: string; status: string })
+              ?.status || 'APPROVED'}
           </Badge>
         )}
       </div>
