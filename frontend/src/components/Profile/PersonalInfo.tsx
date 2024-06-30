@@ -8,15 +8,15 @@ import {
   TextInput,
   Textarea,
 } from '@mantine/core';
-import { IconCheck } from '@tabler/icons-react';
-import { Tutor } from '../../model';
 import { useForm } from '@mantine/form';
+import { IconCheck } from '@tabler/icons-react';
 import {
   QueryObserverResult,
   RefetchOptions,
   useMutation,
 } from '@tanstack/react-query';
 import { useLanguages, useTopics } from '../../hooks';
+import { Tutor } from '../../model';
 import { tutorService } from '../../service';
 import { notificationService } from '../../service/NotificationService';
 
@@ -52,7 +52,7 @@ export function PersonalInfo(props: PersonalInfoProps) {
       </div>
       <div className='flex gap-1'>
         <strong>Pricing: </strong>
-        <Text>{user.pricing}</Text>
+        <Text>€{user.pricing}</Text>
       </div>
       <div className='flex gap-1'>
         <strong>Topic: </strong>
