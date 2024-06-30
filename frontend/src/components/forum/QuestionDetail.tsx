@@ -56,6 +56,12 @@ const QuestionDetails = () => {
           )}
         </Group>
 
+        {data?.answers.length == 0 && (
+          <Container>
+            <Text ta='center'>No one has yet answered this question.</Text>
+          </Container>
+        )}
+
         <List spacing='sm' size='sm'>
           {data.answers.map((answer) => (
             <Card
