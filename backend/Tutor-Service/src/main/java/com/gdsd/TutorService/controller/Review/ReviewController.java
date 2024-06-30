@@ -1,61 +1,79 @@
 package com.gdsd.TutorService.controller.Review;
 
+import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
 import com.gdsd.TutorService.model.Review;
-import com.gdsd.TutorService.service.impl.ReviewService;
+import com.gdsd.TutorService.service.impl.ReviewServiceImpl;
+import com.gdsd.TutorService.service.impl.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/reviews")
+@RequestMapping("/api/v1/student")
 public class ReviewController {
 
     @Autowired
-    private ReviewService reviewService;
+    private ReviewServiceImpl reviewService;
 
-    @GetMapping
-    public List<Review> getAllReviews() {
-        return reviewService.getAllReviews();
+    @Autowired
+    private JwtTokenProvider tokenProvider;
+
+    @Autowired
+    private StudentServiceImpl studentService;
+
+    // Method for writing a review
+    @PostMapping("/write-review/tutor/{tutorId}")
+    public ResponseEntity<Void> writeReview(@PathVariable Integer tutorId,
+                                            @RequestBody Review review,
+                                            @RequestHeader("Authorization") String authorizationHeader) {
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String email = tokenProvider.getEmailFromToken(token);
+        Integer studentId = studentService.getStudentIdFromEmail(email);
+
+        review.setStudentId(studentId);
+        review.setTutorId(tutorId);
+        reviewService.createReview(review);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Review> getReviewById(@PathVariable Integer id) {
-        Optional<Review> review = reviewService.getReviewById(id);
-        return review.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
+    // Method for editing a review
+    @PutMapping("/edit-review/{reviewId}")
+    public ResponseEntity<Review> editReview(@PathVariable Integer reviewId,
+                                             @RequestBody Review reviewDetails,
+                                             @RequestHeader("Authorization") String authorizationHeader) {
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String email = tokenProvider.getEmailFromToken(token);
+        Integer studentId = studentService.getStudentIdFromEmail(email);
 
-    @GetMapping("/tutor/{tutorId}")
-    public Optional<List<Review>> getReviewsByTutorId(@PathVariable Integer tutorId) {
-        return reviewService.getReviewsByTutorId(tutorId);
-    }
-
-    @GetMapping("/student/{studentId}")
-    public Optional<List<Review>> getReviewsByStudentId(@PathVariable Integer studentId) {
-        return reviewService.getReviewsByStudentId(studentId);
-    }
-
-    @PostMapping
-    public Review createReview(@RequestBody Review review) {
-        return reviewService.createReview(review);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Review> updateReview(@PathVariable Integer id, @RequestBody Review reviewDetails) {
-        try {
-            Review updatedReview = reviewService.updateReview(id, reviewDetails);
-            return ResponseEntity.ok(updatedReview);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+        Optional<Review> existingReview = reviewService.getReviewById(reviewId);
+        if (existingReview.isPresent() && existingReview.get().getStudentId().equals(studentId)) {
+            reviewDetails.setStudentId(studentId); // Ensure the review remains associated with the same student
+            reviewDetails.setTutorId(existingReview.get().getTutorId()); // Preserve the tutor ID
+            Review updatedReview = reviewService.updateReview(reviewId, reviewDetails);
+            return new ResponseEntity<>(updatedReview, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Integer id) {
-        reviewService.deleteReview(id);
-        return ResponseEntity.noContent().build();
+    // Method for deleting a review
+    @DeleteMapping("/delete-review/{reviewId}")
+    public ResponseEntity<Void> deleteReview(@PathVariable Integer reviewId,
+                                             @RequestHeader("Authorization") String authorizationHeader) {
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String email = tokenProvider.getEmailFromToken(token);
+        Integer studentId = studentService.getStudentIdFromEmail(email);
+
+        Optional<Review> existingReview = reviewService.getReviewById(reviewId);
+        if (existingReview.isPresent() && existingReview.get().getStudentId().equals(studentId)) {
+            reviewService.deleteReview(reviewId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 }

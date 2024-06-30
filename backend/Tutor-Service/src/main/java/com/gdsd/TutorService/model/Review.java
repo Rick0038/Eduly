@@ -3,7 +3,7 @@ package com.gdsd.TutorService.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "review")
+@Table(name = "tutor_review")
 public class Review {
 
     @Id
@@ -12,7 +12,7 @@ public class Review {
     private Integer reviewId;
 
     @Column(name = "rating")
-    private Double rating;
+    private Double rating;  // Should not be static
 
     @Column(name = "text")
     private String text;
@@ -35,7 +35,7 @@ public class Review {
     }
 
     public Double getRating() {
-        return rating;
+        return rating;  // This should be non-static
     }
 
     public void setRating(Double rating) {
@@ -71,6 +71,7 @@ public class Review {
         return "Review{" +
                 "reviewId=" + reviewId +
                 ", rating=" + rating +
+                ", text='" + text + '\'' +
                 ", tutorId=" + tutorId +
                 ", studentId=" + studentId +
                 '}';

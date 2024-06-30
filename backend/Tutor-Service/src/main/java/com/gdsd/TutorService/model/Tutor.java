@@ -177,4 +177,7 @@ public class Tutor {
                 ", email='" + email + '\'' +
                 '}';
     }
+
+    public void setAverageRating(double averageRating) {
+    }
 }
