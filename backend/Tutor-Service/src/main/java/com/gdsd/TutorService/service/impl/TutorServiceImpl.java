@@ -301,7 +301,7 @@ public class TutorServiceImpl implements TutorService {
         if (!StringUtils.isEmpty(blobLink)) {
                 int lastSlashIndex = blobLink.lastIndexOf('/');
                 String blobName =blobLink.substring(lastSlashIndex + 1);
-                BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(String.valueOf(blobName));
+                BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(blobName);
                 if (blobClient.exists()) {
                     blobClient.delete();
                 }

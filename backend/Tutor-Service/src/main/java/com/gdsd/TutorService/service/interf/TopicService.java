@@ -4,8 +4,8 @@ import com.gdsd.TutorService.dto.Topic.TopicRequestDto;
 import com.gdsd.TutorService.dto.Topic.TopicResponseDto;
 
 public interface TopicService {
-    public String addTopic(TopicRequestDto topicRequestDto);
+    String addTopic(TopicRequestDto topicRequestDto);
 
-    public TopicResponseDto getTopicById(Integer topicId);
-    public String removeTopicById(Integer topicId);
+    TopicResponseDto getTopicById(Integer topicId);
+    String removeTopicById(Integer topicId);
 }
