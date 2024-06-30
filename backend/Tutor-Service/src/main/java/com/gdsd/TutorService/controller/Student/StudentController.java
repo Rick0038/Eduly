@@ -22,18 +22,19 @@ public class StudentController {
     private StudentService studentService;
 
 
-    @GetMapping("/id/{studentId}")
-    public ResponseEntity<StudentResponceDto> getStudentById(@PathVariable Integer studentId){
-        StudentResponceDto student = studentService.getStudentById(studentId);
-        return  new ResponseEntity<>(student,HttpStatus.OK);
-    }
+//    @GetMapping("/id/{studentId}")
+//    public ResponseEntity<StudentResponceDto> getStudentById(@PathVariable Integer studentId){
+//        StudentResponceDto student = studentService.getStudentById(studentId);
+//        return  new ResponseEntity<>(student,HttpStatus.OK);
+//    }
 
-    public ResponseEntity<StudentResponceDto> getStudent(@RequestHeader("Authorization") String authorizationHeader){
+    @GetMapping("/id/{studentId}")
+    public ResponseEntity<StudentResponceDto> getStudent(@RequestHeader("Authorization") String authorizationHeader, @PathVariable String studentId){
         String token=tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
         String email=tokenProvider.getEmailFromToken(token);
-        Integer studentId=studentService.getStudentIdFromEmail(email);
-        studentService.getStudentById(studentId);
-        return new ResponseEntity<>(studentService.getStudentById(studentId),HttpStatus.OK);
+        Integer studentIdInt=studentService.getStudentIdFromEmail(email);
+        studentService.getStudentById(studentIdInt);
+        return new ResponseEntity<>(studentService.getStudentById(studentIdInt),HttpStatus.OK);
     }
 
 
