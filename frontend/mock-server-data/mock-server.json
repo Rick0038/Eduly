@@ -60,6 +60,14 @@
         {
           "type": "route",
           "uuid": "afbe551a-5b1b-4ec0-87c5-ab3217051efc"
+        },
+        {
+          "type": "route",
+          "uuid": "d667c04c-5628-467d-9c4c-10b0e19626e0"
+        },
+        {
+          "type": "route",
+          "uuid": "c1813826-9075-4879-8ce4-32a99c41878a"
         }
       ]
     },
@@ -209,7 +217,7 @@
       "responses": [
         {
           "uuid": "e8d30084-7809-4699-a587-5bf931295b0e",
-          "body": "{\n  \"id\": 123,\n  \"name\": \"John Adams\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTUyYjJkNzk1ZDNkZTU0MWZmNDlhODYiLCJpYXQiOjE1ODI0NzgwNTd9.VQ6kqsSCYuQ7f5OHRJkwDvN5_QLgdMeK5jKfk_BZczc\",\n  \"role\": \"ADMIN\",\n  \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\"\n}",
+          "body": "{\n  \"id\": 123,\n  \"name\": \"John Adams\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTUyYjJkNzk1ZDNkZTU0MWZmNDlhODYiLCJpYXQiOjE1ODI0NzgwNTd9.VQ6kqsSCYuQ7f5OHRJkwDvN5_QLgdMeK5jKfk_BZczc\",\n  \"role\": \"STUDENT\",\n  \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -837,6 +845,64 @@
       "responses": [
         {
           "uuid": "2753f83e-c701-405e-bdad-9d1605305cf2",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "d667c04c-5628-467d-9c4c-10b0e19626e0",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/v1/student/profile",
+      "responses": [
+        {
+          "uuid": "345ff02c-c2f4-4ba3-beb8-286e789a0757",
+          "body": "{\n  \"id\": 12345,\n  \"status\": \"APPROVED\"\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"Hello@hs-fulda.de\",\n  \"profileImgLink\": {\n    \"link\": \"http://cv.pdf\",\n    \"status\": \"PENDING_APPROVAL\"\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "c1813826-9075-4879-8ce4-32a99c41878a",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/v1/student/profile",
+      "responses": [
+        {
+          "uuid": "376c2af1-4520-46d2-8538-13a762b24afc",
           "body": "{}",
           "latency": 0,
           "statusCode": 200,

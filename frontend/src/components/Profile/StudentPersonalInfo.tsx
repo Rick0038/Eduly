@@ -13,13 +13,20 @@ interface PersonalInfoProps {
   isEditing: boolean;
   user: StudentProfileDetail;
   handleEditToggle: () => void;
+  onUpdatePersonalInfo: () => void;
 }
 
 export function StudentPersonalInfo(props: PersonalInfoProps) {
-  const { isEditing, user, ...otherProps } = props;
+  const { isEditing, user, onUpdatePersonalInfo, ...otherProps } = props;
 
   if (isEditing) {
-    return <EditPersonalInfo user={user} {...otherProps} />;
+    return (
+      <EditPersonalInfo
+        onUpdatePersonalInfo={onUpdatePersonalInfo}
+        user={user}
+        {...otherProps}
+      />
+    );
   }
 
   return (
@@ -41,12 +48,13 @@ export function StudentPersonalInfo(props: PersonalInfoProps) {
 }
 
 export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
-  const { user, handleEditToggle } = props;
+  const { user, onUpdatePersonalInfo, handleEditToggle } = props;
 
   const updateProfile = useMutation({
     mutationFn: studentService.updateStudentProfile,
     onSuccess: () => {
       notificationService.showSuccess({ message: 'Profile data updated!' });
+      onUpdatePersonalInfo();
       handleEditToggle();
     },
     onError: (err) => {
