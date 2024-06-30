@@ -35,8 +35,30 @@ public class ReviewServiceImpl {
         return reviewRepository.findByStudentId(studentId); // Directly return the repository result
     }
 
+    private void incrementTutorReviewCount(Integer tutorId) {
+        Optional<Tutor> tutorOptional = tutorRepository.findById(tutorId);
+        if (tutorOptional.isPresent()) {
+            Tutor tutor = tutorOptional.get();
+            tutor.setNumberOfRatings(tutor.getNumberOfRatings() + 1);
+            tutorRepository.save(tutor);
+        }
+    }
+
+    private void decrementTutorReviewCount(Integer tutorId) {
+        Optional<Tutor> tutorOptional = tutorRepository.findById(tutorId);
+        if (tutorOptional.isPresent()) {
+            Tutor tutor = tutorOptional.get();
+            int currentReviewCount = tutor.getNumberOfRatings();
+            if (currentReviewCount > 0) {
+                tutor.setNumberOfRatings(currentReviewCount - 1);
+                tutorRepository.save(tutor);
+            }
+        }
+    }
+
     public void createReview(Review review) {
         Review savedReview = reviewRepository.save(review);
+        incrementTutorReviewCount(review.getTutorId());
         updateTutorAverageRating(review.getTutorId());
     }
 
@@ -61,6 +83,7 @@ public class ReviewServiceImpl {
         if (reviewOptional.isPresent()) {
             Integer tutorId = reviewOptional.get().getTutorId();
             reviewRepository.deleteById(reviewId);
+            decrementTutorReviewCount(tutorId);
             updateTutorAverageRating(tutorId);
         }
     }
