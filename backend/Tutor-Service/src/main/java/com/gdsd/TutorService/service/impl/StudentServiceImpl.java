@@ -1,5 +1,6 @@
 package com.gdsd.TutorService.service.impl;
 
+import com.gdsd.TutorService.dto.Student.StudentResponceDto;
 import com.gdsd.TutorService.exception.GenericException;
 import com.gdsd.TutorService.model.Student;
 import com.gdsd.TutorService.model.StudentContent;
@@ -54,5 +55,10 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
+    @Override
+    public StudentResponceDto getStudentById(Integer studentId) {
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Student with id not found "+ studentId+"not found"));
+        return modelMapper.map(student, StudentResponceDto.class);
+    }
 
 }

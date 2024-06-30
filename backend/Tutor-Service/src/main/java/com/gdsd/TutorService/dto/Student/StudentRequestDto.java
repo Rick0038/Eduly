@@ -1,4 +1,4 @@
-package com.gdsd.StudentService.dto;
+package com.gdsd.TutorService.dto.Student;
 
 // THIS SITS BETWEEN THE JAVA IMPLEMENTATION AND THE DATABASE 4
 

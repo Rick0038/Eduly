@@ -190,9 +190,6 @@ public class AuthController {
     }
 
     public Boolean accountAlreadyExists(String email) {
-        if(tutorRepository.existsByEmail(email) || studentRepository.existsByEmail(email)) {
-            return true;
-        }
-        return false;
+        return tutorRepository.existsByEmail(email) || studentRepository.existsByEmail(email);
     }
 }

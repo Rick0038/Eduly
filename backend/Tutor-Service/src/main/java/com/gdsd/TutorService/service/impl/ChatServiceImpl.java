@@ -127,8 +127,7 @@ public class ChatServiceImpl implements ChatService {
 
         Chat chat = chatRepository.findById(message.getChatId())
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Chat", "" +
-                                "id", message.getChatId()));
+                        new ResourceNotFoundException("Chat", "id", message.getChatId()));
 
         if((message.getSenderRole().equals("STUDENT")) &&
                 !(chat.getStudentId() == message.getSenderId()) ||
