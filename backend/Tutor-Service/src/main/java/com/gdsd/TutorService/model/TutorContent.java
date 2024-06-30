@@ -2,6 +2,8 @@ package com.gdsd.TutorService.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "tutor_profile_content")
 public class TutorContent {
@@ -21,6 +23,8 @@ public class TutorContent {
 
     @Column(name = "contentType")
     private String contentType;
+    @Column(name = "uploadTimestamp")
+    private LocalDateTime uploadTimestamp;
 
     public TutorContent() {
     }
@@ -65,6 +69,15 @@ public class TutorContent {
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
+
+    public LocalDateTime getUploadTimestamp() {
+        return uploadTimestamp;
+    }
+
+    public void setUploadTimestamp(LocalDateTime uploadTimestamp) {
+        this.uploadTimestamp = uploadTimestamp;
+    }
+
 
     @Override
     public String toString() {
