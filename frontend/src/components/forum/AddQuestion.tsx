@@ -57,7 +57,7 @@ export const AddQuestion: FC<{ onAddQuestion: () => void }> = ({
               withAsterisk={false}
               autosize
               minRows={4}
-              {...form.getInputProps('text')}
+              {...form.getInputProps('description')}
             />
           </Stack>
           <Button type='submit' fullWidth mt='xl'>
