@@ -1,7 +1,7 @@
 package com.gdsd.TutorService.controller.Student;
 
 import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
-import com.gdsd.TutorService.model.Student;
+import com.gdsd.TutorService.dto.Student.StudentProfileDto;
 import com.gdsd.TutorService.service.impl.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth/v1/student")
+@RequestMapping("/api/v1/student")
 public class StudentController {
 
     @Autowired
@@ -19,12 +19,12 @@ public class StudentController {
     private JwtTokenProvider tokenProvider;
 
     @GetMapping("/profile")
-    public ResponseEntity<Student> getProfile(@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<StudentProfileDto> getProfile(@RequestHeader("Authorization") String authorizationHeader) {
         String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
         String email = tokenProvider.getEmailFromToken(token);
         // Fetch the student's profile based on the email
-        Student student = studentService.getStudentByEmail(email);
-        return new ResponseEntity<>(student, HttpStatus.OK);
+        StudentProfileDto profile = studentService.getStudentProfile(email);
+        return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
     @DeleteMapping("/profile")
