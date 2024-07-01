@@ -1,6 +1,8 @@
 package com.gdsd.TutorService.service.impl;
 
 import com.gdsd.TutorService.exception.ReviewNotAllowedException;
+import com.gdsd.TutorService.exception.StudentBannedException;
+import com.gdsd.TutorService.exception.StudentLockedException;
 import com.gdsd.TutorService.model.Review;
 import com.gdsd.TutorService.model.Student;
 import com.gdsd.TutorService.model.Tutor;
@@ -68,8 +70,11 @@ public class ReviewServiceImpl {
         Optional<Student> studentOptional = studentRepository.findById(review.getStudentId());
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
-            if (student.getBanned() || student.isLocked()) {
-                throw new ReviewNotAllowedException("Student is not allowed to post a review. Account is either banned or locked.");
+            if (student.getBanned()) {
+                throw new StudentBannedException(review.getStudentId());
+            }
+            if (student.isLocked()) {
+                throw new StudentLockedException(review.getStudentId());
             }
         } else {
             throw new ReviewNotAllowedException("Student not found. Cannot post a review.");
@@ -87,8 +92,11 @@ public class ReviewServiceImpl {
             Optional<Student> studentOptional = studentRepository.findById(review.getStudentId());
             if (studentOptional.isPresent()) {
                 Student student = studentOptional.get();
-                if (student.getBanned() || student.isLocked()) {
-                    throw new ReviewNotAllowedException("Student is not allowed to update the review. Account is either banned or locked.");
+                if (student.getBanned()) {
+                    throw new StudentBannedException(review.getStudentId());
+                }
+                if (student.isLocked()) {
+                    throw new StudentLockedException(review.getStudentId());
                 }
             } else {
                 throw new ReviewNotAllowedException("Student not found. Cannot update the review.");
@@ -113,8 +121,11 @@ public class ReviewServiceImpl {
             Optional<Student> studentOptional = studentRepository.findById(review.getStudentId());
             if (studentOptional.isPresent()) {
                 Student student = studentOptional.get();
-                if (student.getBanned() || student.isLocked()) {
-                    throw new ReviewNotAllowedException("Student is not allowed to delete the review. Account is either banned or locked.");
+                if (student.getBanned()) {
+                    throw new StudentBannedException(review.getStudentId());
+                }
+                if (student.isLocked()) {
+                    throw new StudentLockedException(review.getStudentId());
                 }
             } else {
                 throw new ReviewNotAllowedException("Student not found. Cannot delete the review.");
