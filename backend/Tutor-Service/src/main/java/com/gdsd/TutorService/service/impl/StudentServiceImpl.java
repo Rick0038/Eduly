@@ -61,4 +61,17 @@ public class StudentServiceImpl implements StudentService {
         return modelMapper.map(student, StudentResponceDto.class);
     }
 
+    // Fetch student profile by email
+    public Student getStudentByEmail(String email) {
+        return studentRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Student not found with email: " + email));
+    }
+
+    // Delete student profile by email
+    public void deleteStudentByEmail(String email) {
+        Student student = studentRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Student not found with email: " + email));
+        studentRepository.delete(student);
+    }
+
 }
