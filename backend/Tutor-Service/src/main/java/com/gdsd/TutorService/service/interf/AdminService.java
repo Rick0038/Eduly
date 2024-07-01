@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AdminService {
      List<TutorAdminContentDTO> getPendingApprovalTutorContents();
-     List<StudentContentDTO.StudentProfileContentDTO> getPendingApprovalStudentContents();
+     List<StudentContentDTO> getPendingApprovalStudentContents();
      boolean approvContentById(Integer contentId, String role);
 
      boolean deleteContentById(Integer contentId, String role);
