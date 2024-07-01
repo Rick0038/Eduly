@@ -1,8 +1,13 @@
 package com.gdsd.TutorService.service.impl;
 
+import com.gdsd.TutorService.exception.ReviewNotAllowedException;
+import com.gdsd.TutorService.exception.StudentBannedException;
+import com.gdsd.TutorService.exception.StudentLockedException;
 import com.gdsd.TutorService.model.Review;
+import com.gdsd.TutorService.model.Student;
 import com.gdsd.TutorService.model.Tutor;
 import com.gdsd.TutorService.repository.ReviewRepository;
+import com.gdsd.TutorService.repository.StudentRepository;
 import com.gdsd.TutorService.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +20,10 @@ public class ReviewServiceImpl {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
 
     @Autowired
     private TutorRepository tutorRepository;
@@ -57,6 +66,19 @@ public class ReviewServiceImpl {
     }
 
     public void createReview(Review review) {
+        // Check if the student is banned or locked
+        Optional<Student> studentOptional = studentRepository.findById(review.getStudentId());
+        if (studentOptional.isPresent()) {
+            Student student = studentOptional.get();
+            if (student.getBanned()) {
+                throw new StudentBannedException(review.getStudentId());
+            }
+            if (student.isLocked()) {
+                throw new StudentLockedException(review.getStudentId());
+            }
+        } else {
+            throw new ReviewNotAllowedException("Student not found. Cannot post a review.");
+        }
         Review savedReview = reviewRepository.save(review);
         incrementTutorReviewCount(review.getTutorId());
         updateTutorAverageRating(review.getTutorId());
@@ -66,6 +88,19 @@ public class ReviewServiceImpl {
         Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
         if (reviewOptional.isPresent()) {
             Review review = reviewOptional.get();
+            // Check if the student is allowed to update the review
+            Optional<Student> studentOptional = studentRepository.findById(review.getStudentId());
+            if (studentOptional.isPresent()) {
+                Student student = studentOptional.get();
+                if (student.getBanned()) {
+                    throw new StudentBannedException(review.getStudentId());
+                }
+                if (student.isLocked()) {
+                    throw new StudentLockedException(review.getStudentId());
+                }
+            } else {
+                throw new ReviewNotAllowedException("Student not found. Cannot update the review.");
+            }
             review.setRating(reviewDetails.getRating());  // Use instance method
             review.setText(reviewDetails.getText());
             review.setTutorId(reviewDetails.getTutorId());
@@ -80,11 +115,28 @@ public class ReviewServiceImpl {
 
     public void deleteReview(Integer reviewId) {
         Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
+        Review review = reviewOptional.get();
         if (reviewOptional.isPresent()) {
+            // Check if the student is allowed to delete the review
+            Optional<Student> studentOptional = studentRepository.findById(review.getStudentId());
+            if (studentOptional.isPresent()) {
+                Student student = studentOptional.get();
+                if (student.getBanned()) {
+                    throw new StudentBannedException(review.getStudentId());
+                }
+                if (student.isLocked()) {
+                    throw new StudentLockedException(review.getStudentId());
+                }
+            } else {
+                throw new ReviewNotAllowedException("Student not found. Cannot delete the review.");
+            }
             Integer tutorId = reviewOptional.get().getTutorId();
             reviewRepository.deleteById(reviewId);
             decrementTutorReviewCount(tutorId);
             updateTutorAverageRating(tutorId);
+        }
+        else {
+            throw new RuntimeException("Review not found with id " + reviewId);
         }
     }
 

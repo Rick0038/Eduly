@@ -1,9 +1,11 @@
 package com.gdsd.TutorService.service.impl;
 
+import com.gdsd.TutorService.dto.Student.StudentProfileDto;
 import com.gdsd.TutorService.dto.Student.StudentResponceDto;
 import com.gdsd.TutorService.exception.GenericException;
 import com.gdsd.TutorService.model.Student;
 import com.gdsd.TutorService.model.StudentContent;
+import com.gdsd.TutorService.repository.ReviewRepository;
 import com.gdsd.TutorService.repository.StudentContentRepository;
 import com.gdsd.TutorService.repository.StudentRepository;
 import com.gdsd.TutorService.service.interf.StudentService;
@@ -11,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -26,6 +29,8 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @Override
     public Integer getStudentIdFromEmail(String studentEmail) {
@@ -61,4 +66,49 @@ public class StudentServiceImpl implements StudentService {
         return modelMapper.map(student, StudentResponceDto.class);
     }
 
+    // Fetch student profile by email
+    public Student getStudentByEmail(String email) {
+        return studentRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Student not found with email: " + email));
+    }
+
+    // Delete student profile by email
+    @Transactional
+    public void deleteStudentByEmail(String email) {
+        Student student = studentRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Student not found with email: " + email));
+        // Manually delete related reviews
+        // BAD WAY IT WILL CREATE GHOST REVIEWS
+        // FUNCTION SHOULD SOFT-DELETE AND MARK PROFILE AS INACTIVE
+        // TO DO THIS MODEL AND DB NEEDS TO CHANGE AND ADD [ boolean isDeleted ]
+        // PENDING APPROVAL FROM @AASHAY
+        reviewRepository.deleteByStudentId(student.getStudentId());
+        studentRepository.delete(student);
+    }
+
+    public StudentProfileDto getStudentProfile(String email) {
+        Student student = studentRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Student not found with email: " + email));
+
+        // Fetch the profile image content
+        Optional<StudentContent> contentOpt = studentContentRepository.findByStudentIdAndContentType(student.getStudentId(), "profile_image");
+        StudentContent content = contentOpt.orElse(new StudentContent());
+
+        // Map to DTO
+        StudentProfileDto dto = new StudentProfileDto();
+        dto.setId(student.getStudentId());
+        dto.setFirstName(student.getFirstName());
+        dto.setLastName(student.getLastName());
+        dto.setEmail(student.getEmail());
+
+        // Use the status from StudentContent (if available, otherwise default to "PENDING_APPROVAL")
+        String profileStatus = content.getStatus() != null ? content.getStatus() : "PENDING_APPROVAL";
+        StudentProfileDto.ProfileImgLink profileImgLink = new StudentProfileDto.ProfileImgLink(
+                content.getContentLink(),
+                profileStatus
+        );
+        dto.setProfileImgLink(profileImgLink);
+
+        return dto;
+    }
 }

@@ -1,41 +1,38 @@
 package com.gdsd.TutorService.controller.Student;
 
-
 import com.gdsd.TutorService.config.GeneralSecurityConfig.JwtTokenProvider;
-import com.gdsd.TutorService.dto.Student.StudentResponceDto;
-import com.gdsd.TutorService.service.interf.StudentService;
+import com.gdsd.TutorService.dto.Student.StudentProfileDto;
+import com.gdsd.TutorService.service.impl.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-// THIS IS THE PLACE WHERE API WILL HIT 1
 
 @RestController
 @RequestMapping("/api/v1/student")
 public class StudentController {
 
     @Autowired
-    private JwtTokenProvider tokenProvider;
+    private StudentServiceImpl studentService;
 
     @Autowired
-    private StudentService studentService;
+    private JwtTokenProvider tokenProvider;
 
-
-//    @GetMapping("/id/{studentId}")
-//    public ResponseEntity<StudentResponceDto> getStudentById(@PathVariable Integer studentId){
-//        StudentResponceDto student = studentService.getStudentById(studentId);
-//        return  new ResponseEntity<>(student,HttpStatus.OK);
-//    }
-
-    @GetMapping("/id/{studentId}")
-    public ResponseEntity<StudentResponceDto> getStudent(@RequestHeader("Authorization") String authorizationHeader, @PathVariable String studentId){
-        String token=tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
-        String email=tokenProvider.getEmailFromToken(token);
-        Integer studentIdInt=studentService.getStudentIdFromEmail(email);
-        studentService.getStudentById(studentIdInt);
-        return new ResponseEntity<>(studentService.getStudentById(studentIdInt),HttpStatus.OK);
+    @GetMapping("/profile")
+    public ResponseEntity<StudentProfileDto> getProfile(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String email = tokenProvider.getEmailFromToken(token);
+        // Fetch the student's profile based on the email
+        StudentProfileDto profile = studentService.getStudentProfile(email);
+        return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
-
+    @DeleteMapping("/profile")
+    public ResponseEntity<Void> deleteProfile(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
+        String email = tokenProvider.getEmailFromToken(token);
+        // Delete the student's profile based on the email
+        studentService.deleteStudentByEmail(email);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
