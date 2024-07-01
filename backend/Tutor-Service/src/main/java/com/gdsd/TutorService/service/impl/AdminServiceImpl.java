@@ -58,21 +58,22 @@ private StudentRepository studentRepository;
     }
 
     @Override
-    public List<StudentContentDTO.StudentProfileContentDTO> getPendingApprovalStudentContents() {
+    public List<StudentContentDTO> getPendingApprovalStudentContents() {
         List<StudentContent> pendingContents = studentContentRepository.findByStatusOrderByUploadTimestampAsc("PENDING_APPROVAL");
 
         return pendingContents.stream()
-                .map(content -> new StudentContentDTO.StudentProfileContentDTO(
-                        content.getContentId(),
-                        content.getStudentId(),
-                        content.getContentType(),
-                        content.getContentLink(),
-                        studentService.getStudentNameFromId(content.getStudentId()),
-                        content.getStatus(),
-                        content.getUploadTimestamp()
+                .map(content -> {
+                    Integer contentId = content.getContentId();
+                    Integer studentId = content.getStudentId();
+                    String link = content.getContentLink();
+                    String status = content.getStatus();
+                    String contentType = content.getContentType();
+                    String studentName= studentService.getStudentNameFromId(content.getStudentId());
 
+                    LocalDateTime uploadTimestamp = content.getUploadTimestamp();
+                    return new StudentContentDTO(contentId,studentId,contentType,link,studentName,status,uploadTimestamp);
 //                        content.getUploadTimestamp()
-                ))
+                })
                 .collect(Collectors.toList());
 
     }
@@ -158,11 +159,13 @@ private StudentRepository studentRepository;
         if ("TUTOR".equalsIgnoreCase(role)) {
             tutorRepository.updateIsBannedByTutorId(id,true);
             tutorContentRepository.deleteByTutorId(id);
+            return true;
 
 
         } else if ("STUDENT".equalsIgnoreCase(role)) {
            studentRepository.updateIsBannedByStudentId(id,true);
            studentContentRepository.deleteByStudentId(id);
+            return true;
         }
         return false;
 
@@ -172,10 +175,12 @@ private StudentRepository studentRepository;
 
         if ("TUTOR".equalsIgnoreCase(role)) {
             tutorRepository.updateIsBannedByTutorId(id,false);
+            return true;
 
 
         } else if ("STUDENT".equalsIgnoreCase(role)) {
             studentRepository.updateIsBannedByStudentId(id,false);
+            return true;
         }
         return false;
 

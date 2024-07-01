@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 public class StudentContentDTO {
 
-    public static class StudentProfileContentDTO {
+
 
         private Integer id;
         private Integer studentId;
@@ -14,9 +14,9 @@ public class StudentContentDTO {
         private String studentName;
         private String status;
         private LocalDateTime uploadTimestamp;
-        public StudentProfileContentDTO() {
+        public StudentContentDTO() {
         }
-        public StudentProfileContentDTO(Integer contentId, Integer studentId, String contentType, String contentLink, String studentNameFromId, String status, LocalDateTime uploadTimestamp) {
+        public StudentContentDTO(Integer id, Integer studentId, String type, String link, String studentName, String status, LocalDateTime uploadTimestamp) {
             this.id = id;
             this.studentId = studentId;
             this.type = type;
@@ -84,17 +84,3 @@ public class StudentContentDTO {
             this.uploadTimestamp = uploadTimestamp;
         }
     }
-
-    public static class ContentResponseDTO {
-        private List<StudentProfileContentDTO> content;
-
-        // Getters and Setters
-        public List<StudentProfileContentDTO> getContent() {
-            return content;
-        }
-
-        public void setContent(List<StudentProfileContentDTO> content) {
-            this.content = content;
-        }
-    }
-}

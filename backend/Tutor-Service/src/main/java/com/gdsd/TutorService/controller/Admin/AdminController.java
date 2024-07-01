@@ -45,7 +45,7 @@ public class AdminController {
 
 
     @GetMapping("/student-content")
-    public StudentContentDTO.ContentResponseDTO getStudentContent(
+    public  Map<String,List<StudentContentDTO>> getStudentContent(
             @RequestHeader("Authorization") String authorizationHeader
     ) {
 
@@ -54,9 +54,9 @@ public class AdminController {
         if (!role.equalsIgnoreCase("ADMIN")) {
             throw new GenericException("USER IS UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
         }
-        List<StudentContentDTO.StudentProfileContentDTO> Contents = adminService.getPendingApprovalStudentContents();
-        StudentContentDTO.ContentResponseDTO response = new StudentContentDTO.ContentResponseDTO();
-        response.setContent(Contents);
+        List<StudentContentDTO> Contents = adminService.getPendingApprovalStudentContents();
+        Map<String,List<StudentContentDTO>> response = new HashMap<>();
+        response.put("content", Contents);
         return new ResponseEntity<>(response, HttpStatus.OK).getBody();
     }
 
@@ -150,8 +150,8 @@ public class AdminController {
             boolean deleted = adminService.banTutororStudent(userId, role);
             if (deleted) {
                 return ResponseEntity.ok().build();
-            } else {
-                return ResponseEntity.ok().build();
+            } else{
+                return ResponseEntity.internalServerError().build();
             }
         } else {
             return ResponseEntity.badRequest().body("Invalid role provided");
@@ -177,7 +177,7 @@ public class AdminController {
             if (deleted) {
                 return ResponseEntity.ok().build();
             } else {
-                return ResponseEntity.ok().build();
+                return ResponseEntity.internalServerError().build();
             }
         } else {
             return ResponseEntity.badRequest().body("Invalid role provided");
