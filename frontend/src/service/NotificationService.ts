@@ -7,19 +7,12 @@ interface ISuccess {
   autoClose?: number | boolean;
 }
 
-interface IErrorWithErr {
+interface IError {
   err: AxiosError | Error;
-  title?: string;
-  autoClose?: number | boolean;
-}
-
-interface IErrorWithMessage {
   message: string;
   title?: string;
   autoClose?: number | boolean;
 }
-
-type IError = IErrorWithErr | IErrorWithMessage;
 
 class NotificationService {
   showSuccess({ message, title, autoClose }: ISuccess) {
@@ -33,11 +26,13 @@ class NotificationService {
 
   showError(error: IError) {
     let msg = 'An error occurred';
-    if ('message' in error && error.message) {
+
+    if (error.err instanceof AxiosError) {
+      msg = error.err.response?.data.message;
+    } else if (error.message) {
       msg = error.message;
-    } else if (error instanceof AxiosError) {
-      msg = error.response?.data.message;
     }
+
     notifications.show({
       title: error.title || 'Error',
       message: msg,
