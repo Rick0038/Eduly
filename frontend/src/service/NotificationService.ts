@@ -8,8 +8,8 @@ interface ISuccess {
 }
 
 interface IError {
-  err: AxiosError | Error;
-  message: string;
+  err?: AxiosError | Error;
+  message?: string;
   title?: string;
   autoClose?: number | boolean;
 }
