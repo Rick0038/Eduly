@@ -17,10 +17,9 @@ Meet our developers who made this project a success.
 # Techstack ⚡
 
 - React
-- Vite
-- Node
-- Apache
-- Java Spring
+- TypeScript
+- Java
+- Spring Boot
 - Docker
 - Azure
 
