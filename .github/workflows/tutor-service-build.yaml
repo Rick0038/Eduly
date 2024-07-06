@@ -6,83 +6,81 @@ on:
     branches:
       - master
       - dev
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch: # Manual trigger
 jobs:
   build:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository and pull request branch
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.ref }} 
-        
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Checkout repository and pull request branch
+        uses: actions/checkout@v4
 
-    - name: Set up Maven
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        java-package: jdk
-        distribution: 'temurin'
-        cache: 'maven'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-    - name: Build with Maven
-      run:  mvn clean install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dmaven.source.skip=true -DoutputDirectory=target
-      working-directory: ./backend/Tutor-Service
-      env:
-        EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
-        EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
-        EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
+      - name: Set up Maven
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          java-package: jdk
+          distribution: 'temurin'
+          cache: 'maven'
 
-    - name: Build Docker image
-      run: |
-        pwd
-        ls
-        docker build -t tutor-service:latest -f ../Dockerfile .
-      working-directory: ./backend/Tutor-Service/target
+      - name: Build with Maven
+        run: mvn clean install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dmaven.source.skip=true -DoutputDirectory=target
+        working-directory: ./backend/Tutor-Service
+        env:
+          EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
+          EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
+          EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
 
-    - name: Save Docker image to file
-      run: docker save -o tutor-service.tar tutor-service:latest
+      - name: Build Docker image
+        run: |
+          pwd
+          ls
+          docker build -t tutor-service:latest -f ../Dockerfile .
+        working-directory: ./backend/Tutor-Service/target
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Save Docker image to file
+        run: docker save -o tutor-service.tar tutor-service:latest
 
-    - name: Copy Docker image to server
-      run: scp -o StrictHostKeyChecking=no tutor-service.tar svc-ci@${{ secrets.SSH_IP }}:/home/svc-ci/deploy
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Copy Docker Compose file to server
-      run: |
-        pwd
-        ls
-        scp -o StrictHostKeyChecking=no docker-compose.yaml svc-ci@${{ secrets.SSH_IP }}:/home/svc-ci/deploy
-      working-directory: ./backend/Tutor-Service
-    
-    - name: Stop and remove existing containers
-      run: |
-        ssh -o StrictHostKeyChecking=no svc-ci@${{ secrets.SSH_IP }} << 'EOF'
-        cd /home/svc-ci/deploy
-        docker compose down
-        EOF
+      - name: Copy Docker image to server
+        run: scp -o StrictHostKeyChecking=no tutor-service.tar svc-ci@${{ secrets.SSH_IP }}:/home/svc-ci/deploy
 
-    - name: Deploy Docker image on remote server
-      run: |
-        ssh -o StrictHostKeyChecking=no svc-ci@${{ secrets.SSH_IP }} << 'EOF'
-        cd /home/svc-ci/deploy
-        docker load -i tutor-service.tar
-        EDULY_DB_URL=${{ secrets.EDULY_DB_URL }} \
-        EDULY_DB_USERNAME=${{ secrets.EDULY_DB_USERNAME }} \
-        EDULY_DB_PASSWORD=${{ secrets.EDULY_DB_PASSWORD }} \
-        docker compose up -d
-        EOF
-      env:
-        EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
-        EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
-        EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
+      - name: Copy Docker Compose file to server
+        run: |
+          pwd
+          ls
+          scp -o StrictHostKeyChecking=no docker-compose.yaml svc-ci@${{ secrets.SSH_IP }}:/home/svc-ci/deploy
+        working-directory: ./backend/Tutor-Service
+
+      - name: Stop and remove existing containers
+        run: |
+          ssh -o StrictHostKeyChecking=no svc-ci@${{ secrets.SSH_IP }} << 'EOF'
+          cd /home/svc-ci/deploy
+          docker compose down
+          EOF
+
+      - name: Deploy Docker image on remote server
+        run: |
+          ssh -o StrictHostKeyChecking=no svc-ci@${{ secrets.SSH_IP }} << 'EOF'
+          cd /home/svc-ci/deploy
+          docker load -i tutor-service.tar
+          EDULY_DB_URL=${{ secrets.EDULY_DB_URL }} \
+          EDULY_DB_USERNAME=${{ secrets.EDULY_DB_USERNAME }} \
+          EDULY_DB_PASSWORD=${{ secrets.EDULY_DB_PASSWORD }} \
+          docker compose up -d
+          EOF
+        env:
+          EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
+          EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
+          EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
