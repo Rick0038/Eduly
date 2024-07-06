@@ -203,7 +203,7 @@ export function TutorsStack() {
                             />
                           }
                           onClick={() => {
-                            banTutorMutation.mutate(item.id);
+                            banTutorMutation.mutate(item.tutorId);
                           }}
                           color='red'
                         >
