@@ -197,7 +197,7 @@ export function StudentsStack() {
                             />
                           }
                           onClick={() => {
-                            banStudentMutation.mutate(item.id);
+                            banStudentMutation.mutate(item.studentId);
                           }}
                           color='red'
                         >

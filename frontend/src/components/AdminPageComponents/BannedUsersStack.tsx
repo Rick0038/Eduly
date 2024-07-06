@@ -10,10 +10,10 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
+import { IconUserCheck } from '@tabler/icons-react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { adminService } from '../../service';
 import { notificationService } from '../../service/NotificationService';
-import { IconUserCheck } from '@tabler/icons-react';
 
 export function BannedUsersStack() {
   const {
@@ -78,7 +78,8 @@ export function BannedUsersStack() {
       {bannedUsersData && bannedUsersData?.users.length === 0 && (
         <Container my={20}>
           <Text ta='center'>
-            You have not banned any users. Everyone is safely having fun at Eduly!
+            You have not banned any users. Everyone is safely having fun at
+            Eduly!
           </Text>
         </Container>
       )}
