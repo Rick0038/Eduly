@@ -17,6 +17,8 @@ export interface RegisterInfo {
   role: string;
 }
 
+export const LOGIN_URL = '/auth/v1/login';
+
 class AuthService {
   get user() {
     return getUserInfoFromLocalStorage();
@@ -43,10 +45,7 @@ class AuthService {
   }
 
   async login(loginInfo: LoginInfo): Promise<UserInfo> {
-    const response = await httpService.post<UserInfo>(
-      '/auth/v1/login',
-      loginInfo
-    );
+    const response = await httpService.post<UserInfo>(LOGIN_URL, loginInfo);
     return response;
   }
 

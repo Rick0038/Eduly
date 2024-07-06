@@ -10,6 +10,7 @@ import {
   clearUserInfoFromLocalStorage,
   getUserInfoFromLocalStorage,
 } from '../util/userInfo';
+import { LOGIN_URL } from './AuthService';
 
 class HTTPService {
   private client: AxiosInstance;
@@ -44,7 +45,11 @@ class HTTPService {
   }
 
   private handleResponseError(error: AxiosError): Promise<never> {
-    if (error.response && error.response.status === 401) {
+    if (
+      !error.config?.url?.endsWith(LOGIN_URL) &&
+      error.response &&
+      error.response.status === 401
+    ) {
       clearUserInfoFromLocalStorage();
       const pageRedirect = window.location.pathname;
       window.location.href = `/login?redirect=${pageRedirect}`;
