@@ -11,6 +11,8 @@ public class TutorProfileUpdateRequestDto {
     private String intro;
     private Double pricing;
 
+    private String email;
+
     public TutorProfileUpdateRequestDto() {
     }
 
@@ -68,5 +70,13 @@ public class TutorProfileUpdateRequestDto {
 
     public void setPricing(Double pricing) {
         this.pricing = pricing;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
