@@ -461,8 +461,8 @@ public class TutorServiceImpl implements TutorService {
             cv.setLink("");
             cv.setStatus("PENDING_APPROVAL");
         } else {
-            cv.setLink(tutorProfileImage.get().getContentLink());
-            cv.setStatus(tutorProfileImage.get().getStatus());
+            cv.setLink(tutorCv.get().getContentLink());
+            cv.setStatus(tutorCv.get().getStatus());
         }
         responseDto.setCv(cv);
 
@@ -473,8 +473,8 @@ public class TutorServiceImpl implements TutorService {
             video.setLink("");
             video.setStatus("PENDING_APPROVAL");
         } else {
-            video.setLink(tutorProfileImage.get().getContentLink());
-            video.setStatus(tutorProfileImage.get().getStatus());
+            video.setLink(tutorVideo.get().getContentLink());
+            video.setStatus(tutorVideo.get().getStatus());
         }
         responseDto.setVideo(video);
 
