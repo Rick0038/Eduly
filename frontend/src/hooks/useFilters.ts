@@ -37,8 +37,7 @@ export const weekDays = [
 
 const getInitialFilters = (locationSearch: string): FiltersState => {
   const params = new URLSearchParams(locationSearch);
-  return {
-    topic: params.get('topic') || '',
+  const query = {
     location: params.get('location') || '',
     ratingsMin: parseInt(params.get('ratingsMin') || '0', 10),
     pricingMin: parseInt(params.get('pricingMin') || '0', 10),
@@ -47,7 +46,9 @@ const getInitialFilters = (locationSearch: string): FiltersState => {
       ? params.get('availabilityDays')!.split(',')
       : [],
     language: params.get('language') || '',
+    topic: params.get('topic') || '',
   };
+  return query;
 };
 
 const DEBOUNCE_TIME = 500; // 0.5 second
@@ -60,10 +61,13 @@ export const useFilters = () => {
     getInitialFilters(location.search)
   );
 
+  useEffect(() => {
+    setFilters(getInitialFilters(location.search));
+  }, [location.search]);
+
   const updateQueryParams = useCallback(
     (filters: FiltersState) => {
       const params = new URLSearchParams();
-      if (filters.topic) params.set('topic', filters.topic);
       if (filters.location) params.set('location', filters.location);
       if (filters.ratingsMin)
         params.set('ratingsMin', filters.ratingsMin.toString());
@@ -74,6 +78,8 @@ export const useFilters = () => {
       if (filters.availabilityDays.length > 0)
         params.set('availabilityDays', filters.availabilityDays.join(','));
       if (filters.language) params.set('language', filters.language);
+      // FIXME: Topic should be the last params since it's being overriden by the SearchTutor component
+      if (filters.topic) params.set('topic', filters.topic);
 
       navigate({ search: params.toString() }, { replace: true });
     },
