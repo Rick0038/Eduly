@@ -1,6 +1,8 @@
 # Eduly 📚
 Connect with tutors!
 
+You can access the deployed application at this URL: [eduly](http://20.56.148.2)
+
 # Meet the team 👨‍💻👨‍💻
 
 Meet our developers who made this project a success.
