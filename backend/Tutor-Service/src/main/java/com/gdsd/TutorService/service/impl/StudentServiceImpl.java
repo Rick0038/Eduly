@@ -84,9 +84,19 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentProfileRespDto updateStudentProfileImage(StudentProfileImageRequestDto requestDto, Integer studentId) {
-
-            String fileName = getFileName(studentId, "profile_image");
+            String contentType = "profile_image";
+            String fileName = getExistingFileName(studentId, contentType);
             try {
+
+                // if already exists then delete from blob storage
+                if (fileName != null) {
+                    BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
+                    blobClient.deleteIfExists();
+                }
+
+                // generate a new file name
+                fileName = generateFileName(contentType, studentId);
+
                 BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
                 BlobHttpHeaders headers = new BlobHttpHeaders().setContentType(requestDto.getFile().getContentType());
                 blobClient.upload(requestDto.getFile().getInputStream(), requestDto.getFile().getSize(), true);
@@ -121,8 +131,20 @@ public class StudentServiceImpl implements StudentService {
 
         }
 
-    private String getFileName(Integer studentId, String contentType) {
+    private String generateFileName(String contentType, Integer studentId) {
         return "student_" + contentType + "_" + studentId  + UUID.randomUUID();
+    }
+
+    private String getExistingFileName(Integer studentId, String contentType) {
+        Optional<StudentContent> existingContent = studentContentRepository.findByStudentIdAndContentType(studentId, contentType);
+
+        if (existingContent.isPresent()) {
+            String contentLink = existingContent.get().getContentLink();
+            String[] contentLinkParts = contentLink.split("/");
+            return contentLinkParts[contentLinkParts.length - 1];
+        } else {
+            return null;
+        }
     }
 
     @Override

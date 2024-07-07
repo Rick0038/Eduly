@@ -248,10 +248,19 @@ public class TutorServiceImpl implements TutorService {
 
 
     public Object updateTutorContent(TutorProfileRequestDto requestDto, Integer tutorId, String contentType) {
-        String fileName = getFileName(tutorId, contentType);
+        String fileName = getExistingFileName(tutorId, contentType);
 
         try {
             // Upload new blob
+
+            // if already exists then delete from blob storage
+            if (fileName != null) {
+                BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
+                blobClient.deleteIfExists();
+            }
+
+            // generate a new file name
+            fileName = generateFileName(contentType, tutorId);
 
             BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
             BlobHttpHeaders headers = new BlobHttpHeaders().setContentType(requestDto.getFile().getContentType());
@@ -296,9 +305,20 @@ public class TutorServiceImpl implements TutorService {
             throw new GenericException("Failed to upload content: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    private String getFileName(Integer tutorId, String contentType) {
+    private String generateFileName(String contentType, Integer tutorId) {
         return contentType + "_" + tutorId  + UUID.randomUUID();
+    }
+
+    private String getExistingFileName(Integer tutorId, String contentType) {
+        Optional<TutorContent> existingContent = tutorContentRepository.findByTutorIdAndContentType(tutorId, contentType);
+
+        if (existingContent.isPresent()) {
+            String contentLink = existingContent.get().getContentLink();
+            String[] contentLinkParts = contentLink.split("/");
+            return contentLinkParts[contentLinkParts.length - 1];
+        } else {
+            return null;
+        }
     }
 
     public void updateTutorContent(Integer tutorId, String contentLink, String contentType) {
