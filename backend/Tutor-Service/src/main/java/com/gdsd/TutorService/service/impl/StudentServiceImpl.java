@@ -1,13 +1,15 @@
 package com.gdsd.TutorService.service.impl;
 
-import com.gdsd.TutorService.dto.Student.StudentProfileDto;
-import com.gdsd.TutorService.dto.Student.StudentResponceDto;
+import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.models.BlobHttpHeaders;
+import com.gdsd.TutorService.config.AzureBlob.AzureBlobStorageConfig;
+import com.gdsd.TutorService.dto.Student.*;
 import com.gdsd.TutorService.exception.GenericException;
+import com.gdsd.TutorService.model.Session;
 import com.gdsd.TutorService.model.Student;
 import com.gdsd.TutorService.model.StudentContent;
-import com.gdsd.TutorService.repository.ReviewRepository;
-import com.gdsd.TutorService.repository.StudentContentRepository;
-import com.gdsd.TutorService.repository.StudentRepository;
+import com.gdsd.TutorService.model.Tutor;
+import com.gdsd.TutorService.repository.*;
 import com.gdsd.TutorService.service.interf.StudentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.net.URI;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -31,6 +36,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private AzureBlobStorageConfig azureBlobStorageConfig;
+    @Autowired
+    private SessionRepository sessionRepository;
+    @Autowired
+    private TutorRepository tutorRepository;
+
 
     @Override
     public Integer getStudentIdFromEmail(String studentEmail) {
@@ -70,6 +82,88 @@ public class StudentServiceImpl implements StudentService {
     public Student getStudentByEmail(String email) {
         return studentRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Student not found with email: " + email));
+    }
+
+    @Override
+    public StudentProfileRespDto updateStudentProfileImage(StudentProfileImageRequestDto requestDto, Integer studentId) {
+
+            String fileName = "Student_Profile_Img" + "_" + studentId;
+            try {
+                BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
+                BlobHttpHeaders headers = new BlobHttpHeaders().setContentType(requestDto.getFile().getContentType());
+                blobClient.upload(requestDto.getFile().getInputStream(), requestDto.getFile().getSize(), true);
+                blobClient.setHttpHeaders(headers);
+
+
+                URI blobUri = URI.create(blobClient.getBlobUrl());
+                String contentLink = blobUri.toString();
+
+                Optional<StudentContent> studentContent = studentContentRepository.findByStudentIdAndContentType(studentId,"profile_image");
+
+                if (studentContent.isPresent()){
+                    StudentContent existingstudentContent = studentContent.get();
+                    studentContentRepository.delete(existingstudentContent);
+                }
+                StudentContent newcontent = new StudentContent();
+                newcontent.setStudentId(studentId);
+                newcontent.setContentType("profile_image");
+                newcontent.setStatus("PENDING_APPROVAL");
+                newcontent.setContentLink(contentLink);
+                studentContentRepository.save(newcontent);
+
+                StudentProfileRespDto respDto = new StudentProfileRespDto();
+                respDto.setStatus("PENDING_APPROVAL");
+                respDto.setProfileImgLink(contentLink);
+                return respDto;
+
+            } catch (IOException e) {
+                throw new GenericException("Failed to upload content: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+        }
+
+    @Override
+    public Boolean updateStudentProfile(Integer studentId, StudentProfileUpdateRequestDto studentProfileUpdateRequest) {
+        Student student = studentRepository.findById(studentId).orElse(null);
+        if (student != null) {
+            student.setFirstName(studentProfileUpdateRequest.getFirstName());
+            student.setLastName(studentProfileUpdateRequest.getLastName());
+            student.setEmail(studentProfileUpdateRequest.getEmail());
+            studentRepository.save(student);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Session bookSession(Integer sessionId, Integer studentId) {
+        Session session = sessionRepository.findById(sessionId).orElse(null);
+        if (session != null) {
+            session.setStudentId(studentId);
+            session.setStatus("BOOKED");
+            return sessionRepository.save(session);
+        }
+        return null;
+    }
+
+    @Override
+    public SessionCancellationResponseDto cancelSession(Integer sessionId, Integer studentId) {
+        Session session = sessionRepository.findById(sessionId).orElse(null);
+        if (session != null && session.getStudentId().equals(studentId)) {
+            session.setStudentId(null);
+            session.setStatus("FREE");
+            sessionRepository.save(session);
+
+            Tutor tutor = tutorRepository.findById(session.getTutorId()).orElse(null);
+            String tutorName = tutor != null ? tutor.getFirstName() + " " + tutor.getLastName() : "Unknown Tutor";
+            String formattedDate = session.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            String formattedTime = session.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+
+            SessionCancellationResponseDto responseDto = new SessionCancellationResponseDto();
+            responseDto.setMessage("Session with " + tutorName + " on " + formattedDate + " " + formattedTime + " cancelled successfully");
+            return responseDto;
+        }
+        return null;
     }
 
     // Delete student profile by email
