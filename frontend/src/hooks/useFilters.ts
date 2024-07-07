@@ -9,8 +9,8 @@ interface FiltersState {
   pricingMin: number;
   pricingMax: number;
   availabilityDays: string[];
-  language: string;
-  sortBy: string;
+  language: string | null;
+  sortBy: string | null;
 }
 
 export const ratingMarks = [
@@ -113,7 +113,16 @@ export const useFilters = () => {
   );
 
   const handleReset = useCallback(() => {
-    setFilters(getInitialFilters(''));
+    setFilters({
+      topic: '',
+      location: '',
+      ratingsMin: 0,
+      pricingMin: 0,
+      pricingMax: 0,
+      availabilityDays: [],
+      language: null,
+      sortBy: null,
+    });
     navigate({ search: '' }, { replace: true });
   }, [navigate]);
 
