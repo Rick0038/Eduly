@@ -9,13 +9,6 @@ import {
   Text,
 } from '@mantine/core';
 import {
-  priceMarks,
-  ratingMarks,
-  useFilters,
-  useLanguages,
-  weekDays,
-} from '../hooks';
-import {
   IconAdjustments,
   IconCalendar,
   IconCurrencyEuro,
@@ -23,6 +16,14 @@ import {
   // IconLocation,
   IconStar,
 } from '@tabler/icons-react';
+import { SORT_TYPE } from '../constant';
+import {
+  priceMarks,
+  ratingMarks,
+  useFilters,
+  useLanguages,
+  weekDays,
+} from '../hooks';
 
 interface FiltersProps {
   onSubmit?: () => void;
@@ -68,6 +69,35 @@ export function Filters(props: FiltersProps) {
           }
         />
       </Group> */}
+
+      <Group className='mb-1'>
+        <Select
+          name='sort'
+          label={
+            <Flex justify='center' align='center'>
+              <Text className='text-sm'>Sort</Text>
+            </Flex>
+          }
+          placeholder='Sort By'
+          className='w-full'
+          data={[
+            {
+              value: SORT_TYPE.rating,
+              label: 'Highest Rating',
+            },
+            {
+              value: SORT_TYPE.popularity,
+              label: 'Most Popular',
+            },
+            {
+              value: SORT_TYPE.price,
+              label: 'Lowest Price',
+            },
+          ]}
+          value={filters.sortBy}
+          onChange={handleChange('sortBy')}
+        />
+      </Group>
 
       <Group className='w-full mb-4 mr-1'>
         <Flex justify='center' align='center'>
@@ -128,7 +158,7 @@ export function Filters(props: FiltersProps) {
           name='language'
           label={
             <Flex justify='center' align='center'>
-              <Text className='text-sm'>Langauge</Text>
+              <Text className='text-sm'>Languages</Text>
               <IconLanguage size={14} />
             </Flex>
           }

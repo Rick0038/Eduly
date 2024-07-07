@@ -6,3 +6,9 @@ export enum ROLE {
   TUTOR = 'TUTOR',
   ADMIN = 'ADMIN',
 }
+
+export enum SORT_TYPE {
+  price = 'price',
+  rating = 'rating',
+  popularity = 'popularity'
+}

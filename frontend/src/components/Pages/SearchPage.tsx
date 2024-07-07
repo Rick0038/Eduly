@@ -7,7 +7,6 @@ import {
   Flex,
   Group,
   Loader,
-  NativeSelect,
   Pagination,
   Stack,
   Text,
@@ -16,7 +15,6 @@ import { IconAdjustments } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import { Tutor } from '../../model';
 import { tutorService } from '../../service/TutorService';
 import { Filters } from '../Filters';
 import TutorCard from '../TutorCard';
@@ -34,44 +32,15 @@ export function SearchPage() {
     queryFn: () => tutorService.getTutors(queryParams ?? ''),
   });
 
-  const availableSortTypes = ['Highest rating', 'Most popular', 'Lowest price'];
-  const [sortType, setSortType] = useState(availableSortTypes[0]);
-
-  const sortTutors = (selectedSortType: string) => {
-    setSortType(selectedSortType);
-    tutorsData?.tutors.sort((tutorA: Tutor, tutorB: Tutor) => {
-      if (selectedSortType === 'Highest rating') {
-        return tutorA.rating < tutorB.rating
-          ? 1
-          : tutorA.rating === tutorB.rating
-            ? 0
-            : -1;
-      } else if (selectedSortType === 'Most popular') {
-        return tutorA.numberOfRatings < tutorB.numberOfRatings
-          ? 1
-          : tutorA.numberOfRatings === tutorB.numberOfRatings
-            ? 0
-            : -1;
-      } else if (selectedSortType === 'Lowest price') {
-        return tutorA.pricing > tutorB.pricing
-          ? 1
-          : tutorA.pricing === tutorB.pricing
-            ? 0
-            : -1;
-      }
-      return 0;
-    });
-  };
-
   const [activePage, setActivePage] = useState(1);
   const resultsPerPage = 10;
 
   useEffect(() => {
     if (tutorsData) {
       // reset to 1 whenever tutor data changes...
-      setActivePage(1)
+      setActivePage(1);
     }
-  }, [tutorsData])
+  }, [tutorsData]);
 
   return (
     <Container size='xl' px='md'>
@@ -81,12 +50,6 @@ export function SearchPage() {
           style={{ height: 'calc(100vh - 120px)' }}
           className='max-w-[200px]'
         >
-          <NativeSelect
-            label='Sort'
-            data={availableSortTypes}
-            value={sortType}
-            onChange={(event) => sortTutors(event.currentTarget.value)}
-          />
           <Filters />
         </Stack>
 
@@ -115,12 +78,6 @@ export function SearchPage() {
               padding='md'
               size='sm'
             >
-              <NativeSelect
-                label='Sort'
-                data={availableSortTypes}
-                value={sortType}
-                onChange={(event) => sortTutors(event.currentTarget.value)}
-              />
               <Filters onSubmit={() => setDrawerOpened(false)} />
             </Drawer>
           </Group>
