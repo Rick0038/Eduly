@@ -190,9 +190,9 @@ export function EditPersonalInfo(props: Omit<PersonalInfoProps, 'isEditing'>) {
           {...form.getInputProps('intro')}
         />
         <TextInput
-          label='BBB Link'
+          label='BigBlueButton Meeting Link'
           name='bbbLink'
-          placeholder='Enter bbb link'
+          placeholder='Enter BigBlueButton Meeting Link'
           required
           key={form.key('bbbLink')}
           {...form.getInputProps('bbbLink')}
