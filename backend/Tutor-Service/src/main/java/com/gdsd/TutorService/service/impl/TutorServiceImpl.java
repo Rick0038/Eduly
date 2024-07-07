@@ -16,7 +16,6 @@ import com.gdsd.TutorService.service.interf.StudentService;
 import com.gdsd.TutorService.service.interf.TutorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -249,10 +248,20 @@ public class TutorServiceImpl implements TutorService {
 
 
     public Object updateTutorContent(TutorProfileRequestDto requestDto, Integer tutorId, String contentType) {
-        String fileName = generateFileName(contentType, tutorId);
+        String fileName = getExistingFileName(tutorId, contentType);
 
         try {
             // Upload new blob
+
+            // if already exists then delete from blob storage
+            if (fileName != null) {
+                BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
+                blobClient.deleteIfExists();
+            }
+
+            // generate a new file name
+            fileName = generateFileName(contentType, tutorId);
+
             BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
             BlobHttpHeaders headers = new BlobHttpHeaders().setContentType(requestDto.getFile().getContentType());
             blobClient.upload(requestDto.getFile().getInputStream(), requestDto.getFile().getSize(), true);
@@ -297,22 +306,29 @@ public class TutorServiceImpl implements TutorService {
         }
     }
     private String generateFileName(String contentType, Integer tutorId) {
-        return contentType + "_" + tutorId ;
+        return contentType + "_" + tutorId  + UUID.randomUUID();
     }
-    public void updateTutorContent(Integer tutorId, String contentLink, String contentType) {
-        Optional<TutorContent> existingContentOptional = tutorContentRepository.findByTutorIdAndContentType(tutorId, contentType);
 
-        if (existingContentOptional.isPresent()) {
-            TutorContent existingContent = existingContentOptional.get();
-            tutorContentRepository.delete(existingContent);
+    private String getExistingFileName(Integer tutorId, String contentType) {
+        Optional<TutorContent> existingContent = tutorContentRepository.findByTutorIdAndContentType(tutorId, contentType);
+
+        if (existingContent.isPresent()) {
+            String contentLink = existingContent.get().getContentLink();
+            String[] contentLinkParts = contentLink.split("/");
+            return contentLinkParts[contentLinkParts.length - 1];
+        } else {
+            return null;
         }
+    }
 
-        TutorContent newContent = new TutorContent();
-        newContent.setTutorId(tutorId);
-        newContent.setContentLink(contentLink);
-        newContent.setStatus("PENDING_APPROVAL");
-        newContent.setContentType(contentType);
-        tutorContentRepository.save(newContent);
+    public void updateTutorContent(Integer tutorId, String contentLink, String contentType) {
+        TutorContent tutorContent = tutorContentRepository.findByTutorIdAndContentType(tutorId, contentType).orElse(new TutorContent());
+
+        tutorContent.setTutorId(tutorId);
+        tutorContent.setContentLink(contentLink);
+        tutorContent.setStatus("PENDING_APPROVAL");
+        tutorContent.setContentType(contentType);
+        tutorContentRepository.save(tutorContent);
     }
 
     private void deleteBlob(String blobLink) {
