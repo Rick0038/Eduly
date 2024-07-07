@@ -205,9 +205,9 @@ public class TutorServiceImpl implements TutorService {
     public List<TutorSearchResponseDto> search(Double pricingMin,
                                                Double pricingMax, Double ratingsMin,
                                                String topic, String language,
-                                               Integer experienceMin) {
+                                               Integer experienceMin, String sortBy) {
         List<TutorSearchResponseDto> tutorSearchResponseDtos = tutorRepository.searchTutors(pricingMin,
-                pricingMax, ratingsMin, topic, language);
+                pricingMax, ratingsMin, topic, language, sortBy);
 
         return tutorSearchResponseDtos;
     }

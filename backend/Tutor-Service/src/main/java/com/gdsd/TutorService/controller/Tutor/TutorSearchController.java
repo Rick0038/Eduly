@@ -37,13 +37,14 @@ public class TutorSearchController {
                                             @RequestParam(required = false) String topic,
                                             @RequestParam(required = false) String language,
                                             @RequestParam(required = false) Integer experienceMin,
+                                            @RequestParam(required = false) String sortBy,
                                             @RequestParam(required = false) List<String> availabilityDays,
                                             @RequestParam(required = false) String startTime,
                                             @RequestParam(required = false) String endTime
                                             ) {
 
         List<TutorSearchResponseDto> tutorSearchResponseDtos = tutorService.search(pricingMin, pricingMax,
-                ratingsMin, topic, language, experienceMin);
+                ratingsMin, topic, language, experienceMin, sortBy);
 
         if(availabilityDays != null && !availabilityDays.isEmpty()) {
             tutorSearchResponseDtos = tutorService.filterTutorDtosByDays(tutorSearchResponseDtos, availabilityDays);

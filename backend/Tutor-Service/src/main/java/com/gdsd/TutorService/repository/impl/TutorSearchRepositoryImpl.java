@@ -16,7 +16,7 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
     @Override
     public List<TutorSearchResponseDto> searchTutors(Double pricingMin,
                                                      Double pricingMax, Double ratingsMin,
-                                                     String topic, String language) {
+                                                     String topic, String language, String sortBy) {
 
         StringBuilder queryBuilder = new StringBuilder(
                 "SELECT tut.tutorId AS tutorId, " +
@@ -53,6 +53,16 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
             queryBuilder.append(" AND tut.language = :language");
         }
 
+        if(sortBy != null) {
+            if ("rating".equalsIgnoreCase(sortBy)) {
+                queryBuilder.append(" ORDER BY tut.rating DESC");
+            } else if ("popularity".equalsIgnoreCase(sortBy)) {
+                queryBuilder.append(" ORDER BY tut.numberOfRatings DESC");
+            } else if ("price".equalsIgnoreCase(sortBy)) {
+                queryBuilder.append(" ORDER BY tut.price ASC");
+            }
+        }
+
 
         Query query = entityManager.createNativeQuery(queryBuilder.toString());
 
@@ -74,7 +84,8 @@ public class TutorSearchRepositoryImpl implements TutorSearchRepository {
 
 
         List<Object[]> results = query.getResultList();
-        Map<Integer, TutorSearchResponseDto> tutorMap = new HashMap<>();
+        // We need LinkedHashMap now because order is required for sorting
+        Map<Integer, TutorSearchResponseDto> tutorMap = new LinkedHashMap<>();
 
         for (Object[] result : results) {
             Integer tutorId = ((Number) result[0]).intValue();

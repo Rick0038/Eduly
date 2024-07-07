@@ -9,5 +9,5 @@ import java.util.List;
 public interface TutorSearchRepository {
     List<TutorSearchResponseDto> searchTutors(Double pricingMin,
                                               Double pricingMax, Double ratingsMin,
-                                              String topic, String language);
+                                              String topic, String language, String sortBy);
 }
