@@ -313,6 +313,12 @@ public class TutorServiceImpl implements TutorService {
     }
 
     public void updateTutorContent(Integer tutorId, String contentLink, String contentType) {
+        Optional<TutorContent> existingContentOptional = tutorContentRepository.findByTutorIdAndContentType(tutorId, contentType);
+
+        if (existingContentOptional.isPresent()) {
+            TutorContent existingContent = existingContentOptional.get();
+            tutorContentRepository.delete(existingContent);
+        }
 
         TutorContent newContent = new TutorContent();
         newContent.setTutorId(tutorId);

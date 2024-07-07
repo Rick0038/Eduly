@@ -96,6 +96,13 @@ public class StudentServiceImpl implements StudentService {
                 URI blobUri = URI.create(blobClient.getBlobUrl());
                 String contentLink = blobUri.toString();
 
+                Optional<StudentContent> studentContent = studentContentRepository.findByStudentIdAndContentType(studentId,"profile_image");
+
+                if (studentContent.isPresent()){
+                    StudentContent existingstudentContent = studentContent.get();
+                    studentContentRepository.delete(existingstudentContent);
+                }
+
                 StudentContent newcontent = new StudentContent();
                 newcontent.setStudentId(studentId);
                 newcontent.setContentType("profile_image");
