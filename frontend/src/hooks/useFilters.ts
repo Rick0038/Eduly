@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { debounce } from '../util/debounce';
 
@@ -10,6 +10,7 @@ interface FiltersState {
   pricingMax: number;
   availabilityDays: string[];
   language: string;
+  sortBy: string;
 }
 
 export const ratingMarks = [
@@ -39,6 +40,7 @@ const getInitialFilters = (locationSearch: string): FiltersState => {
   const params = new URLSearchParams(locationSearch);
   const query = {
     location: params.get('location') || '',
+    sortBy: params.get('sortBy') || '',
     ratingsMin: parseInt(params.get('ratingsMin') || '0', 10),
     pricingMin: parseInt(params.get('pricingMin') || '0', 10),
     pricingMax: parseInt(params.get('pricingMax') || '0', 10),
@@ -69,6 +71,8 @@ export const useFilters = () => {
     (filters: FiltersState) => {
       const params = new URLSearchParams();
       if (filters.location) params.set('location', filters.location);
+      if (filters.sortBy) params.set('sortBy', filters.sortBy);
+
       if (filters.ratingsMin)
         params.set('ratingsMin', filters.ratingsMin.toString());
       if (filters.pricingMin)
@@ -78,6 +82,7 @@ export const useFilters = () => {
       if (filters.availabilityDays.length > 0)
         params.set('availabilityDays', filters.availabilityDays.join(','));
       if (filters.language) params.set('language', filters.language);
+
       // FIXME: Topic should be the last params since it's being overriden by the SearchTutor component
       if (filters.topic) params.set('topic', filters.topic);
 
