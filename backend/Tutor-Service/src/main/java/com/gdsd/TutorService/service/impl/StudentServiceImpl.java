@@ -5,10 +5,7 @@ import com.azure.storage.blob.models.BlobHttpHeaders;
 import com.gdsd.TutorService.config.AzureBlob.AzureBlobStorageConfig;
 import com.gdsd.TutorService.dto.Student.*;
 import com.gdsd.TutorService.exception.GenericException;
-import com.gdsd.TutorService.model.Session;
-import com.gdsd.TutorService.model.Student;
-import com.gdsd.TutorService.model.StudentContent;
-import com.gdsd.TutorService.model.Tutor;
+import com.gdsd.TutorService.model.*;
 import com.gdsd.TutorService.repository.*;
 import com.gdsd.TutorService.service.interf.StudentService;
 import org.modelmapper.ModelMapper;
@@ -21,6 +18,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -86,9 +84,19 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentProfileRespDto updateStudentProfileImage(StudentProfileImageRequestDto requestDto, Integer studentId) {
-
-            String fileName = "Student_Profile_Img" + "_" + studentId;
+            String contentType = "profile_image";
+            String fileName = getExistingFileName(studentId, contentType);
             try {
+
+                // if already exists then delete from blob storage
+                if (fileName != null) {
+                    BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
+                    blobClient.deleteIfExists();
+                }
+
+                // generate a new file name
+                fileName = generateFileName(contentType, studentId);
+
                 BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
                 BlobHttpHeaders headers = new BlobHttpHeaders().setContentType(requestDto.getFile().getContentType());
                 blobClient.upload(requestDto.getFile().getInputStream(), requestDto.getFile().getSize(), true);
@@ -98,18 +106,13 @@ public class StudentServiceImpl implements StudentService {
                 URI blobUri = URI.create(blobClient.getBlobUrl());
                 String contentLink = blobUri.toString();
 
-                Optional<StudentContent> studentContent = studentContentRepository.findByStudentIdAndContentType(studentId,"profile_image");
+                StudentContent studentContent = studentContentRepository.findByStudentIdAndContentType(studentId,"profile_image").orElse(new StudentContent());
 
-                if (studentContent.isPresent()){
-                    StudentContent existingstudentContent = studentContent.get();
-                    studentContentRepository.delete(existingstudentContent);
-                }
-                StudentContent newcontent = new StudentContent();
-                newcontent.setStudentId(studentId);
-                newcontent.setContentType("profile_image");
-                newcontent.setStatus("PENDING_APPROVAL");
-                newcontent.setContentLink(contentLink);
-                studentContentRepository.save(newcontent);
+                studentContent.setStudentId(studentId);
+                studentContent.setContentType("profile_image");
+                studentContent.setStatus("PENDING_APPROVAL");
+                studentContent.setContentLink(contentLink);
+                studentContentRepository.save(studentContent);
 
                 StudentProfileRespDto respDto = new StudentProfileRespDto();
                 respDto.setStatus("PENDING_APPROVAL");
@@ -121,6 +124,22 @@ public class StudentServiceImpl implements StudentService {
             }
 
         }
+
+    private String generateFileName(String contentType, Integer studentId) {
+        return "student_" + contentType + "_" + studentId  + UUID.randomUUID();
+    }
+
+    private String getExistingFileName(Integer studentId, String contentType) {
+        Optional<StudentContent> existingContent = studentContentRepository.findByStudentIdAndContentType(studentId, contentType);
+
+        if (existingContent.isPresent()) {
+            String contentLink = existingContent.get().getContentLink();
+            String[] contentLinkParts = contentLink.split("/");
+            return contentLinkParts[contentLinkParts.length - 1];
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public Boolean updateStudentProfile(Integer studentId, StudentProfileUpdateRequestDto studentProfileUpdateRequest) {
