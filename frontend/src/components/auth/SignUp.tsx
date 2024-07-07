@@ -118,7 +118,7 @@ export function SignUp() {
         autoClose: 1500,
       });
       setTimeout(() => {
-        navigate('/login');
+        navigate(`/login?role=${form.values.role}`);
       }, 1500);
     },
     onError: (err) => {
