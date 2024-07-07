@@ -322,19 +322,13 @@ public class TutorServiceImpl implements TutorService {
     }
 
     public void updateTutorContent(Integer tutorId, String contentLink, String contentType) {
-        Optional<TutorContent> existingContentOptional = tutorContentRepository.findByTutorIdAndContentType(tutorId, contentType);
+        TutorContent tutorContent = tutorContentRepository.findByTutorIdAndContentType(tutorId, contentType).orElse(new TutorContent());
 
-        if (existingContentOptional.isPresent()) {
-            TutorContent existingContent = existingContentOptional.get();
-            tutorContentRepository.delete(existingContent);
-        }
-
-        TutorContent newContent = new TutorContent();
-        newContent.setTutorId(tutorId);
-        newContent.setContentLink(contentLink);
-        newContent.setStatus("PENDING_APPROVAL");
-        newContent.setContentType(contentType);
-        tutorContentRepository.save(newContent);
+        tutorContent.setTutorId(tutorId);
+        tutorContent.setContentLink(contentLink);
+        tutorContent.setStatus("PENDING_APPROVAL");
+        tutorContent.setContentType(contentType);
+        tutorContentRepository.save(tutorContent);
     }
 
     private void deleteBlob(String blobLink) {

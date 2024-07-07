@@ -106,19 +106,13 @@ public class StudentServiceImpl implements StudentService {
                 URI blobUri = URI.create(blobClient.getBlobUrl());
                 String contentLink = blobUri.toString();
 
-                Optional<StudentContent> studentContent = studentContentRepository.findByStudentIdAndContentType(studentId,"profile_image");
+                StudentContent studentContent = studentContentRepository.findByStudentIdAndContentType(studentId,"profile_image").orElse(new StudentContent());
 
-                if (studentContent.isPresent()){
-                    StudentContent existingstudentContent = studentContent.get();
-                    studentContentRepository.delete(existingstudentContent);
-                }
-
-                StudentContent newcontent = new StudentContent();
-                newcontent.setStudentId(studentId);
-                newcontent.setContentType("profile_image");
-                newcontent.setStatus("PENDING_APPROVAL");
-                newcontent.setContentLink(contentLink);
-                studentContentRepository.save(newcontent);
+                studentContent.setStudentId(studentId);
+                studentContent.setContentType("profile_image");
+                studentContent.setStatus("PENDING_APPROVAL");
+                studentContent.setContentLink(contentLink);
+                studentContentRepository.save(studentContent);
 
                 StudentProfileRespDto respDto = new StudentProfileRespDto();
                 respDto.setStatus("PENDING_APPROVAL");
