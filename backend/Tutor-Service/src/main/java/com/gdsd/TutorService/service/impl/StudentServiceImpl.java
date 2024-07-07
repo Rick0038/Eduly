@@ -121,20 +121,8 @@ public class StudentServiceImpl implements StudentService {
 
         }
 
-    private String generateFileName(String contentType, Integer studentId) {
-        return "student_" + contentType + "_" + studentId  + UUID.randomUUID();
-    }
-
     private String getFileName(Integer studentId, String contentType) {
-        Optional<StudentContent> existingContent = studentContentRepository.findByStudentIdAndContentType(studentId, contentType);
-
-        if (existingContent.isPresent()) {
-            String contentLink = existingContent.get().getContentLink();
-            String[] contentLinkParts = contentLink.split("/");
-            return contentLinkParts[contentLinkParts.length - 1];
-        } else {
-            return generateFileName(contentType, studentId);
-        }
+        return "student_" + contentType + "_" + studentId  + UUID.randomUUID();
     }
 
     @Override

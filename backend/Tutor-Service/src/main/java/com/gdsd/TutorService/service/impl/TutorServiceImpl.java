@@ -296,20 +296,9 @@ public class TutorServiceImpl implements TutorService {
             throw new GenericException("Failed to upload content: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    private String generateFileName(String contentType, Integer tutorId) {
-        return contentType + "_" + tutorId  + UUID.randomUUID();
-    }
 
     private String getFileName(Integer tutorId, String contentType) {
-        Optional<TutorContent> existingContent = tutorContentRepository.findByTutorIdAndContentType(tutorId, contentType);
-
-        if (existingContent.isPresent()) {
-            String contentLink = existingContent.get().getContentLink();
-            String[] contentLinkParts = contentLink.split("/");
-            return contentLinkParts[contentLinkParts.length - 1];
-        } else {
-            return generateFileName(contentType, tutorId);
-        }
+        return contentType + "_" + tutorId  + UUID.randomUUID();
     }
 
     public void updateTutorContent(Integer tutorId, String contentLink, String contentType) {
