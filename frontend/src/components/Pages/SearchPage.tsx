@@ -14,7 +14,7 @@ import {
 } from '@mantine/core';
 import { IconAdjustments } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { Tutor } from '../../model';
 import { tutorService } from '../../service/TutorService';
@@ -65,6 +65,13 @@ export function SearchPage() {
 
   const [activePage, setActivePage] = useState(1);
   const resultsPerPage = 10;
+
+  useEffect(() => {
+    if (tutorsData) {
+      // reset to 1 whenever tutor data changes...
+      setActivePage(1)
+    }
+  }, [tutorsData])
 
   return (
     <Container size='xl' px='md'>
