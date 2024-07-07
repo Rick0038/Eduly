@@ -8,6 +8,7 @@ import {
   Modal,
   Paper,
   Rating,
+  Spoiler,
   Stack,
   Text,
   Textarea,
@@ -102,7 +103,9 @@ const TutorCard: FC<{ tutor: Tutor }> = ({ tutor }) => {
                 </div>
               </div>
               <div style={{ marginTop: '10px' }}>
-                <Text>{tutor.intro}</Text>
+                <Spoiler maxHeight={100} showLabel='Show more' hideLabel='Hide'>
+                  {tutor.intro}
+                </Spoiler>
               </div>
               <Group>
                 <VideoViewer url={tutor.videoLink} />
