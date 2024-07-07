@@ -16,7 +16,6 @@ import com.gdsd.TutorService.service.interf.StudentService;
 import com.gdsd.TutorService.service.interf.TutorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -249,10 +248,11 @@ public class TutorServiceImpl implements TutorService {
 
 
     public Object updateTutorContent(TutorProfileRequestDto requestDto, Integer tutorId, String contentType) {
-        String fileName = generateFileName(contentType, tutorId);
+        String fileName = getFileName(tutorId, contentType);
 
         try {
             // Upload new blob
+
             BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
             BlobHttpHeaders headers = new BlobHttpHeaders().setContentType(requestDto.getFile().getContentType());
             blobClient.upload(requestDto.getFile().getInputStream(), requestDto.getFile().getSize(), true);
@@ -297,15 +297,22 @@ public class TutorServiceImpl implements TutorService {
         }
     }
     private String generateFileName(String contentType, Integer tutorId) {
-        return contentType + "_" + tutorId ;
+        return contentType + "_" + tutorId  + UUID.randomUUID();
     }
-    public void updateTutorContent(Integer tutorId, String contentLink, String contentType) {
-        Optional<TutorContent> existingContentOptional = tutorContentRepository.findByTutorIdAndContentType(tutorId, contentType);
 
-        if (existingContentOptional.isPresent()) {
-            TutorContent existingContent = existingContentOptional.get();
-            tutorContentRepository.delete(existingContent);
+    private String getFileName(Integer tutorId, String contentType) {
+        Optional<TutorContent> existingContent = tutorContentRepository.findByTutorIdAndContentType(tutorId, contentType);
+
+        if (existingContent.isPresent()) {
+            String contentLink = existingContent.get().getContentLink();
+            String[] contentLinkParts = contentLink.split("/");
+            return contentLinkParts[contentLinkParts.length - 1];
+        } else {
+            return generateFileName(contentType, tutorId);
         }
+    }
+
+    public void updateTutorContent(Integer tutorId, String contentLink, String contentType) {
 
         TutorContent newContent = new TutorContent();
         newContent.setTutorId(tutorId);

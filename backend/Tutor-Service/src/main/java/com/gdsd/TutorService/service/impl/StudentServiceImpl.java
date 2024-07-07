@@ -5,10 +5,7 @@ import com.azure.storage.blob.models.BlobHttpHeaders;
 import com.gdsd.TutorService.config.AzureBlob.AzureBlobStorageConfig;
 import com.gdsd.TutorService.dto.Student.*;
 import com.gdsd.TutorService.exception.GenericException;
-import com.gdsd.TutorService.model.Session;
-import com.gdsd.TutorService.model.Student;
-import com.gdsd.TutorService.model.StudentContent;
-import com.gdsd.TutorService.model.Tutor;
+import com.gdsd.TutorService.model.*;
 import com.gdsd.TutorService.repository.*;
 import com.gdsd.TutorService.service.interf.StudentService;
 import org.modelmapper.ModelMapper;
@@ -21,6 +18,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -87,7 +85,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentProfileRespDto updateStudentProfileImage(StudentProfileImageRequestDto requestDto, Integer studentId) {
 
-            String fileName = "Student_Profile_Img" + "_" + studentId;
+            String fileName = getFileName(studentId, "profile_image");
             try {
                 BlobClient blobClient = azureBlobStorageConfig.blobContainerClient().getBlobClient(fileName);
                 BlobHttpHeaders headers = new BlobHttpHeaders().setContentType(requestDto.getFile().getContentType());
@@ -98,12 +96,6 @@ public class StudentServiceImpl implements StudentService {
                 URI blobUri = URI.create(blobClient.getBlobUrl());
                 String contentLink = blobUri.toString();
 
-                Optional<StudentContent> studentContent = studentContentRepository.findByStudentIdAndContentType(studentId,"profile_image");
-
-                if (studentContent.isPresent()){
-                    StudentContent existingstudentContent = studentContent.get();
-                    studentContentRepository.delete(existingstudentContent);
-                }
                 StudentContent newcontent = new StudentContent();
                 newcontent.setStudentId(studentId);
                 newcontent.setContentType("profile_image");
@@ -121,6 +113,22 @@ public class StudentServiceImpl implements StudentService {
             }
 
         }
+
+    private String generateFileName(String contentType, Integer studentId) {
+        return "student_" + contentType + "_" + studentId  + UUID.randomUUID();
+    }
+
+    private String getFileName(Integer studentId, String contentType) {
+        Optional<StudentContent> existingContent = studentContentRepository.findByStudentIdAndContentType(studentId, contentType);
+
+        if (existingContent.isPresent()) {
+            String contentLink = existingContent.get().getContentLink();
+            String[] contentLinkParts = contentLink.split("/");
+            return contentLinkParts[contentLinkParts.length - 1];
+        } else {
+            return generateFileName(contentType, studentId);
+        }
+    }
 
     @Override
     public Boolean updateStudentProfile(Integer studentId, StudentProfileUpdateRequestDto studentProfileUpdateRequest) {
