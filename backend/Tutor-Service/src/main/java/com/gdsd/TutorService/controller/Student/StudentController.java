@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/student")
@@ -102,12 +104,14 @@ public class StudentController {
 
 
     @GetMapping("/upcoming-appointments")
-    public ResponseEntity<List<UpcomingAppointmentDto>> getUpcomingAppointments(
+    public ResponseEntity<Map<String, List<UpcomingAppointmentDto>>> getUpcomingAppointments(
             @RequestHeader("Authorization") String authorizationHeader) {
 
         Integer studentId = getStudentIdFromAuthHeader(authorizationHeader);
         List<UpcomingAppointmentDto> upcomingAppointments = studentService.getUpcomingAppointments(studentId);
-        return new ResponseEntity<>(upcomingAppointments, HttpStatus.OK);
+        Map<String, List<UpcomingAppointmentDto>> response = new HashMap<>();
+        response.put("upcomingAppointments", upcomingAppointments);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     public Integer getStudentIdFromAuthHeader(String authorizationHeader) {
         String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
