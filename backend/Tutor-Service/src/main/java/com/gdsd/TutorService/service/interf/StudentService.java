@@ -4,6 +4,8 @@ import com.gdsd.TutorService.dto.Student.*;
 import com.gdsd.TutorService.model.Session;
 import com.gdsd.TutorService.model.Student;
 
+import java.util.List;
+
 public interface StudentService {
     Integer getStudentIdFromEmail(String studentEmail);
     String getStudentNameFromId(Integer studentId);
@@ -17,4 +19,5 @@ public interface StudentService {
     Boolean updateStudentProfile(Integer studentId, StudentProfileUpdateRequestDto studentProfileUpdateRequest);
     Session bookSession(Integer sessionId, Integer studentId);
     SessionCancellationResponseDto cancelSession(Integer sessionId, Integer studentId);
+    List<UpcomingAppointmentDto> getUpcomingAppointments(Integer studentId);
 }

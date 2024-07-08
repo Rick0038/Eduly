@@ -23,5 +23,6 @@ public interface TutorRepository extends JpaRepository<Tutor, Integer>, TutorSea
     @Modifying
     @Query("UPDATE Tutor t SET t.isBanned = :isBanned WHERE t.tutorId = :tutorId")
     void updateIsBannedByTutorId(@Param("tutorId") Integer tutorId, @Param("isBanned") Boolean isBanned);
-
+    @Query("SELECT t.bbbLink FROM Tutor t WHERE t.tutorId = :tutorId")
+    String findBbbLinkByTutorId(@Param("tutorId") Integer tutorId);
 }

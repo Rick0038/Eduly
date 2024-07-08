@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/student")
 public class StudentController {
@@ -96,6 +98,16 @@ public class StudentController {
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    @GetMapping("/upcoming-appointments")
+    public ResponseEntity<List<UpcomingAppointmentDto>> getUpcomingAppointments(
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        Integer studentId = getStudentIdFromAuthHeader(authorizationHeader);
+        List<UpcomingAppointmentDto> upcomingAppointments = studentService.getUpcomingAppointments(studentId);
+        return new ResponseEntity<>(upcomingAppointments, HttpStatus.OK);
     }
     public Integer getStudentIdFromAuthHeader(String authorizationHeader) {
         String token = tokenProvider.getTokenFromAuthorizationHeader(authorizationHeader);
