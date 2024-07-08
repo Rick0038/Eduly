@@ -16,7 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,6 +44,8 @@ public class StudentServiceImpl implements StudentService {
     private SessionRepository sessionRepository;
     @Autowired
     private TutorRepository tutorRepository;
+    @Autowired
+    private  TutorContentRepository tutorContentRepository;
 
 
     @Override
@@ -223,5 +229,55 @@ public class StudentServiceImpl implements StudentService {
         dto.setProfileImgLink(profileImgLink);
 
         return dto;
+    }
+    @Override
+    public List<UpcomingAppointmentDto> getUpcomingAppointments(Integer studentId) {
+        LocalDate today = LocalDate.now();
+        LocalTime now = LocalTime.now();
+
+        // Fetch sessions for the student that are booked and from today onwards
+        List<Session> sessions = sessionRepository.findByStudentIdAndDateAfterOrDateEqualsAndStatus(studentId, today, "BOOKED");
+
+        // Prepare list to hold upcoming appointments
+        List<UpcomingAppointmentDto> upcomingAppointments = new ArrayList<>();
+
+        // Iterate over sessions to populate appointment details
+        for (Session session : sessions) {
+            LocalDate sessionDate = session.getDate();
+            LocalTime sessionTime = session.getStartTime();
+
+            // Filter appointments from today onwards
+            if (sessionDate.isAfter(today) || (sessionDate.equals(today) && sessionTime.isAfter(now))) {
+                UpcomingAppointmentDto appointmentDto = new UpcomingAppointmentDto();
+                appointmentDto.setDate(sessionDate.toString());
+                appointmentDto.setSessionId(session.getSessionId());
+                appointmentDto.setFrom(sessionTime.toString());
+                appointmentDto.setTo(session.getEndTime().toString());
+                appointmentDto.setStatus(session.getStatus());
+
+                // Fetch tutor details
+                Integer tutorId = session.getTutorId();
+                Tutor tutor = tutorRepository.findById(tutorId).orElse(null);
+                if (tutor != null) {
+                    UpcomingAppointmentDto.TutorDetailDto tutorDetailDto = new UpcomingAppointmentDto.TutorDetailDto();
+                    tutorDetailDto.setId(tutorId);
+                    tutorDetailDto.setName(tutor.getFirstName() + " " + tutor.getLastName());
+
+                    // Fetch profile image link from TutorContent if available
+                    String profileImgLink = tutorContentRepository.findProfileImageLinkByTutorId(tutorId);
+                    tutorDetailDto.setProfileImgLink(profileImgLink);
+
+                    String bbblink = tutorRepository.findBbbLinkByTutorId(tutorId);
+                    tutorDetailDto.setBbbLink(bbblink);
+
+                    appointmentDto.setTutorDetail(tutorDetailDto);
+                }
+
+                // Add appointment to the list
+                upcomingAppointments.add(appointmentDto);
+            }
+        }
+
+        return upcomingAppointments;
     }
 }

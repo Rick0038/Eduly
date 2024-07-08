@@ -24,4 +24,7 @@ public interface TutorContentRepository extends JpaRepository<TutorContent, Inte
     @Query("DELETE FROM TutorContent tc WHERE tc.tutorId = :tutorId")
     void deleteByTutorId(@Param("tutorId") Integer tutorId);
 
+    @Query("SELECT tc.contentLink FROM TutorContent tc WHERE tc.tutorId = :tutorId AND tc.contentType = 'PROFILE_IMAGE' AND tc.status = 'ACTIVE'")
+    String findProfileImageLinkByTutorId(@Param("tutorId") Integer tutorId);
+
 }
