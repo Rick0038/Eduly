@@ -221,7 +221,7 @@
       "responses": [
         {
           "uuid": "e8d30084-7809-4699-a587-5bf931295b0e",
-          "body": "{\n  \"id\": 123,\n  \"name\": \"John Adams\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTUyYjJkNzk1ZDNkZTU0MWZmNDlhODYiLCJpYXQiOjE1ODI0NzgwNTd9.VQ6kqsSCYuQ7f5OHRJkwDvN5_QLgdMeK5jKfk_BZczc\",\n  \"role\": \"ADMIN\",\n  \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\"\n}",
+          "body": "{\n  \"id\": 123,\n  \"name\": \"John Adams\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTUyYjJkNzk1ZDNkZTU0MWZmNDlhODYiLCJpYXQiOjE1ODI0NzgwNTd9.VQ6kqsSCYuQ7f5OHRJkwDvN5_QLgdMeK5jKfk_BZczc\",\n  \"role\": \"STUDENT\",\n  \"profileImgLink\": \"https://demoeduly.blob.core.windows.net/demoeduly/profile_image_20\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -936,7 +936,7 @@
       "responses": [
         {
           "uuid": "4ff05893-67c1-4b4e-8f6f-91c7d3acb57d",
-          "body": "{\n \"upcomingAppointments\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"sessionId\": 129,\n      \"from\": \"19:00\",\n      \"to\": \"18:00\",\n      \"status\": \"BOOKED\",\n      \"tutorDetail\": {\n        \"id\": 234,\n        \"name\": \"\",\n        \"profileImgLink\": \"\",\n        \"bbbLink\": \"www.webconfi.....de/345/45\"\n      }\n    }\n  ]\n}",
+          "body": "{\n \"upcomingAppointments\": [\n    {\n      \"date\": \"2024-09-01\",\n      \"sessionId\": 129,\n      \"from\": \"19:00\",\n      \"to\": \"18:00\",\n      \"status\": \"BOOKED\",\n      \"tutorDetail\": {\n        \"id\": 234,\n        \"name\": \"Jack Arrow\",\n        \"profileImgLink\": \"\",\n        \"bbbLink\": \"www.webconfi.....de/345/45\"\n      }\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

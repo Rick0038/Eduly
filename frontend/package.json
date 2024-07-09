@@ -1,7 +1,7 @@
 {
   "name": "eduly",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --open",
@@ -12,11 +12,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/core": "^7.10.1",
-    "@mantine/dates": "^7.10.1",
-    "@mantine/form": "^7.10.2",
-    "@mantine/hooks": "^7.10.1",
-    "@mantine/notifications": "^7.10.1",
+    "@mantine/core": "^7.11.1",
+    "@mantine/dates": "^7.11.1",
+    "@mantine/form": "^7.11.1",
+    "@mantine/hooks": "^7.11.1",
+    "@mantine/modals": "^7.11.1",
+    "@mantine/notifications": "^7.11.1",
     "@stomp/stompjs": "^7.0.0",
     "@tabler/icons-react": "^3.4.0",
     "@tanstack/react-query": "^5.37.1",
