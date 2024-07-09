@@ -2,6 +2,7 @@ import {
   Anchor,
   Box,
   Button,
+  Checkbox,
   Container,
   Paper,
   PasswordInput,
@@ -78,6 +79,7 @@ export function SignUp() {
       firstName: '',
       lastName: '',
       password: '',
+      acceptPrivacyPolicy: false,
     },
 
     validate: {
@@ -91,7 +93,7 @@ export function SignUp() {
         return null;
       },
       password: (val) =>
-        val.length <= 6
+        val.length < 6
           ? 'Password should include at least 6 characters'
           : null,
     },
@@ -207,6 +209,12 @@ export function SignUp() {
                 {checks}
               </Popover.Dropdown>
             </Popover>
+
+            <Checkbox 
+                label= 'I understand that my personal data & privacy is protected'
+                required
+                {...form.getInputProps('acceptPrivacyPolicy')}
+            />
           </Stack>
 
           <Button type='submit' fullWidth mt='xl'>
