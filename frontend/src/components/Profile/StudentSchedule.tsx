@@ -10,10 +10,14 @@ import {
   Tooltip,
   rem,
 } from '@mantine/core';
+import { modals } from '@mantine/modals';
 import { IconTrash, IconVideo } from '@tabler/icons-react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { notificationService } from '../../service/NotificationService';
-import { studentService } from '../../service/StudentService';
+import {
+  UpcomingAppointment,
+  studentService,
+} from '../../service/StudentService';
 
 export const StudentSchedule = () => {
   const { data, refetch, isError, isLoading } = useQuery({
@@ -33,6 +37,21 @@ export const StudentSchedule = () => {
       notificationService.showError({ err });
     },
   });
+
+  const confirmCancelSession = (item: UpcomingAppointment) => {
+    modals.openConfirmModal({
+      title: 'Please confirm your action',
+      centered: true,
+      children: (
+        <Text size='sm'>
+          {`Are you sure you want to cancel the session by ${item.tutorDetail.name} on ${item.date} from ${item.from} to ${item.to}?`}
+        </Text>
+      ),
+      labels: { confirm: 'Yes', cancel: 'No' },
+      onCancel: () => {},
+      onConfirm: () => cancelSessionMutation.mutate(item.sessionId),
+    });
+  };
 
   if (isError) {
     <Container>
@@ -89,7 +108,7 @@ export const StudentSchedule = () => {
           <Tooltip label='Cancel Session'>
             <ActionIcon
               onClick={() => {
-                cancelSessionMutation.mutate(item.sessionId);
+                confirmCancelSession(item);
               }}
               variant='subtle'
               color='red'

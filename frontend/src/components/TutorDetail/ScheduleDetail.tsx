@@ -1,5 +1,14 @@
-import { Button, Center, Group, Indicator, Radio, Stack } from '@mantine/core';
+import {
+  Button,
+  Center,
+  Group,
+  Indicator,
+  Radio,
+  Stack,
+  Text,
+} from '@mantine/core';
 import { DatePicker, DatePickerProps } from '@mantine/dates';
+import { modals } from '@mantine/modals';
 import { useMutation } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { FC, useMemo, useState } from 'react';
@@ -29,6 +38,22 @@ export const ScheduleDetail: FC<{
       notificationService.showError({ err });
     },
   });
+
+  const confirmBookSession = () => {
+    modals.openConfirmModal({
+      title: 'Please confirm your action',
+      centered: true,
+      children: (
+        <Text size='sm'>
+          {`Are you sure you want to book the session on ${dayjs(selectedDate).format('YYYY-MM-DD')}?`}
+        </Text>
+      ),
+      labels: { confirm: 'Yes', cancel: 'No' },
+      onCancel: () => {},
+      onConfirm: () =>
+        sessionId ? bookSessionMutation.mutate(parseInt(sessionId)) : {},
+    });
+  };
 
   const timings = useMemo(() => {
     const selectedDateFormatted = dayjs(selectedDate).format('YYYY-MM-DD');
@@ -93,14 +118,7 @@ export const ScheduleDetail: FC<{
               </Radio.Group>
             )}
           </Group>
-          <Button
-            disabled={!sessionId}
-            onClick={() => {
-              if (sessionId) {
-                bookSessionMutation.mutate(parseInt(sessionId));
-              }
-            }}
-          >
+          <Button disabled={!sessionId} onClick={() => confirmBookSession()}>
             Book Meeting
           </Button>
         </Stack>
