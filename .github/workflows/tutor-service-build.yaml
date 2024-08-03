@@ -37,9 +37,9 @@ jobs:
           EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
           EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
           EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          BLOB_CONTAINER_NAME: ${{ secrets.BLOB_CONTAINER_NAME }}
-          BLOB_CONNECTION_STRING: ${{ secrets.BLOB_CONNECTION_STRING }}
+          # JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          # BLOB_CONTAINER_NAME: ${{ secrets.BLOB_CONTAINER_NAME }}
+          # BLOB_CONNECTION_STRING: ${{ secrets.BLOB_CONNECTION_STRING }}
 
       - name: Build Docker image
         run: |
@@ -81,19 +81,10 @@ jobs:
           EDULY_DB_URL=${{ secrets.EDULY_DB_URL }} \
           EDULY_DB_USERNAME=${{ secrets.EDULY_DB_USERNAME }} \
           EDULY_DB_PASSWORD=${{ secrets.EDULY_DB_PASSWORD }} \
-          JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
-          BLOB_CONTAINER_NAME=${{ secrets.BLOB_CONTAINER_NAME }} \
-          BLOB_CONNECTION_STRING=${{ secrets.BLOB_CONNECTION_STRING }} \
           docker compose up -d
-          echo "$JWT_SECRET_KEY"
-          echo "$BLOB_CONTAINER_NAME"
-          echo "$BLOB_CONNECTION_STRING"
-          echo "$EDULY_DB_USERNAME"
           EOF
         env:
           EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
           EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
           EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          BLOB_CONTAINER_NAME: ${{ secrets.BLOB_CONTAINER_NAME }}
-          BLOB_CONNECTION_STRING: ${{ secrets.BLOB_CONNECTION_STRING }}
+
