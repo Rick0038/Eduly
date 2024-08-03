@@ -37,9 +37,9 @@ jobs:
           EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
           EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
           EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          BLOB_CONTAINER_NAME: ${{ secrets.BLOB_CONTAINER_NAME }}
-          BLOB_CONNECTION_STRING: ${{ secrets.BLOB_CONNECTION_STRING }}
+          JWT_SECRET_KEY: '21fb21601b2ba43899bf7dc4f5e942ac946ce936181787992ee68f39f3fa3731'
+          BLOB_CONTAINER_NAME: 'demoeduly'
+          BLOB_CONNECTION_STRING: 'BlobEndpoint=https://demoeduly.blob.core.windows.net/;QueueEndpoint=https://demoeduly.queue.core.windows.net/;FileEndpoint=https://demoeduly.file.core.windows.net/;TableEndpoint=https://demoeduly.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-09-01T19:22:46Z&st=2024-07-01T11:22:46Z&spr=https,http&sig=4U8%2BOzEB26KyYf3HW9d0FmR5hOetB8qnJ8Q8rdbMmjg%3D'
 
       - name: Build Docker image
         run: |
@@ -81,9 +81,9 @@ jobs:
           EDULY_DB_URL=${{ secrets.EDULY_DB_URL }} \
           EDULY_DB_USERNAME=${{ secrets.EDULY_DB_USERNAME }} \
           EDULY_DB_PASSWORD=${{ secrets.EDULY_DB_PASSWORD }} \
-          JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
-          BLOB_CONTAINER_NAME=${{ secrets.BLOB_CONTAINER_NAME }} \
-          BLOB_CONNECTION_STRING=${{ secrets.BLOB_CONNECTION_STRING }} \
+          JWT_SECRET_KEY='21fb21601b2ba43899bf7dc4f5e942ac946ce936181787992ee68f39f3fa3731' \
+          BLOB_CONTAINER_NAME='demoeduly' \
+          BLOB_CONNECTION_STRING='BlobEndpoint=https://demoeduly.blob.core.windows.net/;QueueEndpoint=https://demoeduly.queue.core.windows.net/;FileEndpoint=https://demoeduly.file.core.windows.net/;TableEndpoint=https://demoeduly.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-09-01T19:22:46Z&st=2024-07-01T11:22:46Z&spr=https,http&sig=4U8%2BOzEB26KyYf3HW9d0FmR5hOetB8qnJ8Q8rdbMmjg%3D' \
           docker compose up -d
           echo "$JWT_SECRET_KEY"
           echo "$BLOB_CONTAINER_NAME"
@@ -94,6 +94,6 @@ jobs:
           EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
           EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
           EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          BLOB_CONTAINER_NAME: ${{ secrets.BLOB_CONTAINER_NAME }}
-          BLOB_CONNECTION_STRING: ${{ secrets.BLOB_CONNECTION_STRING }}
+          JWT_SECRET_KEY: '21fb21601b2ba43899bf7dc4f5e942ac946ce936181787992ee68f39f3fa3731'
+          BLOB_CONTAINER_NAME: 'demoeduly'
+          BLOB_CONNECTION_STRING: 'BlobEndpoint=https://demoeduly.blob.core.windows.net/;QueueEndpoint=https://demoeduly.queue.core.windows.net/;FileEndpoint=https://demoeduly.file.core.windows.net/;TableEndpoint=https://demoeduly.table.core.windows.net/;SharedAccessSignature=sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-09-01T19:22:46Z&st=2024-07-01T11:22:46Z&spr=https,http&sig=4U8%2BOzEB26KyYf3HW9d0FmR5hOetB8qnJ8Q8rdbMmjg%3D'
