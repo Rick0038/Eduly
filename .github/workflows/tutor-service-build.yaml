@@ -81,9 +81,15 @@ jobs:
           EDULY_DB_URL=${{ secrets.EDULY_DB_URL }} \
           EDULY_DB_USERNAME=${{ secrets.EDULY_DB_USERNAME }} \
           EDULY_DB_PASSWORD=${{ secrets.EDULY_DB_PASSWORD }} \
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }} \
+          BLOB_CONTAINER_NAME: ${{ secrets.BLOB_CONTAINER_NAME }} \
+          BLOB_CONNECTION_STRING: ${{ secrets.BLOB_CONNECTION_STRING }} \
           docker compose up -d
           EOF
         env:
           EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
           EDULY_DB_USERNAME: ${{ secrets.EDULY_DB_USERNAME }}
           EDULY_DB_PASSWORD: ${{ secrets.EDULY_DB_PASSWORD }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          BLOB_CONTAINER_NAME: ${{ secrets.BLOB_CONTAINER_NAME }}
+          BLOB_CONNECTION_STRING: ${{ secrets.BLOB_CONNECTION_STRING }}
