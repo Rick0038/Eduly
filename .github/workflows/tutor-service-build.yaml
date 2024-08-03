@@ -88,6 +88,7 @@ jobs:
           echo "$JWT_SECRET_KEY"
           echo "$BLOB_CONTAINER_NAME"
           echo "$BLOB_CONNECTION_STRING"
+          echo "$EDULY_DB_USERNAME"
           EOF
         env:
           EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
