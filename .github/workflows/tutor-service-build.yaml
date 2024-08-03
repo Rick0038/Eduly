@@ -85,6 +85,9 @@ jobs:
           BLOB_CONTAINER_NAME=${{ secrets.BLOB_CONTAINER_NAME }} \
           BLOB_CONNECTION_STRING=${{ secrets.BLOB_CONNECTION_STRING }} \
           docker compose up -d
+          echo "$JWT_SECRET_KEY"
+          echo "$BLOB_CONTAINER_NAME"
+          echo "$BLOB_CONNECTION_STRING"
           EOF
         env:
           EDULY_DB_URL: ${{ secrets.EDULY_DB_URL }}
